@@ -1,6 +1,6 @@
 # Complex Computer Controlling Program
 <p align=center>
-  <img src="Source\Readme\CCCP_logo_500x247.png" width=400>
+  <img src="Source/Readme/CCCP_logo_500x247.png" width=400>
 </p>
 
 ## What is CCCP?
@@ -25,21 +25,21 @@ Experience convenience and productivity on the go with CCCP.
 - Launch applications, projectfiles and much more from you pendrive
     -Give each application unique: name, icon, path to file
 
-    ![Home_page](Source\Readme\home_page.png)
+    ![Home_page](Source/Readme/home_page.png)
     
 - Create backups to pendrive
 
-    ![Backup_1](Source\Readme\backup_page_1.png)
+    ![Backup_1](Source/Readme/backup_page_1.png)
 
-    ![Backup_2](Source\Readme\backup_page_2.png)
+    ![Backup_2](Source/Readme/backup_page_2.png)
 
 - Copy save files to and from computer
     
-    ![copy_save_page](Source\Readme\copy_save_page.png)
+    ![copy_save_page](Source/Readme/copy_save_page.png)
 
 - To-do list!
     
-    ![to_do_page](Source\Readme\to_do_page.PNG)
+    ![to_do_page](Source/Readme/to_do_page.PNG)
 
 - Generate project folders and much more!
 
