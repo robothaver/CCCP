@@ -26,6 +26,8 @@ deselected_navbar_icons = ["Assets/Images/Home_Icon_Deselected.png",
                            "Assets/Images/Application_Dashboard_Deselected.png",
                            "Assets/Images/Settings_Icon_Deselected.png"]
 
+github_link = "https://github.com/robothaver/CCCP"
+
 html_boilerplate = """
 <!DOCTYPE html>
 <html lang="en">
