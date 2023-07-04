@@ -4,6 +4,11 @@
 /source/Config.json
 /source/logo.png
 /source/To_Do_List.json
+/source/.idea
+/source/__pycache__
+/project_build/Icons
+/project_build/Config.json
+/project_build/To_Do_List.json
 
 # Logs
 logs

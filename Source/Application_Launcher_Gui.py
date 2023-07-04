@@ -37,9 +37,7 @@ class ApplicationLauncherGui:
             Messagebox.show_error(title="Error", message="self.icons not found! Reverting to default self.icons.")
             self.icons = []
             for x in range(12):
-                self.icons.append(Assets.default_image_locations)
-                self.icon = tk.PhotoImage(file=Assets.default_image_locations)
-                self.icons.append(self.icon)
+                self.icons.append(tk.PhotoImage(file=Assets.default_image_locations))
 
         # Create edit button
         self.is_editing = tk.IntVar()
