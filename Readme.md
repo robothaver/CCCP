@@ -46,7 +46,7 @@ Experience convenience and productivity on the go with CCCP.
 ## Themes
 CCCP comes with 18 different dark and light themes.
 
-![theme_gif](Source\Readme\theme.gif)
+![theme_gif](https://drive.google.com/uc?id=1aT46fww6JpRXZ0x-OMPbNHDtSJhFEdQa)
 
 ## Links
 -__ttkbootstrap__: https://github.com/israel-dryer/ttkbootstrap   
