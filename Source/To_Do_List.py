@@ -50,7 +50,6 @@ class ToDoList:
             no_tasks_label = ttk.Label(self.scrolledframe, text="There are no tasks :)",
                                        style="secondary", font=('Arial', '16', 'bold'))
             no_tasks_label.pack(pady=100)
-
         self.show_selected_page()
 
     def back(self):
@@ -87,7 +86,7 @@ class ToDoList:
                 no_tasks_label = ttk.Label(self.scrolledframe, text="No tasks are done :(",
                                            style="secondary", font=('Arial', '16', 'bold'))
                 no_tasks_label.pack(pady=100)
-            else:
+            elif number_of_tasks == 0:
                 no_tasks_label = ttk.Label(self.scrolledframe, text="There are no tasks :)",
                                            style="secondary", font=('Arial', '16', 'bold'))
                 no_tasks_label.pack(pady=100)
