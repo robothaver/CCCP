@@ -58,7 +58,7 @@ class CopyNetworkSettings:
         default_gateway_label = ttk.Label(default_gateway_frame, text="Default Gateway:", font=('Aril', '13'),
                                           style="info", width=15)
         # Create default gateway entry
-        self.default_gateway_entry_var = tk.StringVar(value=subprocess.getoutput('ipconfig -all')[895:906])
+        self.default_gateway_entry_var = tk.StringVar(value=subprocess.getoutput('ipconfig -all')[891:903])
         default_gateway_entry = ttk.Entry(default_gateway_frame, textvariable=self.default_gateway_entry_var,
                                           font=('Aril', '11'))
         # Packing
@@ -72,7 +72,7 @@ class CopyNetworkSettings:
         dns_servers_label = ttk.Label(dns_servers_frame, text="DNS Servers:", font=('Aril', '13'),
                                       style="info", width=15)
         # Create dns server entry
-        self.dns_servers_entry_var = tk.StringVar(value=subprocess.getoutput('ipconfig -all')[1130:1140])
+        self.dns_servers_entry_var = tk.StringVar(value=subprocess.getoutput('ipconfig -all')[1311:1319])
         dns_servers_entry = ttk.Entry(dns_servers_frame, textvariable=self.dns_servers_entry_var,
                                       font=('Aril', '11'))
         # Packing
@@ -107,4 +107,4 @@ class CopyNetworkSettings:
             self.dns_servers_entry_var.set(value=subprocess.getoutput('ipconfig -all')[1130:1140].replace(" ", ""))
         else:
             self.dns_servers_entry_var.set(
-                value=subprocess.getoutput('ipconfig -all | findstr /i "DNS Servers"')[39:60])
+                value=subprocess.getoutput('ipconfig -all | findstr /i "DNS Servers"')[167:185])

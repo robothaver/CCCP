@@ -1,0 +1,90 @@
+{
+   "theme": "darkly",
+   "clock_mode": "45_10",
+   "starting_page": 0,
+   "end_of_lesson_reminder": 1,
+   "top_theme_selector": 1,
+   "top_end_of_lesson_timer": 1,
+   "top_lesson_number": 1,
+   "current_page": 3,
+   "browser": "chrome",
+   "show_files_being_copied_in_cmd": 0,
+   "image_locations": [
+      "Icons/button0_icon.png",
+      "Icons/button1_icon.png",
+      "Icons/button2_icon.png",
+      "Icons/button3_icon.png",
+      "Icons/button4_icon.png",
+      "Icons/button5_icon.png",
+      "Icons/button6_icon.png",
+      "Assets/Images/Default_Icon.png",
+      "Assets/Images/Default_Icon.png",
+      "Assets/Images/Default_Icon.png",
+      "Assets/Images/Default_Icon.png",
+      "Assets/Images/Default_Icon.png",
+      "Assets/Images/Default_Icon.png"
+   ],
+   "program_locations": [
+      "..\\blender-3.6.0-windows-x64/blender.exe",
+      "..\\Kdenlive\\bin\\kdenlive.exe",
+      "..\\Adobe Photoshop CC 2019\\Photoshop.exe",
+      "..\\Parsec\\parsecd.exe",
+      "..\\PyCharm Community Edition 2023.1.3\\bin\\pycharm64.exe",
+      "..\\Fleet\\Fleet.exe",
+      "..\\Heroic Games Launcher\\Heroic-2.8.0-Portable-x64.exe",
+      "default",
+      "default",
+      "default",
+      "default",
+      "default",
+      "default"
+   ],
+   "program_names": [
+      "Blender",
+      "Kdenlive",
+      "Photoshop",
+      "Parsec",
+      "PyCharm",
+      "Fleet",
+      "Heroic Games",
+      "Button_7",
+      "Button_8",
+      "Button_9",
+      "Button_10",
+      "Button_11",
+      "Button_12"
+   ],
+   "file_output_locations": [],
+   "file_backup_names": [
+      "My Games",
+      "Saved Games",
+      "Blender foundation",
+      "Adobe",
+      "Blender projects",
+      "Photoshop files"
+   ],
+   "file_backup_locations": [
+      "%userprofile%\\Documents\\My Games",
+      "%userprofile%\\Saved Games",
+      "%userprofile%\\AppData\\Roaming\\Blender Foundation",
+      "%userprofile%\\Documents\\Adobe",
+      "E:/Programs/Save/Blender projects",
+      "E:/Programs/Save/Blender projects"
+   ],
+   "preset_name": [
+      "Factorio",
+      "Blender"
+   ],
+   "preset_input": [
+      "..\\..\\Games\\Factorio\\save\\Factorio",
+      "..\\blender-3.6.0-windows-x64\\Blender save\\Blender foundation"
+   ],
+   "preset_output": [
+      "%userprofile%\\AppData\\Roaming\\Factorio",
+      "%userprofile%\\AppData\\Roaming\\Blender Foundation"
+   ],
+   "preset_application_location": [
+      "..\\..\\Games\\Factorio\\bin\\x64\\factorio.exe",
+      "..\\blender-3.6.0-windows-x64\\blender-launcher.exe"
+   ]
+}
