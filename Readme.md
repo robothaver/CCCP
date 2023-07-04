@@ -13,9 +13,9 @@ Experience convenience and productivity on the go with CCCP.
 
 ## Installation
 - Download project
-    1. Install [ python ](https://www.python.org/downloads/) if you dont have it
+    - Install [ python ](https://www.python.org/downloads/) if you dont have it
 
-    2. Install [ttkbootstrap](https://github.com/israel-dryer/ttkbootstrap)
+    - Install [ttkbootstrap](https://github.com/israel-dryer/ttkbootstrap)
 
     ```python
     python -m pip install ttkbootstrap
@@ -46,7 +46,7 @@ Experience convenience and productivity on the go with CCCP.
 ## Themes
 CCCP comes with 18 different dark and light themes.
 
-![theme_gif](https://drive.google.com/uc?id=1aT46fww6JpRXZ0x-OMPbNHDtSJhFEdQa)
+![theme_gif](Source/Readme/theme.gif)
 
 ## Links
 -__ttkbootstrap__: https://github.com/israel-dryer/ttkbootstrap   
