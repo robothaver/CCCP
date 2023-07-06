@@ -10,6 +10,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="2SAGMq3onyq2iYfKA5QxXpqhxGT" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -18,7 +21,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "E:/Programs/Save/Python_Projects/CCCP/Source"
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "E:/Programs/Save/Python_Projects/CCCP"
   }
 }]]></component>
   <component name="RunManager" selected="Python.CCCP">

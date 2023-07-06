@@ -27,7 +27,7 @@ class EditFileOutputLocations:
 
         # Load datas to tabel
         for location in self.config.file_output_locations:
-            self.tabel.insert('', 0, values=location)
+            self.tabel.insert('', 0, values=[location])
         self.tabel.pack(padx=10, pady=10, fill="both")
 
         # Create location entry widgets
@@ -81,7 +81,7 @@ class EditFileOutputLocations:
         # This function runs whenever the user selects one of the preset in the tabel
         selected_item = self.tabel.selection()
         try:
-            self.location_entry_var.set(self.tabel.item(selected_item)['values'])
+            self.location_entry_var.set(self.tabel.item(selected_item)['values'][0])
         except IndexError:
             pass
 

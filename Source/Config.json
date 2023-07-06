@@ -6,7 +6,7 @@
    "top_theme_selector": 1,
    "top_end_of_lesson_timer": 1,
    "top_lesson_number": 1,
-   "current_page": 2,
+   "current_page": 3,
    "browser": "google",
    "show_files_being_copied_in_cmd": 1,
    "image_locations": [
@@ -55,7 +55,10 @@
       "Button_12"
    ],
    "file_output_locations": [
-      "/mnt/E/Programs/Save/Python_Projects/CCCP/Source/Readme"
+      "/mnt/E/Programs/Save/Python_Projects/CCCP/Source/Readme",
+      "..\\..\\Kand\u00f3\\10. oszt\u00e1ly\\IKT projektmunka",
+      "..\\..\\Kand\u00f3\\10. oszt\u00e1ly\\Programoz\u00e1si alapok",
+      "..\\..\\Kand\u00f3\\10. oszt\u00e1ly\\ITA"
    ],
    "file_backup_names": [],
    "file_backup_locations": [],
