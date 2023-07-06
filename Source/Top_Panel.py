@@ -4,7 +4,9 @@ from datetime import timedelta
 from Settings import *
 from Assets import Assets
 from Update_Configfile import UpdateConfigfile
+from End_Of_Lesson_Reminder import EndOfLessonReminder
 from ttkbootstrap.dialogs import Messagebox
+
 
 
 class TopGui:
@@ -136,8 +138,8 @@ class TopGui:
                 if Configfile().end_of_lesson_reminder == 1:
                     if self.delta.time_difference()[0] <= timedelta(minutes=5):
                         self.cooldown = True
-                        Messagebox.show_warning(title="End of lesson reminder",
-                                                message="The lesson is ending soon, it is time to prepare!")
+                        #Messagebox.show_warning(title="TEST", message="sahkjhdasjkdashkdjhaskjdhaskjdhsakjdhaksjdhasjkhdjkash", parent=self.master)
+                        EndOfLessonReminder(message="The lesson is ending soon, it is time to prepare!")
         else:
             self.cooldown = False
         self.time_left_label.after(5000, self.end_of_lesson_reminder)
