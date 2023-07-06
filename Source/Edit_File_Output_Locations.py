@@ -13,7 +13,7 @@ class EditFileOutputLocations:
 
         # Create top level
         self.top_level = ttk.Toplevel(title=f"Change file output locations")
-        self.top_level.minsize(width=600, height=390)
+        self.top_level.minsize(width=600, height=360)
         self.top_level.grab_set()
 
         # Create the main container

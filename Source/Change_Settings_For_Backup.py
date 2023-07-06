@@ -18,7 +18,7 @@ class ChangeSettingsForBackup:
 
         # Create_Top_Level
         self.Top_Level = ttk.Toplevel(title=f"Change the settings for backup options")
-        self.Top_Level.minsize(width=600, height=460)
+        self.Top_Level.minsize(width=600, height=430)
         self.Top_Level.grab_set()
 
         # Create_tabel

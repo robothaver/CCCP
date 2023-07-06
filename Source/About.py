@@ -44,7 +44,7 @@ class About:
         description.pack(padx=10)
 
         # Creating version label
-        version_label = ttk.Label(main_container, text="Version: 1.5", font=('arial', '12', 'bold'), style="info")
+        version_label = ttk.Label(main_container, text="Version: 1.6", font=('arial', '12', 'bold'), style="info")
         version_label.pack()
 
         # Creating ttkbootstrap button
