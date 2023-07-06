@@ -44,7 +44,7 @@ Experience convenience and productivity on the go with CCCP.
 - Generate project folders and much more!
 
 ## Themes
-CCCP comes with 18 different dark and light themes, thanks to ttkbootstrap.
+CCCP comes with 18 different dark and light themes, thanks to [ttkbootstrap](https://github.com/israel-dryer/ttkbootstrap).
 
 ![theme_gif](Source/Readme/theme.gif)
 
