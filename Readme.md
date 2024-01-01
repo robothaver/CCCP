@@ -25,28 +25,28 @@ Experience convenience and productivity on the go with CCCP.
 - Launch applications, project files, and much more from your USB drive
     - Give each application unique: name, icon, path to file
 
-    ![Home_page](Source/Readme/home_page.png)
+    ![Home_page](Readme/home_page.png)
     
 - Create backups to USB drive
 
-    ![Backup_1](Source/Readme/backup_page_1.png)
+    ![Backup_1](Readme/backup_page_1.png)
 
-    ![Backup_2](Source/Readme/backup_page_2.png)
+    ![Backup_2](Readme/backup_page_2.png)
 
 - Copy save files to and from computer
     
-    ![copy_save_page](Source/Readme/copy_save_page.png)
+    ![copy_save_page](Readme/copy_save_page.png)
 
 - To-do list!
     
-    ![to_do_page](Source/Readme/to_do_page.PNG)
+    ![to_do_page](Readme/to_do_page.PNG)
 
 - Generate project folders and much more!
 
 ## Themes
 CCCP comes with 18 different dark and light themes, thanks to [ttkbootstrap](https://github.com/israel-dryer/ttkbootstrap).
 
-![theme_gif](Source/Readme/theme.gif)
+![theme_gif](Readme/theme.gif)
 
 ## Links
 -__ttkbootstrap__: https://github.com/israel-dryer/ttkbootstrap   
