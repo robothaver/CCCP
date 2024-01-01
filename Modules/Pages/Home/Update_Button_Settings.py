@@ -1,18 +1,24 @@
-from Modules.Pages.Home import Application_Launcher_Gui
-import ttkbootstrap as ttk
-from Modules.Utilities.Create_Icons import CreateIcon
+import json
+import os
 import tkinter as tk
 from tkinter import filedialog
-import json
+import ttkbootstrap as ttk
+from ttkbootstrap.dialogs.dialogs import Messagebox
+from Assets import Assets
+from Modules.Utilities.Create_Icons import CreateIcon
+from Modules.Utilities.Get_Realtive_Path import GetRelativePath
+from Modules.Configfile.Update_Configfile import UpdateConfigfile
 
 
-class ChangeButtonSettings:
-    def __init__(self, index, middle_frame):
+class UpdateButtonSettings:
+    def __init__(self, index, config, update_button):
         # This function gest called by the ApplicationLauncherGui class
 
         # Define variables
-        self.middle_frame = middle_frame
         self.index = index
+        self.is_accepted = False
+        self.update_button = update_button
+        self.config = config
 
         # Create top level
         self.top_level = ttk.Toplevel(title=f"Change the settings for button{index}")
@@ -27,9 +33,10 @@ class ChangeButtonSettings:
         name_entry_frame = ttk.Frame(master=self.top_level)
 
         # Create program name widgets
+        program_name = self.config.program_names[index]
         program_name_label = ttk.Label(master=name_entry_frame, text="Set the name of the button", width=25)
         program_name_label.pack(side="left", padx=(10, 15))
-        self.program_name_entry_var = tk.StringVar(value="Enter name here")
+        self.program_name_entry_var = tk.StringVar(value=program_name)
         program_name_entry = ttk.Entry(master=name_entry_frame, textvariable=self.program_name_entry_var)
         program_name_entry.pack(side="left", fill="x", padx=(5, 10), expand=1)
 
@@ -37,23 +44,34 @@ class ChangeButtonSettings:
         icon_entry_frame = ttk.Frame(master=self.top_level)
         icon_location_label = ttk.Label(master=icon_entry_frame, text="Set the icon location", width=25)
         icon_location_label.pack(side="left", padx=(10, 15))
-        self.program_icon_entry_var = tk.StringVar(value="Enter icon location here")
+        icon_location = config.image_locations[index] if config.image_locations[index] != Assets.default_image_locations else "Enter icon location here"
+        self.program_icon_entry_var = tk.StringVar(value=icon_location)
         program_icon_entry = ttk.Entry(master=icon_entry_frame, textvariable=self.program_icon_entry_var)
         program_icon_entry.pack(side="left", fill="x", padx=5, expand=1)
-        locate_icon_button = ttk.Button(master=icon_entry_frame, text="Locate icon", width=13,
-                                        command=lambda: self.locate_file(0))
+        locate_icon = tk.PhotoImage(file="Assets/Images/Open_Folder.png")
+        locate_icon_button = ttk.Button(master=icon_entry_frame,
+                                        command=lambda: self.get_absolute_path(1), image=locate_icon)
         locate_icon_button.pack(side="left", padx=(5, 10))
+        locate_icon_button.image = locate_icon
 
         # Create program entry widgets
         program_entry_frame = ttk.Frame(master=self.top_level)
+        program_location = config.program_locations[index] if config.program_locations[index] != "default" else "Enter program location here"
         program_location_label = ttk.Label(master=program_entry_frame, text="Set the program location", width=25)
         program_location_label.pack(side="left", padx=(10, 15))
-        self.program_location_entry_var = tk.StringVar(value="Enter program location here")
+        self.program_location_entry_var = tk.StringVar(value=program_location)
         program_location_entry = ttk.Entry(master=program_entry_frame, textvariable=self.program_location_entry_var)
         program_location_entry.pack(side="left", fill="x", padx=5, expand=1)
-        program_location_entry_button = ttk.Button(master=program_entry_frame, text="Locate program", width=13,
-                                                   command=lambda: self.locate_file(1))
-        program_location_entry_button.pack(side="left", padx=(5, 10))
+
+        locate_absolute_path_btn = ttk.Button(master=program_entry_frame, image=locate_icon,
+                                              command=lambda: self.get_absolute_path(0))
+        locate_absolute_path_btn.pack(side="left", padx=(5, 0))
+        locate_absolute_path_btn.image = locate_icon
+        relative_path_icon = tk.PhotoImage(file="Assets/Images/Find_Relative_Path.png")
+        locate_relative_path_btn = ttk.Button(master=program_entry_frame, image=relative_path_icon,
+                                              command=self.get_relative_path)
+        locate_relative_path_btn.pack(side="left", padx=(5, 10))
+        locate_relative_path_btn.image = relative_path_icon
 
         # Pack frames
         name_entry_frame.pack(fill="x", pady=5)
@@ -62,6 +80,9 @@ class ChangeButtonSettings:
 
         # Create option frame
         option_frame = ttk.Frame(master=self.top_level)
+
+        reset_button = ttk.Button(master=option_frame, text="Reset button", style="warning",
+                                  command=self.reset_button)
 
         # Create cancel button
         cancel_button = ttk.Button(master=option_frame, text="Cancel", style="danger", width=10,
@@ -74,35 +95,45 @@ class ChangeButtonSettings:
         self.message_label = ttk.Label(master=option_frame, textvariable=self.message_label_var, bootstyle="danger",
                                        font=11)
         # Pack buttons
+        reset_button.pack(side="left", padx=(10, 5), pady=(10, 5))
         accept_button.pack(side="right", padx=(5, 10), pady=(10, 5))
         cancel_button.pack(side="right", padx=(5, 10), pady=(10, 5))
         option_frame.pack(side="bottom", fill="x", pady=(0, 2))
-        self.top_level.mainloop()
 
-    def locate_file(self, index):
+    def reset_button(self):
+        print("reset pressed")
+        UpdateConfigfile("program_names", f"Button_{self.index}", self.index)
+        UpdateConfigfile("image_locations", Assets.default_image_locations, self.index)
+        UpdateConfigfile("program_locations", "default", self.index)
+        self.update_button(self.index)
+        self.close_pop_up()
+
+    def get_absolute_path(self, index):
+        path = self.locate_file("Get absolute path to file")
+        if path is not None:
+            if index == 0:
+                self.program_location_entry_var.set(value=path)
+            else:
+                self.program_icon_entry_var.set(value=path)
+
+    def get_relative_path(self):
+        path = self.locate_file("Get relative path to file")
+        if path is not None:
+            self.program_location_entry_var.set(value=GetRelativePath(path).get_path())
+
+    @staticmethod
+    def locate_file(title):
         # This function gets called whenever one of the "locate" buttons is pressed
-        file = filedialog.askopenfilename()
+        file = filedialog.askopenfilename(title=title)
         if file != ():
             if file != "":
                 # If the filedialog is not empty
-                if index == 0:
-                    try:
-                        self.program_icon_entry_var.set(file)
-                    except TypeError:
-                        pass
-                elif index == 1:
-                    try:
-                        self.program_location_entry_var.set(file)
-                    except TypeError:
-                        pass
+                return file
 
     def close_pop_up(self):
         # This function gets called whenever the "cancel" or "accept" button is pressed
-        for widget in self.middle_frame.winfo_children():
-            widget.destroy()
-        self.top_level.destroy()
         self.top_level.grab_release()
-        Application_Launcher_Gui.ApplicationLauncher(self.middle_frame)
+        self.top_level.destroy()
 
     def change_settings(self):
         # This function gets called whenever the "accept" button is pressed
@@ -115,15 +146,15 @@ class ChangeButtonSettings:
             # If the input is empty or default
             self.message_label_var.set("Invalid program location!")
             self.message_label.pack(side="left", padx=10, pady=(10, 5))
+        elif self.program_name_entry_var.get() == "":
+            self.message_label_var.set("Invalid program name!")
+            self.message_label.pack(side="left", padx=10, pady=(10, 5))
         else:
             # Call CreateIcon class to create the correct resolution image and save it to the Icons folder
             CreateIcon(self.program_icon_entry_var.get(), self.index)
             # Update Configfile
-            with open("Config.json", "r") as jsonFile:
-                data = json.load(jsonFile)
-            data["program_names"][self.index] = self.program_name_entry_var.get()
-            data["image_locations"][self.index] = f"Icons/button{self.index}_icon.png"
-            data["program_locations"][self.index] = self.program_location_entry_var.get()
-            with open("Config.json", "w") as jsonFile:
-                json.dump(data, jsonFile, indent=3)
+            UpdateConfigfile("program_names", self.program_name_entry_var.get(), self.index)
+            UpdateConfigfile("image_locations", f"Icons/button{self.index}_icon.png", self.index)
+            UpdateConfigfile("program_locations", self.program_location_entry_var.get(), self.index)
+            self.update_button(self.index)
             self.close_pop_up()
