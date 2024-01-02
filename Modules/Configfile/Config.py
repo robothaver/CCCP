@@ -10,6 +10,7 @@ class Configfile:
         # Define variables
         self.theme = ""
         self.clock_mode = ""
+        self.class_numbers = []
         self.starting_page = 0
         self.end_of_lesson_reminder = 0
         self.top_theme_selector = 1
@@ -35,6 +36,7 @@ class Configfile:
             "theme": "",
             "clock_mode": "",
             "starting_page": 0,
+            "class_numbers": [],
             "end_of_lesson_reminder": 1,
             "top_theme_selector": 1,
             "top_end_of_lesson_timer": 1,
@@ -53,17 +55,21 @@ class Configfile:
             "preset_output": [],
             "preset_application_location": [],
         }
+        self.check_if_icons_folder_exists()
+        self.check_if_config_exists()
 
+    def check_if_icons_folder_exists(self):
+        # Create Icons folder if it doesn't exist
+        if not os.path.exists("./Icons"):
+            os.makedirs("./Icons")
+
+    def check_if_config_exists(self):
         if os.path.exists("./Config.json"):
             # If the configfile exists
             self.load_config()
         else:
             # Create Config.json if it doesn't exist
             self.generate_config_file()
-
-        # Create Icons folder if it doesn't exist
-        if not os.path.exists("./Icons"):
-            os.makedirs("./Icons")
 
     def load_config(self):
         # This function runs if the configfile already exists,
@@ -72,6 +78,7 @@ class Configfile:
             file = json.load(jsonFile)
             self.theme = file['theme']
             self.clock_mode = file['clock_mode']
+            self.class_numbers = file['class_numbers']
             self.starting_page = file['starting_page']
             self.end_of_lesson_reminder = file['end_of_lesson_reminder']
             self.top_theme_selector = file['top_theme_selector']
@@ -80,26 +87,16 @@ class Configfile:
             self.current_page = file['current_page']
             self.browser = file['browser']
             self.show_files_being_copied_in_cmd = file['show_files_being_copied_in_cmd']
-            for image in file["image_locations"]:
-                self.image_locations.append(image)
-            for location in file["program_locations"]:
-                self.program_locations.append(location)
-            for name in file["program_names"]:
-                self.program_names.append(name)
-            for output_location in file["file_output_locations"]:
-                self.file_output_locations.append(output_location)
-            for file_backup_name in file["file_backup_names"]:
-                self.file_backup_names.append(file_backup_name)
-            for file_backup_location in file["file_backup_locations"]:
-                self.file_backup_locations.append(file_backup_location)
-            for preset_name in file["preset_name"]:
-                self.preset_name.append(preset_name)
-            for preset_input in file["preset_input"]:
-                self.preset_input.append(preset_input)
-            for preset_output in file["preset_output"]:
-                self.preset_output.append(preset_output)
-            for launch_location in file["preset_application_location"]:
-                self.preset_application_location.append(launch_location)
+            self.image_locations = file["image_locations"]
+            self.program_locations = file["program_locations"]
+            self.program_names = file["program_names"]
+            self.file_output_locations = file["file_output_locations"]
+            self.file_backup_names = file["file_backup_names"]
+            self.file_backup_locations = file["file_backup_locations"]
+            self.preset_name = file["preset_name"]
+            self.preset_input = file["preset_input"]
+            self.preset_output = file["preset_output"]
+            self.preset_application_location = file["preset_application_location"]
         self.set_clock_mode()
 
     def generate_config_file(self):
