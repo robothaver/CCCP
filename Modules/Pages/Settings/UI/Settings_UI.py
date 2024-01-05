@@ -113,7 +113,7 @@ class SettingsUI:
                                              image=self.top_theme_selector_icon,
                                              compound="left")
 
-        self.top_theme_selector_var = tk.IntVar(value=config.top_theme_selector)
+        self.top_theme_selector_var = tk.IntVar(value=config.enable_top_theme_selector)
         self.top_theme_selector_button = ttk.Checkbutton(
             master=top_theme_selector_frame,
             style="info Roundtoggle.Toolbutton",
@@ -134,7 +134,7 @@ class SettingsUI:
                                                   image=self.top_end_of_lesson_timer_icon,
                                                   compound="left")
 
-        self.top_end_of_lesson_timer_var = tk.IntVar(value=config.top_end_of_lesson_timer)
+        self.top_end_of_lesson_timer_var = tk.IntVar(value=config.enable_primary_notifier)
         self.top_end_of_lesson_timer_button = ttk.Checkbutton(
             master=top_end_of_lesson_timer_frame,
             style="info Roundtoggle.Toolbutton",
@@ -153,7 +153,7 @@ class SettingsUI:
                                             compound="left"
                                             )
 
-        self.top_lesson_number_var = tk.IntVar(value=config.top_lesson_number)
+        self.top_lesson_number_var = tk.IntVar(value=config.enable_secondary_notifier)
         self.top_lesson_number_button = ttk.Checkbutton(
             master=top_lesson_number_frame,
             style="info Roundtoggle.Toolbutton",

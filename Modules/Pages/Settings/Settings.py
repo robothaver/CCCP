@@ -9,7 +9,6 @@ from ttkbootstrap.scrolled import ScrolledFrame
 
 class Settings(SettingsUI):
     def __init__(self, master, top_frame, style):
-
         # Define variables
         self.config = Configfile()
         self.style = style
@@ -34,7 +33,7 @@ class Settings(SettingsUI):
 
         self.browser_var.trace("w", self.change_browser)
 
-        self.end_of_lesson_reminder_button.config(command=lambda: UpdateConfigfile("end_of_lesson_reminder", self.end_of_lesson_reminder_button_var.get()))
+        self.end_of_lesson_reminder_button.config(command=self.update_end_of_lesson_reminder)
 
         self.top_theme_selector_button.config(command=self.change_top_theme_selector_settings)
 
@@ -43,6 +42,9 @@ class Settings(SettingsUI):
         self.top_lesson_number_button.config(command=self.top_lesson_number_settings)
 
         self.about_button.config(command=self.change_page_to_about)
+
+    def update_end_of_lesson_reminder(self):
+        UpdateConfigfile("end_of_lesson_reminder", bool(self.end_of_lesson_reminder_button_var.get()))
 
     def change_starting_page(self, *args):
         UpdateConfigfile("starting_page", Assets.page_names.index(self.page_var.get()))
