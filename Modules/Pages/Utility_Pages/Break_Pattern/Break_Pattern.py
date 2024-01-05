@@ -2,6 +2,7 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from Modules.Pages.Dashboard import Application_Dashboard
 from Assets import Assets
+from ttkbootstrap.scrolled import ScrolledFrame
 
 
 class BreakPattern:
@@ -41,7 +42,7 @@ class BreakPattern:
         current_time_settings_label.pack(pady=5)
 
         # Create heading container
-        headings_container = ttk.Frame(master, style="info")
+        headings_container = ScrolledFrame(master, style="info")
 
         # Configure heading container row and column settings
         for i in range(9):
@@ -51,11 +52,11 @@ class BreakPattern:
 
         # Create class label
         class_label = ttk.Label(headings_container, text="Class:", font=('Arial', '13'), style="info inverse", )
-        class_label.grid(row=0, column=0)
+        class_label.grid(row=0, column=0, ipady=25)
 
         # Create time label
         time_label = ttk.Label(headings_container, text="Time:", font=('Arial', '13'), style="info inverse")
-        time_label.grid(row=0, column=1)
+        time_label.grid(row=0, column=1, ipady=25)
 
         self.text_variables = []
         
@@ -69,7 +70,7 @@ class BreakPattern:
                 new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Class", font=('Arial', '12'),
                                                    style="secondary inverse")
                 new_class_number_label.place(relx=.5, rely=.5, anchor="center")
-                new_class_number_frame.grid(sticky="nsew", column=0, row=i + 1)
+                new_class_number_frame.grid(sticky="nsew", column=0, row=i + 1, ipady=30)
                 new_class_label_frame = ttk.Frame(headings_container, style="secondary")
                 # Create class number (7:30 - 8:15)
                 class_time_label_var = tk.StringVar()
@@ -77,7 +78,7 @@ class BreakPattern:
                                         font=('Arial', '12'), style="secondary inverse")
                 class_label.place(relx=.5, rely=.5, anchor="center")
                 self.text_variables.append(class_time_label_var)
-                new_class_label_frame.grid(sticky="nsew", column=1, row=i + 1)
+                new_class_label_frame.grid(sticky="nsew", column=1, row=i + 1, ipady=30)
             else:
                 # If the index is even the row will be dark color
                 # Create class number (2. class)
@@ -85,7 +86,7 @@ class BreakPattern:
                 new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Class", font=('Arial', '12'),
                                                    style="dark inverse")
                 new_class_number_label.place(relx=.5, rely=.5, anchor="center")
-                new_class_number_frame.grid(sticky="nsew", column=0, row=i + 1)
+                new_class_number_frame.grid(sticky="nsew", column=0, row=i + 1, ipady=30)
                 new_class_time_label_frame = ttk.Frame(headings_container, style="dark")
                 # Create class number (8:25 - 9:10)
                 class_time_label_var = tk.StringVar()
@@ -93,15 +94,10 @@ class BreakPattern:
                                              font=('Arial', '12'), style="dark inverse")
                 class_time_label.place(relx=.5, rely=.5, anchor="center")
                 self.text_variables.append(class_time_label_var)
-                new_class_time_label_frame.grid(sticky="nsew", column=1, row=i + 1)
+                new_class_time_label_frame.grid(sticky="nsew", column=1, row=i + 1, ipady=30)
 
         headings_container.pack(pady=20, fill="both", padx=20, expand=1)
         self.set_page()
-
-    def back(self):
-        for widget in self.master.winfo_children():
-            widget.destroy()
-        Application_Dashboard.ApplicationDashboard(self.master)
 
     def set_page(self):
         # This function runs whenever one of the navigation buttons is pressed
@@ -111,16 +107,20 @@ class BreakPattern:
             for i, time in enumerate(self.text_variables):
                 time.set(value=f"{Assets.break_pattern_45_10[i][0]} - {Assets.break_pattern_45_10[i][1]}")
         elif self.current_page == 1:
+            self.current_time_settings_var.set(value="40 min 10 min break")
+            for i, time in enumerate(self.text_variables):
+                time.set(value=f"{Assets.break_pattern_40_10[i][0]} - {Assets.break_pattern_40_10[i][1]}")
+        elif self.current_page == 2:
             self.current_time_settings_var.set(value="35 min 10 min break")
             for i, time in enumerate(self.text_variables):
                 time.set(value=f"{Assets.break_pattern_35_10[i][0]} - {Assets.break_pattern_35_10[i][1]}")
-        elif self.current_page == 2:
+        elif self.current_page == 3:
             self.current_time_settings_var.set(value="35 min 5 min break")
             for i, time in enumerate(self.text_variables):
                 time.set(value=f"{Assets.break_pattern_35_05[i][0]} - {Assets.break_pattern_35_05[i][1]}")
 
     def change_page(self, amount):
         # This function changes between the pages
-        if 0 <= self.current_page + amount < 4:
-            self.current_page = self.current_page + amount
+        if 0 <= self.current_page + amount < 5:
+            self.current_page += amount
         self.set_page()
