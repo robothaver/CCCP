@@ -1,8 +1,10 @@
 import time
-from datetime import timedelta
+from datetime import timedelta, datetime
 from Modules.Utilities.Calculate_Delta import CalculateDelta
 from Modules.Dialogs.End_Of_Lesson_Reminder import EndOfLessonReminder
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
+from Modules.Panels.Top_Panel.UI.Top_Panel_UI import TopPanelUI
+from datetime import datetime
 from Modules.Pages.Settings.Settings import Settings
 from Modules.Configfile.Config import Configfile
 from Assets import Assets
@@ -10,90 +12,50 @@ import ttkbootstrap as ttk
 import tkinter as tk
 
 
-class TopGui:
+class TopPanel(TopPanelUI):
     def __init__(self, master, style):
+        super().__init__(master)
         # Define variables
         self.config = Configfile()
         self.style = style
-        self.master = master
-        # self.middle_frame = middle_frame
+
+        self.theme_var.trace("w", self.change_theme)
+
         self.cooldown = False
         self.delta = CalculateDelta()
-
-        # Configure top_frame column and row settings
-        for x in range(0, 1):
-            master.rowconfigure(x, weight=1)
-            master.columnconfigure(x, weight=1)
-
-        # Greet label
-        self.greet_label_var = tk.StringVar()
-        self.greet_label = ttk.Label(
-            master=master,
-            font=('Calibri', '28', 'bold'),
-            style="info",
-            textvariable=self.greet_label_var)
-        self.greet_label.grid(column=0, row=0, sticky="wn", padx=5, pady=5)
+        # self.time = datetime.strptime("14:45:00", "%H:%M:%S")
+        self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
+        self.show_enabled_widgets()
+        self.refresh_time()
         self.greet()
+        self.update_notifiers()
 
-        # Break notifier
-        self.break_notifier_var = tk.StringVar()
-        self.break_notifier = ttk.Label(
-            master=master,
-            font=('Calibri', '13', 'bold'),
-            style="info", textvariable=self.break_notifier_var)
-        if self.config.top_lesson_number == 1:
-            self.break_notifier.grid(column=0, row=0, sticky="ws", padx=5)
-
-        # Clock label
-        self.clock_label_var = tk.StringVar()
-        self.clock_label = ttk.Label(
-            master=master,
-            font=('Calibri', '18'),
-            bootstyle="secondary",
-            justify="right",
-            textvariable=self.clock_label_var)
-        self.clock()
-        self.clock_label.grid(column=1, row=0, sticky="EN", pady=10, padx=5)
-
-        # End of lesson timer
-        self.time_left_label_var = tk.StringVar()
-        self.time_left_label = ttk.Label(
-            master=master,
-            font=('Calibri', '18'),
-            bootstyle="warning",
-            justify="left",
-            textvariable=self.time_left_label_var)
-        if self.config.top_end_of_lesson_timer == 1:
-            self.time_left_label.grid(row=1, column=0, sticky="w", padx=5)
-
-        # Theme selector
-        if self.config.top_theme_selector == 1:
-            self.theme_var = tk.StringVar()
-            self.theme_changer = ttk.OptionMenu(
-                master,
-                self.theme_var,
-                "Select theme",
-                *Assets.theme_names,
-                command=lambda theme: self.change_theme(theme))
+    def show_enabled_widgets(self):
+        if self.config.enable_secondary_notifier:
+            self.secondary_notifier.grid(column=0, row=0, sticky="ws", padx=5)
+        else:
+            self.secondary_notifier.grid_forget()
+        if self.config.enable_primary_notifier:
+            self.main_notifier.grid(row=1, column=0, sticky="w", padx=5)
+        else:
+            self.main_notifier.grid_forget()
+        if self.config.enable_top_theme_selector:
             self.theme_changer.grid(row=1, column=1, sticky="e", padx=5)
-        self.check_delta()
-        self.end_of_lesson_reminder()
+        else:
+            self.theme_changer.grid_forget()
 
-    def change_theme(self, theme):
+    def change_theme(self, *args):
         # This function gets called whenever the user selects a theme
-        UpdateConfigfile("theme", theme)
-        self.style.theme_use(theme)
-        # if Configfile().current_page == 4:
-            # for widget in self.middle_frame.winfo_children():
-            #     widget.destroy()
-            # Settings(self.middle_frame, self.master, self.style)
+        UpdateConfigfile("theme", self.theme_var.get())
+        self.style.theme_use(self.theme_var.get())
+        self.time = datetime.strptime("15:39:55", "%H:%M:%S")
 
-    def clock(self):
+    def refresh_time(self):
         current_time = time.strftime("%H:%M:%S")
         current_year = time.strftime("%Y:%m:%d")
         clock_var = f"{current_year}\n{current_time}"
         self.clock_label_var.set(value=clock_var)
-        self.clock_label.after(1000, self.clock)
+        self.clock_label.after(1000, self.refresh_time)
 
     def greet(self):
         current_hour = int(time.strftime("%H"))
@@ -107,43 +69,87 @@ class TopGui:
             self.greet_label_var.set(value="Good evening!")
         self.greet_label.after(60000, self.greet)
 
-    def check_delta(self):
-        if self.delta.check_if_lesson_is_over()[0]:
+    def update_widgets(self, main_notifier, secondary_notifier, show_navbar):
+        self.main_notifier_var.set(main_notifier)
+        self.secondary_notifier_var.set(secondary_notifier)
+        if show_navbar and self.config.enable_progress_bar:
+            self.progress_bar.grid(columnspan=2, sticky="we", padx=10, pady=(10, 5))
+        else:
+            self.progress_bar.grid_forget()
+
+    def change_notifier_styles(self, style):
+        self.main_notifier.config(bootstyle=style)
+        self.progress_bar.config(bootstyle=style)
+
+    def update_notifiers(self):
+        self.delta.check_end_time(self.config, self.time)
+        self.time += timedelta(seconds=1)
+        self.progress_bar.config(value=self.delta.progress)
+        if self.delta.is_lesson_over:
             # If the lesson has ended
-            self.time_left_label.config(bootstyle="success")
-            if self.delta.check_if_lesson_is_over()[1] == 8:
-                # If the day is over
-                self.time_left_label_var.set(value=f"You are done for the day ☕")
-                self.break_notifier_var.set(f"1. class begins at {self.config.break_pattern[0]}")
-            elif self.delta.check_if_lesson_is_over()[1] == 0:
-                # If it is next day
-                self.break_notifier_var.set("")
-                self.time_left_label_var.set(value=f"Your first class starts at {self.config.break_pattern[0]}")
-            else:
-                # If it is break time
-                self.time_left_label_var.set(value=f"Break  ☕  remaining: {self.delta.check_if_lesson_is_over()[2]}")
-                self.break_notifier_var.set(f"{self.delta.check_if_lesson_is_over()[1] + 1}. class begins at "
-                                            f"{self.config.break_pattern[self.delta.check_if_lesson_is_over()[1] - 1]}")
+            self.change_notifier_styles("success")
+            self.show_dynamic_message()
+            self.cooldown = False
         else:
             # If the lesson is still going
-            self.time_left_label.config(bootstyle="warning")
-            self.time_left_label_var.set(value=f"Time left of this class: {self.delta.time_difference()[1]}")
-            self.break_notifier_var.set(f"{self.delta.check_if_lesson_is_over()[1]}. class")
-        self.time_left_label.after(1000, self.check_delta)
+            self.change_notifier_styles("warning")
+            self.show_ongoing_lesson_message()
+            self.end_of_lesson_reminder()
+        self.main_notifier.after(1000, self.update_notifiers)
+
+    def show_ongoing_lesson_message(self):
+        self.update_widgets(
+            f"Time left of this class: {self.delta.time_left}",
+            f"{self.delta.class_number + 1}. class ends at {self.config.break_pattern[self.delta.class_number][1]}",
+            True
+        )
+
+    def show_dynamic_message(self):
+        day_of_week = datetime.today().weekday()
+        if self.delta.class_number == self.config.number_of_lessons_today - 1 and day_of_week == 4:
+            # If It's friday and the lessons are over
+            self.update_widgets(
+                "You are done for this week! ☕",
+                "Have a nice weekend!",
+                False
+            )
+        elif day_of_week > 4:
+            # If its weekend
+            self.update_widgets(
+                "Have a nice weekend! ☕",
+                "",
+                False
+            )
+        elif self.delta.class_number == self.config.number_of_lessons_today - 1:
+            # If the day is over
+            self.update_widgets(
+                "You are done for the day ☕",
+                f"1. class begins at {self.config.break_pattern[0][0]}",
+                False
+            )
+        elif self.delta.class_number == 0 and self.delta.time_delta == 0:
+            # If the day hasn't begun yet
+            self.update_widgets(
+                "",
+                f"Your first class starts at {self.config.break_pattern[0][0]}",
+                False
+            )
+        else:
+            # If it is break time
+            self.update_widgets(
+                f"Break  ☕  remaining: {self.delta.time_left}",
+                f"{self.delta.class_number + 2}. class begins at "
+                f"{self.config.break_pattern[self.delta.class_number + 1][0]}",
+                True
+            )
 
     def end_of_lesson_reminder(self):
         """
-        This function checks if the lesson is over, and then checks if the cooldown is initialized or not.
-        If everything is True, the program will open a pop-up to remind the user that the lesson is close to the end
+        If enabled, the program will open a pop-up to remind the user that the lesson is close to the end
         :return: None
         """
-
-        if not self.delta.check_if_lesson_is_over()[0]:
-            if not self.cooldown:
-                if Configfile().end_of_lesson_reminder == 1:
-                    if self.delta.time_difference()[0] <= timedelta(minutes=5):
-                        self.cooldown = True
-                        EndOfLessonReminder(message="The lesson is ending soon, it is time to prepare!")
-        else:
-            self.cooldown = False
-        self.time_left_label.after(5000, self.end_of_lesson_reminder)
+        if not self.cooldown:
+            if self.config.end_of_lesson_reminder == 1:
+                if self.delta.time_delta <= timedelta(minutes=5):
+                    self.cooldown = True
+                    EndOfLessonReminder(message="The lesson is ending soon, it is time to prepare!")
