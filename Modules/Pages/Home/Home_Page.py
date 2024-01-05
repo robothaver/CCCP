@@ -1,23 +1,22 @@
 import os
-from tkinter import messagebox
 import tkinter as tk
+from tkinter import messagebox
 import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
-from Modules.Configfile.Config import Configfile
-from Modules.Pages.Home.Change_Settings_For_Button import ChangeButtonSettings
 from Assets import Assets
+from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
+from Modules.Pages.Home.Update_Button_Settings import UpdateButtonSettings
 
 
-class ApplicationLauncher:
+class HomePage:
     def __init__(self, master):
-        UpdateConfigfile("current_page", 0)
         # Defining variables
         self.config = Configfile()
         self.icons = []
-        
+
         self.home_page = ttk.Frame(master)
-        
+
         # Create button_container
         self.button_container = ttk.Labelframe(self.home_page, text='Applications', style='info.TLabelframe')
 
@@ -27,22 +26,12 @@ class ApplicationLauncher:
         for x in range(0, 3):
             self.button_container.rowconfigure(x, weight=1)
 
-        # Load images
-        try:
-            # If self.icons are found
-            for x in range(12):
-                self.icon = tk.PhotoImage(file=self.config.image_locations[x])
-                self.icons.append(self.icon)
-        except tk.TclError:
-            # if self.icons are not found
-            Messagebox.show_error(title="Error", message="self.icons not found! Reverting to default self.icons.")
-            self.icons = []
-            for x in range(12):
-                self.icons.append(tk.PhotoImage(file=Assets.default_image_locations))
+        self.load_images()
 
         # Create edit button
         self.is_editing = tk.IntVar()
-        self.edit_button = ttk.Checkbutton(master=self.home_page, text="Edit buttons", style="warning.Roundtoggle.Toolbutton",
+        self.edit_button = ttk.Checkbutton(master=self.home_page, text="Edit buttons",
+                                           style="warning.Roundtoggle.Toolbutton",
                                            variable=self.is_editing, command=self.edit_is_on)
         self.edit_button.pack(side="top", anchor="e", padx=35)
 
@@ -58,7 +47,7 @@ class ApplicationLauncher:
                                      command=lambda n=i: self.open_program(n))
             self.buttons.append(self.button)
             self.button.grid(row=self.get_row(i), column=column, padx=5, pady=5, sticky="swen")
-            # Update row
+            # Update column
             if column != 3:
                 column += 1
             else:
@@ -80,7 +69,8 @@ class ApplicationLauncher:
             master=self.secondary_button_container,
             text="End of lesson reminder",
             style="info outline-toolbutton",
-            command=lambda: UpdateConfigfile("end_of_lesson_reminder", self.end_of_lesson_reminder_button_var.get()),
+            command=lambda: UpdateConfigfile("end_of_lesson_reminder",
+                                             bool(self.end_of_lesson_reminder_button_var.get())),
             width=30, image=self.end_of_lesson_reminder_icon, compound="left",
             variable=self.end_of_lesson_reminder_button_var)
         self.end_of_lesson_reminder_button.pack(fill="x", pady=10, padx=10, side="left", expand=True)
@@ -97,11 +87,30 @@ class ApplicationLauncher:
 
         # self.home_page.grid(column = 0, row = 0, sticky = 'nsew')
 
+    def load_images(self):
+        self.icons = []
+        # Load images
+        try:
+            # If self.icons are found
+            for x in range(12):
+                icon = tk.PhotoImage(file=self.config.image_locations[x])
+                self.icons.append(icon)
+        except tk.TclError:
+            # if self.icons are not found
+            Messagebox.show_error(title="Error", message="self.icons not found! Reverting to default self.icons.")
+            self.icons = []
+            for x in range(12):
+                self.icons.append(tk.PhotoImage(file=Assets.default_image_locations))
+
+    def update_button(self, index):
+        self.config = Configfile()
+        new_icon = tk.PhotoImage(file=self.config.image_locations[index])
+        self.buttons[index].config(image=new_icon, text=self.config.program_names[index])
+        self.buttons[index].image = new_icon
 
     def open_program(self, index):
         if self.is_editing.get() == 1:
-            # If editing is enabled, it calls the ChangeButtonSettings class
-            ChangeButtonSettings(index, self.home_page)
+            UpdateButtonSettings(index, self.config, self.update_button)
         else:
             # If editing is not enabled
             if self.config.program_locations[index] == "default":
