@@ -57,6 +57,8 @@ theme_names = ["cosmo", "flatly", "litera", "minty", "lumen",
 
 default_image_locations = "Assets/Images/Default_Icon.png"
 
+default_number_of_lessons = [8, 8, 8, 8, 8]
+
 selected_navbar_icons = ["Assets/Images/Home_Icon_Selected.png",
                          "Assets/Images/Backup_Icon_Selected.png",
                          "Assets/Images/File_Generator_Icon_Selected.png",
