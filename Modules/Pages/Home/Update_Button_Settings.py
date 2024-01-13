@@ -3,7 +3,6 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 import ttkbootstrap as ttk
-from ttkbootstrap.dialogs.dialogs import Messagebox
 from Assets import Assets
 from Modules.Utilities.Create_Icons import CreateIcon
 from Modules.Utilities.Get_Realtive_Path import GetRelativePath
@@ -101,7 +100,6 @@ class UpdateButtonSettings:
         option_frame.pack(side="bottom", fill="x", pady=(0, 2))
 
     def reset_button(self):
-        print("reset pressed")
         UpdateConfigfile("program_names", f"Button_{self.index}", self.index)
         UpdateConfigfile("image_locations", Assets.default_image_locations, self.index)
         UpdateConfigfile("program_locations", "default", self.index)

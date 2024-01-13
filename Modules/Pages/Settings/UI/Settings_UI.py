@@ -77,7 +77,7 @@ class SettingsUI:
 
         # Create enable custom themes option
         custom_themes_frame = ttk.Frame(general_settings)
-        self.custom_themes_icon = tk.PhotoImage(file="Assets/Images/custom_themes_icon.png")
+        self.custom_themes_icon = tk.PhotoImage(file="Assets/Images/Custom_Themes_Icon.png")
         custom_themes_label = ttk.Label(custom_themes_frame,
                                         text="Enable custom themes",
                                         image=self.custom_themes_icon,
@@ -95,7 +95,7 @@ class SettingsUI:
 
         # Create theme selector
         theme_frame = ttk.Frame(general_settings)
-        self.theme_icon = tk.PhotoImage(file="Assets/Images/themes_icon.png")
+        self.theme_icon = tk.PhotoImage(file="Assets/Images/Themes_Icon.png")
         theme_label = ttk.Label(master=theme_frame, text="Change theme", image=self.theme_icon,
                                 compound="left")
 
@@ -194,7 +194,7 @@ class SettingsUI:
 
         # Create progress_bar setting
         progress_bar = ttk.Frame(top_panel_settings_frame)
-        self.progress_bar_icon = tk.PhotoImage(file="Assets/Images/progress_bar_icon.png")
+        self.progress_bar_icon = tk.PhotoImage(file="Assets/Images/Progress_Bar_Icon.png")
         progress_bar_label = ttk.Label(progress_bar,
                                  text="Progress bar",
                                  image=self.progress_bar_icon,
