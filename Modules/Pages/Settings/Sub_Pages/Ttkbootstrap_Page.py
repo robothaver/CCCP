@@ -1,8 +1,8 @@
-# from Modules.Pages.Settings.Sub_Pages.About import About
 import ttkbootstrap as ttk
 from Modules.Configfile.Config import Configfile
 from Assets import Assets
 import os
+from Modules.Utilities.Launch_Browser import LaunchBrowser
 
 
 class TtkbootstrapPage:
@@ -42,11 +42,4 @@ class TtkbootstrapPage:
         self.change_page(0)
 
     def open_github_page(self):
-        # This function opens the link in the browser selected by the user
-        if self.config.browser == "system default":
-            os.system(f"start {Assets.ttkbootstrap_link}")
-        else:
-            if self.config.browser == "firefox":
-                os.system(f"start {self.config.browser} --private-window {Assets.ttkbootstrap_link}")
-            else:
-                os.system(f"start {self.config.browser} --guest {Assets.ttkbootstrap_link}")
+        LaunchBrowser(Assets.ttkbootstrap_link, self.config.browser)
