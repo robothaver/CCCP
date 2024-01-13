@@ -7,100 +7,58 @@ from Assets import Assets
 from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from Modules.Pages.Home.Update_Button_Settings import UpdateButtonSettings
+from Modules.Pages.Home.UI.Home_Page_UI import HomePageUI
+from Modules.Utilities.Launch_Browser import LaunchBrowser
 
 
-class HomePage:
+class HomePage(HomePageUI):
     def __init__(self, master):
+        super().__init__(master)
         # Defining variables
         self.config = Configfile()
-        self.icons = []
+        self.icons = self.load_images()
+        self.buttons = self.create_buttons()
 
-        self.home_page = ttk.Frame(master)
+        self.end_of_lesson_reminder_button_var.set(value=self.config.end_of_lesson_reminder)
 
-        # Create button_container
-        self.button_container = ttk.Labelframe(self.home_page, text='Applications', style='info.TLabelframe')
+        self.end_of_lesson_reminder_button.config(command=self.toggle_end_of_lesson_reminder)
 
-        # Configure button container rows and columns
-        for x in range(0, 4):
-            self.button_container.columnconfigure(x, weight=3)
-        for x in range(0, 3):
-            self.button_container.rowconfigure(x, weight=1)
+        self.open_classroom_button.config(command=self.open_classroom)
 
-        self.load_images()
+        self.edit_button.config(command=self.edit_is_on)
 
-        # Create edit button
-        self.is_editing = tk.IntVar()
-        self.edit_button = ttk.Checkbutton(master=self.home_page, text="Edit buttons",
-                                           style="warning.Roundtoggle.Toolbutton",
-                                           variable=self.is_editing, command=self.edit_is_on)
-        self.edit_button.pack(side="top", anchor="e", padx=35)
+    def toggle_end_of_lesson_reminder(self):
+        UpdateConfigfile("end_of_lesson_reminder", bool(self.end_of_lesson_reminder_button_var.get()))
 
-        # Create buttons
-        self.buttons = []
-        column = 0
-        self.row = 0
-        for i in range(12):
-            # noinspection PyArgumentList
-            self.button = ttk.Button(master=self.button_container, text=self.config.program_names[i],
-                                     image=self.icons[i],
-                                     bootstyle="secondary", compound="top",
-                                     command=lambda n=i: self.open_program(n))
-            self.buttons.append(self.button)
-            self.button.grid(row=self.get_row(i), column=column, padx=5, pady=5, sticky="swen")
-            # Update column
-            if column != 3:
-                column += 1
-            else:
-                column = 0
-        # Pack button container
-        self.button_container.pack(fill="both", padx="30", expand=True)
-
-        # Secondary buttons
-        self.secondary_button_container = ttk.LabelFrame(
-            master=self.home_page,
-            text="Secondary functions",
-            style="warning")
-
-        # Create end of class reminder button
-        self.end_of_lesson_reminder_button_var = tk.IntVar(value=self.config.end_of_lesson_reminder)
-        self.end_of_lesson_reminder_icon = tk.PhotoImage(
-            file="Assets/Images/End_Of_Lesson_Reminder_Icon_White.png")
-        self.end_of_lesson_reminder_button = ttk.Checkbutton(
-            master=self.secondary_button_container,
-            text="End of lesson reminder",
-            style="info outline-toolbutton",
-            command=lambda: UpdateConfigfile("end_of_lesson_reminder",
-                                             bool(self.end_of_lesson_reminder_button_var.get())),
-            width=30, image=self.end_of_lesson_reminder_icon, compound="left",
-            variable=self.end_of_lesson_reminder_button_var)
-        self.end_of_lesson_reminder_button.pack(fill="x", pady=10, padx=10, side="left", expand=True)
-
-        # Create classroom button
-        self.classroom_icon = tk.PhotoImage(file="Assets/Images/Classroom_Icon.png")
-        self.open_classroom_button = ttk.Button(master=self.secondary_button_container, text="Open Classroom",
-                                                style="success", width=30, image=self.classroom_icon, compound="left",
-                                                command=self.open_link_in_selected_browser)
-        self.open_classroom_button.pack(fill="x", pady=10, padx=10, side="left", expand=True)
-
-        # Pack secondary button container
-        self.secondary_button_container.pack(fill="both", padx=30, pady=20, side="bottom")
-
-        # self.home_page.grid(column = 0, row = 0, sticky = 'nsew')
+    def create_buttons(self):
+        buttons = []
+        for x in range(3):
+            for y in range(4):
+                # noinspection PyArgumentList
+                index = len(buttons)
+                button = ttk.Button(master=self.button_container,
+                                    text=self.config.program_names[index],
+                                    image=self.icons[index],
+                                    bootstyle="secondary",
+                                    compound="top",
+                                    command=lambda i=index: self.open_program(i))
+                buttons.append(button)
+                button.grid(row=x, column=y, padx=5, pady=5, sticky="swen")
+        return buttons
 
     def load_images(self):
-        self.icons = []
+        icons = []
         # Load images
         try:
-            # If self.icons are found
+            # Try loading icons
             for x in range(12):
-                icon = tk.PhotoImage(file=self.config.image_locations[x])
-                self.icons.append(icon)
+                icons.append(tk.PhotoImage(file=self.config.image_locations[x]))
         except tk.TclError:
-            # if self.icons are not found
-            Messagebox.show_error(title="Error", message="self.icons not found! Reverting to default self.icons.")
-            self.icons = []
+            # if an icon is not found
+            Messagebox.show_error(title="Error", message="Icon not found! Reverting to default icons.")
             for x in range(12):
-                self.icons.append(tk.PhotoImage(file=Assets.default_image_locations))
+                icons.append(tk.PhotoImage(file=Assets.default_image_locations))
+        return icons
 
     def update_button(self, index):
         self.config = Configfile()
@@ -117,37 +75,26 @@ class HomePage:
                 # If button is not set up
                 messagebox.showinfo(title="Error", message="You must set the location of a program!")
             else:
-                try:
-                    os.startfile(self.config.program_locations[index])
-                except FileNotFoundError:
-                    messagebox.showerror(title="Error", message="Program not found!")
+                self.try_start_program(self.config.program_locations[index])
 
     def edit_is_on(self):
-        # This function runs whenever the edit button is pressed, and it turns editing on
         if self.is_editing.get() == 0:
             # Turn editing off
-            for button in self.buttons:
-                button.config(bootstyle="secondary")
+            self.set_button_style("secondary")
         else:
             # Turn editing on
-            for button in self.buttons:
-                button.config(bootstyle="warning")
+            self.set_button_style("warning")
 
-    def open_link_in_selected_browser(self):
-        # This function opens the link in the browser selected by the user
-        if self.config.browser == "system default":
-            os.system(f"start {Assets.classroom_link}")
-        else:
-            if self.config.browser == "firefox":
-                os.system(f"start {self.config.browser} --private-window {Assets.classroom_link}")
-            else:
-                os.system(f"start {self.config.browser} --guest {Assets.classroom_link}")
+    def set_button_style(self, style):
+        for button in self.buttons:
+            button.config(bootstyle=style)
 
-    def get_row(self, index):
-        if 7 < index <= 11:
-            self.row = 2
-        elif 3 < index <= 7:
-            self.row = 1
-        else:
-            self.row = 0
-        return self.row
+    def open_classroom(self):
+        LaunchBrowser(Assets.classroom_link, self.config.browser, is_guest=True)
+
+    @staticmethod
+    def try_start_program(program):
+        try:
+            os.startfile(program)
+        except FileNotFoundError:
+            messagebox.showerror(title="Error", message="Program not found!")
