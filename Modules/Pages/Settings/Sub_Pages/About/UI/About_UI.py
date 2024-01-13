@@ -49,4 +49,4 @@ class AboutUI:
         self.github_button = ttk.Button(master=self.main_container, text="GitHub", style="warning", width=60, )
         self.github_button.pack()
 
-        self.main_container.pack(fill="both", expand=1)
+        self.main_container.pack(fill="both", expand=1, pady=10)
