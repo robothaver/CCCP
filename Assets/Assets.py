@@ -50,11 +50,6 @@ break_pattern_35_05 = [
     ('13:30:00', '14:05:00')
 ]
 
-theme_names = ["cosmo", "flatly", "litera", "minty", "lumen",
-               "sandstone", "yeti", "pulse", "united", "morph",
-               "journal", "darkly", "superhero", "solar", "cyborg",
-               "vapor", "simplex", "cerculean"]
-
 default_image_locations = "Assets/Images/Default_Icon.png"
 
 default_number_of_lessons = [8, 8, 8, 8, 8]
@@ -71,38 +66,34 @@ deselected_navbar_icons = ["Assets/Images/Home_Icon_Deselected.png",
                            "Assets/Images/Application_Dashboard_Deselected.png",
                            "Assets/Images/Settings_Icon_Deselected.png"]
 
-github_link = "https://github.com/robothaver/CCCP"
-
 html_boilerplate = """
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
-</head>
-<body>
+    <link rel="stylesheet" href="CSS/styles.css" />
+  </head>
+  <body>
+    
 
     <script
-      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-      crossorigin="anonymous"
-    ></script>
-</body>
+  </body>
 </html>
 """
+
+github_link = "https://github.com/robothaver/CCCP"
 
 classroom_link = "https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fclassroom.google.com&passive=true"
 

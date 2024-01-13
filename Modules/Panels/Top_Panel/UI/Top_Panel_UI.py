@@ -49,8 +49,7 @@ class TopPanelUI:
         self.theme_changer = ttk.OptionMenu(
             master,
             self.theme_var,
-            "Select theme",
-            *Assets.theme_names,
+            "Select theme"
         )
 
         self.progress_bar = ttk.Progressbar(master, mode="determinate")

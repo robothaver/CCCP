@@ -10,6 +10,7 @@ class Configfile:
 
         # Define variables
         self.theme = ""
+        self.custom_themes = True
         self.clock_mode = ""
         self.number_of_lessons = []
         self.number_of_lessons_today = 0
@@ -37,6 +38,7 @@ class Configfile:
         # Define default variables
         self.data = {
             "theme": "",
+            "custom_themes": True,
             "clock_mode": "",
             "starting_page": 0,
             "end_of_lesson_reminder": True,
@@ -82,6 +84,7 @@ class Configfile:
         with open("Config.json", "r") as jsonFile:
             file = json.load(jsonFile)
             self.theme = file['theme']
+            self.custom_themes = file['custom_themes']
             self.clock_mode = file['clock_mode']
             self.starting_page = file['starting_page']
             self.end_of_lesson_reminder = file['end_of_lesson_reminder']
@@ -110,7 +113,7 @@ class Configfile:
         try:
             self.number_of_lessons_today = self.number_of_lessons[datetime.today().weekday()]
         except IndexError:
-            self.number_of_lessons_today = 0
+            self.number_of_lessons_today = 10
 
     def generate_config_file(self):
         # This function runs if the configfile doesn't exist

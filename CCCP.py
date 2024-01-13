@@ -1,16 +1,19 @@
 import tkinter as tk
+
 import ttkbootstrap as ttk
+from Modules.Style.Style_Controller import StyleController
 from Modules.Configfile.Config import Configfile
-from Modules.Pages.Home.Application_Launcher_Gui import ApplicationLauncher
-from Modules.Panels.Top_Panel.Top_Panel import TopGui
-from Modules.Panels.Navigation_Bar.Bottom_Navigation_Bar import BottomNavigationBar
 from Modules.Pages.Backup.Backup_Page import BackupPage
-from Modules.Pages.Settings.Settings import Settings
-from Modules.Pages.File_Generator.File_Generator import FileGenerator
 from Modules.Pages.Dashboard.Application_Dashboard import ApplicationDashboard
+from Modules.Pages.File_Generator.File_Generator_Page import FileGeneratorPage
+from Modules.Pages.Home.Home_Page import HomePage
+from Modules.Pages.Settings.Settings import Settings
+from Modules.Panels.Navigation_Bar.Bottom_Navigation_Bar import BottomNavigationBar
+from Modules.Panels.Top_Panel.Top_Panel import TopPanel
 from Modules.Utilities.Navigation_Controller.Navigation_Controller import NavigationController
 
-class AppGui:
+
+class CCCP:
     def __init__(self):
         # This is the main class of the program
 
@@ -23,7 +26,8 @@ class AppGui:
         self.window.title("CCCP")
         icon = tk.PhotoImage(file="Assets/Images/CCCP_logo_500x500.png")
         self.window.iconphoto(False, icon)
-        self.style = ttk.Style(config.theme)
+        self.style = ttk.Style()
+
         # self.window.resizable(False,False) #Blocks resize
         # self.window.attributes('-topmost', 'true')
 
@@ -37,46 +41,33 @@ class AppGui:
         self.separator.pack(fill="x", padx=5, pady=('10', '20'))
 
         # Middle frame
-        self.middle_frame = ttk.Frame(master=self.window, style="danger")
+        self.middle_frame = ttk.Frame(master=self.window)
         self.middle_frame.pack(fill="both", expand=True)
 
         # Bottom frame
         self.bottom_frame = ttk.Frame(master=self.window)
         self.bottom_frame.pack(side="bottom", fill="x", ipady=20)
 
-        self.navigation_controller = NavigationController(self.middle_frame)
+        self.navigation_controller = NavigationController(self.middle_frame, self.refresh_top_panel)
+        self.style_controller = StyleController(self.style, config)
+
+        self.top_panel = TopPanel(self.top_frame, self.style_controller)
 
         # Add pages to middle frame
-        ApplicationLauncher(self.middle_frame)
+        HomePage(self.middle_frame)
         BackupPage(self.middle_frame, self.window)
-        FileGenerator(self.middle_frame)
+        FileGeneratorPage(self.middle_frame)
         ApplicationDashboard(self.middle_frame)
-        Settings(self.middle_frame, self.top_frame, self.style)
+        Settings(self.middle_frame, self.style_controller, self.refresh_top_panel)
 
         # Calling GUI elements
         self.navbar = BottomNavigationBar(self.bottom_frame, self.navigation_controller)
         self.navbar.change_page()
-        # starting_page = config.starting_page
-        # if starting_page == 5:
-        #     starting_page = config.current_page
-        # if starting_page == 0:
-        #     ApplicationLauncherGui(self.middle_frame)
-        # elif starting_page == 1:
-        #     BackupPage(self.middle_frame, self.window)
-        # elif starting_page == 2:
-        #     FileGenerator(self.middle_frame)
-        # elif starting_page == 3:
-        #     ApplicationDashboard(self.middle_frame)
-        # elif starting_page == 4:
-        #     Settings(self.middle_frame, self.top_frame, self.style, self.update_top_panel())
-        TopGui(self.top_frame, self.style)
         self.window.mainloop()
 
-    def update_top_panel(self):
-        for widget in self.top_frame.winfo_children():
-            widget.destroy()
-        TopGui(self.top_frame, self.style)
+    def refresh_top_panel(self):
+        self.top_panel.refresh()
 
 
 if __name__ == '__main__':
-    AppGui()
+    CCCP()

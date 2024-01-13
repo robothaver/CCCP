@@ -1,5 +1,5 @@
 import time
-from datetime import timedelta, datetime
+from datetime import timedelta
 from Modules.Utilities.Calculate_Delta import CalculateDelta
 from Modules.Dialogs.End_Of_Lesson_Reminder import EndOfLessonReminder
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
@@ -13,22 +13,28 @@ import tkinter as tk
 
 
 class TopPanel(TopPanelUI):
-    def __init__(self, master, style):
+    def __init__(self, master, style_controller):
         super().__init__(master)
         # Define variables
         self.config = Configfile()
-        self.style = style
+        self.style_controller = style_controller
 
         self.theme_var.trace("w", self.change_theme)
 
         self.cooldown = False
         self.delta = CalculateDelta()
-        # self.time = datetime.strptime("14:45:00", "%H:%M:%S")
-        self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
-        self.show_enabled_widgets()
+        self.time = datetime.strptime("12:55:00", "%H:%M:%S")
+        # self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
+        self.refresh()
         self.refresh_time()
         self.greet()
         self.update_notifiers()
+
+    def refresh(self):
+        self.config = Configfile()
+        self.theme_var.set(value=self.config.theme)
+        self.theme_changer.set_menu(None, *self.style_controller.themes)
+        self.show_enabled_widgets()
 
     def show_enabled_widgets(self):
         if self.config.enable_secondary_notifier:
@@ -46,9 +52,8 @@ class TopPanel(TopPanelUI):
 
     def change_theme(self, *args):
         # This function gets called whenever the user selects a theme
-        UpdateConfigfile("theme", self.theme_var.get())
-        self.style.theme_use(self.theme_var.get())
-        self.time = datetime.strptime("15:39:55", "%H:%M:%S")
+        self.style_controller.set_current_theme(self.theme_var.get())
+        # self.time = datetime.strptime("15:39:55", "%H:%M:%S")
 
     def refresh_time(self):
         current_time = time.strftime("%H:%M:%S")
@@ -105,7 +110,7 @@ class TopPanel(TopPanelUI):
         )
 
     def show_dynamic_message(self):
-        day_of_week = datetime.today().weekday()
+        day_of_week = 4
         if self.delta.class_number == self.config.number_of_lessons_today - 1 and day_of_week == 4:
             # If It's friday and the lessons are over
             self.update_widgets(
