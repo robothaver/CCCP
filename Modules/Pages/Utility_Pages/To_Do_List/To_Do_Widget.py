@@ -21,12 +21,12 @@ class ToDoWidget:
         self.index = index
         self.config = GenerateToDoFile()
         # Icons
-        self.widget_open_icon = tk.PhotoImage(file="../../../../Assets/Images/icons8_double_right_24px.png")
-        self.widget_closed_icon = tk.PhotoImage(file="../../../../Assets/Images/icons8_double_up_24px.png")
-        self.check_button_Selected_img = tk.PhotoImage(file="../../../../Assets/Images/Check_Button_Selected_Icon.png")
-        self.check_button_Deselected_img = tk.PhotoImage(file="../../../../Assets/Images/Check_Button_Deselected_Icon.png")
-        self.delete_button_icon = tk.PhotoImage(file="../../../../Assets/Images/Delete_Button_Icon.png")
-        self.edit_button_icon = tk.PhotoImage(file="../../../../Assets/Images/Edit_Button_Icon.png")
+        self.widget_open_icon = tk.PhotoImage(file="Assets/Images/icons8_double_right_24px.png")
+        self.widget_closed_icon = tk.PhotoImage(file="Assets/Images/icons8_double_up_24px.png")
+        self.check_button_Selected_img = tk.PhotoImage(file="Assets/Images/Check_Button_Selected_Icon.png")
+        self.check_button_Deselected_img = tk.PhotoImage(file="Assets/Images/Check_Button_Deselected_Icon.png")
+        self.delete_button_icon = tk.PhotoImage(file="Assets/Images/Delete_Button_Icon.png")
+        self.edit_button_icon = tk.PhotoImage(file="Assets/Images/Edit_Button_Icon.png")
 
         self.is_widget_open = 0
 
