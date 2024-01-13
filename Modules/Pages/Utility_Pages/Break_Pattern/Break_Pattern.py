@@ -13,7 +13,9 @@ class BreakPattern:
 
         # Creating back button
         back_frame = ttk.Frame(master)
-        back_button = ttk.Button(back_frame, text="Back", command=show_dashboard)
+        self.back_button_icon = tk.PhotoImage(file="Assets/Images/back_icon.png")
+        back_button = ttk.Button(back_frame, text="Back", command=show_dashboard,
+                                 image=self.back_button_icon, compound="left")
         back_button.pack(side="left", padx=10, pady=(0, 10))
         back_frame.pack(fill="x")
 
@@ -23,7 +25,7 @@ class BreakPattern:
             title_frame.columnconfigure(x, weight=1)
 
         # Create switch back button <--
-        switch_back_button = ttk.Button(title_frame, text="<--", command=lambda: self.change_page(-1))
+        switch_back_button = ttk.Button(title_frame, image=self.back_button_icon, command=lambda: self.change_page(-1))
         switch_back_button.grid(column=0, row=0)
 
         # Create title label
@@ -31,7 +33,8 @@ class BreakPattern:
         title_label.grid(column=1, row=0)
 
         # Create switch forward button -->
-        switch_forward_button = ttk.Button(title_frame, text="-->", command=lambda: self.change_page(1))
+        self.forward_icon = tk.PhotoImage(file="Assets/Images/forward_icon.png")
+        switch_forward_button = ttk.Button(title_frame, image=self.forward_icon, command=lambda: self.change_page(1))
         switch_forward_button.grid(column=2, row=0)
         title_frame.pack(fill="x", pady=5)
 

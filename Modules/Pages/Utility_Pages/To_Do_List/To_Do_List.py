@@ -14,8 +14,10 @@ class ToDoList:
         self.config = GenerateToDoFile()
 
         # Creating back_frame
+        self.back_button_icon = tk.PhotoImage(file="Assets/Images/back_icon.png")
         back_frame = ttk.Frame(master)
-        back_button = ttk.Button(back_frame, text="Back", command=show_dashboard)
+        back_button = ttk.Button(back_frame, text="Back", command=show_dashboard,
+                                 image=self.back_button_icon, compound="left")
         back_button.pack(side="left", padx=10, pady=(2, 10))
         add_new_task_button = ttk.Button(back_frame, text="Add new task", style="warning",
                                          command=lambda: EditToDoList(master))
@@ -166,4 +168,3 @@ class EditToDoList:
         for widget in self.master.winfo_children():
             widget.destroy()
         self.top_level.destroy()
-        ToDoList(self.master)

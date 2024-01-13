@@ -11,8 +11,10 @@ class CopyNetworkSettings:
         self.master = master
 
         # Create back button
+        self.back_button_icon = tk.PhotoImage(file="Assets/Images/back_icon.png")
         back_frame = ttk.Frame(master)
-        back_button = ttk.Button(back_frame, text="Back", command=show_dashboard)
+        back_button = ttk.Button(back_frame, text="Back", command=show_dashboard,
+                                 image=self.back_button_icon, compound="left")
         back_button.pack(side="left", padx=10, pady=5)
 
         # Create is kando checkbutton
