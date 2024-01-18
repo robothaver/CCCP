@@ -1,7 +1,6 @@
 import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.scrolled import ScrolledFrame
-
 from Assets import Assets
 
 
@@ -17,24 +16,59 @@ class SettingsUI:
         self.clock_settings_frame = ttk.LabelFrame(master=self.settings_container,
                                                    text="Change clock settings",
                                                    style="warning")
-
+        # Break patterns
+        break_pattern_container = ttk.Frame(self.clock_settings_frame)
         self.selected = tk.StringVar()
-        self.clock_settings_45_10 = ttk.Radiobutton(master=self.clock_settings_frame, text="45min 10min",
+        self.clock_settings_45_10 = ttk.Radiobutton(master=break_pattern_container, text="45min 10min",
                                                     value="45_10",
                                                     variable=self.selected, style="warning-toolbutton")
-        self.clock_settings_40_5 = ttk.Radiobutton(master=self.clock_settings_frame, text="40min 5min",
-                                                   value="40_5",
-                                                   variable=self.selected, style="warning-toolbutton")
-        self.clock_settings_35_10 = ttk.Radiobutton(master=self.clock_settings_frame, text="35min 10min",
+        self.clock_settings_40_10 = ttk.Radiobutton(master=break_pattern_container, text="40min 10min",
+                                                    value="40_10",
+                                                    variable=self.selected, style="warning-toolbutton")
+        self.clock_settings_35_10 = ttk.Radiobutton(master=break_pattern_container, text="35min 10min",
                                                     value="35_10",
                                                     variable=self.selected, style="warning-toolbutton")
-        self.clock_settings_35_5 = ttk.Radiobutton(master=self.clock_settings_frame, text="35min 5min",
+        self.clock_settings_35_5 = ttk.Radiobutton(master=break_pattern_container, text="35min 5min",
                                                    value="35_5",
                                                    variable=self.selected, style="warning-toolbutton")
         self.clock_settings_45_10.pack(side="left", padx=10, pady=15, fill="x", expand=True)
-        self.clock_settings_40_5.pack(side="left", padx=10, pady=15, fill="x", expand=True)
+        self.clock_settings_40_10.pack(side="left", padx=10, pady=15, fill="x", expand=True)
         self.clock_settings_35_10.pack(side="left", padx=10, pady=15, fill="x", expand=True)
         self.clock_settings_35_5.pack(side="left", padx=10, pady=15, fill="x", expand=True)
+        break_pattern_container.pack(fill="x", expand=True)
+
+        # Lessons per day
+        self.lessons_per_day_icon = tk.PhotoImage(file="Assets/Images/Number_Of_Lessons_Icon.png")
+        lesson_per_day_frame = ttk.Frame(self.clock_settings_frame)
+        lesson_per_day_label = ttk.Label(lesson_per_day_frame, text="Number of lessons per day",
+                                         image=self.lessons_per_day_icon,
+                                         compound="left"
+                                         )
+        self.lesson_per_day_button = ttk.Button(lesson_per_day_frame, text="Change")
+
+        lesson_per_day_label.pack(side="left")
+        self.lesson_per_day_button.pack(side="right")
+        lesson_per_day_frame.pack(fill="x", padx=10, pady=10)
+
+        # Reminder activation
+        self.reminder_activation_icon = tk.PhotoImage(file="Assets/Images/Reminder_Activation_Icon.png")
+        reminder_activation_frame = ttk.Frame(self.clock_settings_frame)
+        reminder_activation_label = ttk.Label(reminder_activation_frame, text="End of lesson reminder activation time",
+                                         image=self.reminder_activation_icon,
+                                         compound="left"
+                                         )
+        self.reminder_activation_var = tk.StringVar()
+        self.reminder_activation_menu = ttk.OptionMenu(
+            reminder_activation_frame,
+            self.reminder_activation_var,
+            "",
+            *Assets.reminder_activations,
+            style="info outline",
+        )
+        reminder_activation_label.pack(side="left")
+        self.reminder_activation_menu.pack(side="right")
+        reminder_activation_frame.pack(fill="x", padx=10, pady=10)
+
         self.clock_settings_frame.pack(pady=15, fill="x", padx=20)
 
         # Create general settings

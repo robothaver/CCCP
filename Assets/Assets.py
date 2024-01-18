@@ -54,6 +54,8 @@ default_image_locations = "Assets/Images/Default_Icon.png"
 
 default_number_of_lessons = [8, 8, 8, 8, 8]
 
+reminder_activations = ["1 minute", "3 minutes", "5 minutes", "10 minutes", "15 minutes"]
+
 selected_navbar_icons = ["Assets/Images/Home_Icon_Selected.png",
                          "Assets/Images/Backup_Icon_Selected.png",
                          "Assets/Images/File_Generator_Icon_Selected.png",

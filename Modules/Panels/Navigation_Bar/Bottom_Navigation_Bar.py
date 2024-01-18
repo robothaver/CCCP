@@ -1,5 +1,5 @@
-from Modules.Pages.File_Generator.File_Generator import FileGenerator
-from Modules.Pages.Home.Application_Launcher_Gui import ApplicationLauncher
+from Modules.Pages.File_Generator.File_Generator_Page import FileGeneratorPage
+from Modules.Pages.Home.Home_Page import HomePage
 from Modules.Pages.Backup.Backup_Page import BackupPage
 from Modules.Pages.Settings.Settings import Settings
 import tkinter as tk
@@ -11,11 +11,11 @@ from Modules.Pages.Dashboard.Application_Dashboard import ApplicationDashboard
 
 # noinspection PyArgumentList
 class BottomNavigationBar:
-    def __init__(self, master, navigation_controller):
+    def __init__(self, master, navigation_controller, config):
         # Define variables
         self.master = master
         self.navigation_controller = navigation_controller
-        self.config = Configfile()
+        self.config = config
 
         # Configure frame column and row settings
         for x in range(5):

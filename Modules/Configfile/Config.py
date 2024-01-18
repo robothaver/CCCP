@@ -2,17 +2,21 @@ import os
 import json
 from Assets import Assets
 from datetime import datetime
+from Modules.Configfile.Config_Data import config_data
 
 
 class Configfile:
     def __init__(self):
         # This function generates and loads in the configfile
 
+        self.data = config_data
+
         # Define variables
         self.theme = ""
         self.custom_themes = True
         self.clock_mode = ""
         self.number_of_lessons = []
+        self.reminder_activation = 0
         self.number_of_lessons_today = 0
         self.starting_page = 0
         self.end_of_lesson_reminder = True
@@ -36,31 +40,6 @@ class Configfile:
         self.preset_application_location = []
 
         # Define default variables
-        self.data = {
-            "theme": "",
-            "custom_themes": True,
-            "clock_mode": "",
-            "starting_page": 0,
-            "end_of_lesson_reminder": True,
-            "enable_top_theme_selector": True,
-            "enable_primary_notifier": True,
-            "enable_secondary_notifier": True,
-            "enable_progress_bar": True,
-            "current_page": 0,
-            "browser": "google",
-            "show_files_being_copied_in_cmd": 1,
-            "number_of_lessons": [],
-            "image_locations": [],
-            "program_locations": [],
-            "program_names": [],
-            "file_output_locations": [],
-            "file_backup_names": [],
-            "file_backup_locations": [],
-            "preset_name": [],
-            "preset_input": [],
-            "preset_output": [],
-            "preset_application_location": [],
-        }
         self.check_if_icons_folder_exists()
         self.check_if_config_exists()
 
@@ -86,6 +65,7 @@ class Configfile:
             self.theme = file['theme']
             self.custom_themes = file['custom_themes']
             self.clock_mode = file['clock_mode']
+            self.reminder_activation = file['reminder_activation']
             self.starting_page = file['starting_page']
             self.end_of_lesson_reminder = file['end_of_lesson_reminder']
             self.enable_top_theme_selector = file['enable_top_theme_selector']
@@ -106,14 +86,14 @@ class Configfile:
             self.preset_input = file["preset_input"]
             self.preset_output = file["preset_output"]
             self.preset_application_location = file["preset_application_location"]
-        self.set_clock_mode()
+        self.get_clock_mode()
         self.get_number_of_lessons_today()
 
     def get_number_of_lessons_today(self):
         try:
             self.number_of_lessons_today = self.number_of_lessons[datetime.today().weekday()]
         except IndexError:
-            self.number_of_lessons_today = 10
+            self.number_of_lessons_today = 0
 
     def generate_config_file(self):
         # This function runs if the configfile doesn't exist
@@ -130,7 +110,7 @@ class Configfile:
             jsonFile.write(datas)
         self.load_config()
 
-    def set_clock_mode(self):
+    def get_clock_mode(self):
         # This function runs whenever the config gets loaded
         if self.clock_mode == "45_10":
             self.break_pattern = Assets.break_pattern_45_10

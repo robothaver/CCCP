@@ -33,7 +33,7 @@ class BreakPattern:
         title_label.grid(column=1, row=0)
 
         # Create switch forward button -->
-        self.forward_icon = tk.PhotoImage(file="Assets/Images/forward_icon.png")
+        self.forward_icon = tk.PhotoImage(file="Assets/Images/Forward_Icon.png")
         switch_forward_button = ttk.Button(title_frame, image=self.forward_icon, command=lambda: self.change_page(1))
         switch_forward_button.grid(column=2, row=0)
         title_frame.pack(fill="x", pady=5)

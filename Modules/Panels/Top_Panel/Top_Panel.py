@@ -1,39 +1,42 @@
 import time
-from datetime import timedelta
-from Modules.Utilities.Calculate_Delta import CalculateDelta
-from Modules.Dialogs.End_Of_Lesson_Reminder import EndOfLessonReminder
-from Modules.Configfile.Update_Configfile import UpdateConfigfile
-from Modules.Panels.Top_Panel.UI.Top_Panel_UI import TopPanelUI
 from datetime import datetime
-from Modules.Pages.Settings.Settings import Settings
+from datetime import timedelta
 from Modules.Configfile.Config import Configfile
-from Assets import Assets
-import ttkbootstrap as ttk
-import tkinter as tk
+from Modules.Dialogs.End_Of_Lesson_Reminder import EndOfLessonReminder
+from Modules.Panels.Top_Panel.UI.Top_Panel_UI import TopPanelUI
+from Modules.Utilities.Calculate_Delta import CalculateDelta
 
 
 class TopPanel(TopPanelUI):
-    def __init__(self, master, style_controller):
+    def __init__(self, master, style_controller, config):
         super().__init__(master)
         # Define variables
-        self.config = Configfile()
+        self.config = config
         self.style_controller = style_controller
+        self.method_id = None
+        self.cooldown = False
 
         self.theme_var.trace("w", self.change_theme)
 
-        self.cooldown = False
         self.delta = CalculateDelta()
-        self.time = datetime.strptime("12:55:00", "%H:%M:%S")
-        # self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
-        self.refresh()
+        # self.time = datetime.strptime("12:49:50", "%H:%M:%S")
+        self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
         self.refresh_time()
         self.greet()
+        self.show_enabled_widgets()
         self.update_notifiers()
 
-    def refresh(self):
+    def refresh(self, update_notifiers=False):
         self.config = Configfile()
-        self.theme_var.set(value=self.config.theme)
-        self.theme_changer.set_menu(None, *self.style_controller.themes)
+        if update_notifiers:
+            self.main_notifier.after_cancel(self.method_id)
+            self.cooldown = False
+            self.update_notifiers()
+        else:
+            self.theme_var.trace_remove(*self.theme_var.trace_info()[0])
+            self.theme_var.set(value=self.config.theme)
+            self.theme_var.trace("w", self.change_theme)
+            self.theme_changer.set_menu(None, *self.style_controller.themes)
         self.show_enabled_widgets()
 
     def show_enabled_widgets(self):
@@ -49,11 +52,14 @@ class TopPanel(TopPanelUI):
             self.theme_changer.grid(row=1, column=1, sticky="e", padx=5)
         else:
             self.theme_changer.grid_forget()
+        if self.config.enable_progress_bar:
+            self.progress_bar.grid(row=2, columnspan=2, sticky="we", padx=10, pady=(10, 5))
+        else:
+            self.progress_bar.grid_forget()
 
     def change_theme(self, *args):
-        # This function gets called whenever the user selects a theme
         self.style_controller.set_current_theme(self.theme_var.get())
-        # self.time = datetime.strptime("15:39:55", "%H:%M:%S")
+        self.time = datetime.strptime("15:39:55", "%H:%M:%S")
 
     def refresh_time(self):
         current_time = time.strftime("%H:%M:%S")
@@ -92,25 +98,25 @@ class TopPanel(TopPanelUI):
         self.progress_bar.config(value=self.delta.progress)
         if self.delta.is_lesson_over:
             # If the lesson has ended
-            self.change_notifier_styles("success")
             self.show_dynamic_message()
             self.cooldown = False
         else:
             # If the lesson is still going
-            self.change_notifier_styles("warning")
             self.show_ongoing_lesson_message()
             self.end_of_lesson_reminder()
-        self.main_notifier.after(1000, self.update_notifiers)
+        self.method_id = self.main_notifier.after(1000, self.update_notifiers)
 
     def show_ongoing_lesson_message(self):
+        self.change_notifier_styles("warning")
         self.update_widgets(
-            f"Time left of this class: {self.delta.time_left}",
-            f"{self.delta.class_number + 1}. class ends at {self.config.break_pattern[self.delta.class_number][1]}",
+            f"Time left of this lesson: {self.delta.time_left}",
+            f"{self.delta.class_number + 1}. lesson ends at {self.config.break_pattern[self.delta.class_number][1]}",
             True
         )
 
     def show_dynamic_message(self):
-        day_of_week = 4
+        self.change_notifier_styles("success")
+        day_of_week = datetime.today().weekday()
         if self.delta.class_number == self.config.number_of_lessons_today - 1 and day_of_week == 4:
             # If It's friday and the lessons are over
             self.update_widgets(
@@ -129,21 +135,21 @@ class TopPanel(TopPanelUI):
             # If the day is over
             self.update_widgets(
                 "You are done for the day ☕",
-                f"1. class begins at {self.config.break_pattern[0][0]}",
+                f"Your first lesson begins at {self.config.break_pattern[0][0]}",
                 False
             )
         elif self.delta.class_number == 0 and self.delta.time_delta == 0:
             # If the day hasn't begun yet
             self.update_widgets(
                 "",
-                f"Your first class starts at {self.config.break_pattern[0][0]}",
+                f"Your first lesson starts at {self.config.break_pattern[0][0]}",
                 False
             )
         else:
             # If it is break time
             self.update_widgets(
                 f"Break  ☕  remaining: {self.delta.time_left}",
-                f"{self.delta.class_number + 2}. class begins at "
+                f"{self.delta.class_number + 2}. lesson begins at "
                 f"{self.config.break_pattern[self.delta.class_number + 1][0]}",
                 True
             )
@@ -155,6 +161,6 @@ class TopPanel(TopPanelUI):
         """
         if not self.cooldown:
             if self.config.end_of_lesson_reminder == 1:
-                if self.delta.time_delta <= timedelta(minutes=5):
+                if self.delta.time_delta <= timedelta(minutes=self.config.reminder_activation):
                     self.cooldown = True
                     EndOfLessonReminder(message="The lesson is ending soon, it is time to prepare!")
