@@ -1,3 +1,4 @@
+import _tkinter
 import os.path
 from ttkbootstrap.dialogs.dialogs import Messagebox
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
@@ -10,21 +11,18 @@ class StyleController:
         self.themes = []
         self.initial_theme = config.theme
         self.load_themes(config.custom_themes)
+        self.set_current_theme(config.theme)
 
     def load_themes(self, custom_themes):
         if custom_themes:
-            print("BAR")
             self.load_custom_themes()
         else:
-            print("GOOD")
             self.themes = self.default_themes
-            # self.set_current_theme(self.initial_theme)
 
     def load_custom_themes(self):
         if self.check_if_themes_exists():
             loading_success_full = self.try_load_custom_themes()
             self.themes = self.style.theme_names()
-            self.set_current_theme(self.initial_theme)
             if not loading_success_full:
                 self.show_error_dialog("Themes file is invalid! Some of the custom themes might not be available.")
         else:
@@ -33,10 +31,18 @@ class StyleController:
 
     def set_current_theme(self, theme):
         if theme in self.themes:
-            self.style.theme_use(theme)
+            self.set_theme(theme)
+            UpdateConfigfile("theme", self.style.theme.name)
         else:
+            self.set_theme("flatly")
             self.show_error_dialog("Selected theme is invalid! Reverting to default theme.")
-        UpdateConfigfile("theme", self.style.theme.name)
+            UpdateConfigfile("theme", "flatly")
+
+    def set_theme(self, theme):
+        try:
+            self.style.theme_use(theme)
+        except _tkinter.TclError:
+            pass
 
     def try_load_custom_themes(self):
         try:

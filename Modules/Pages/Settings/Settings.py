@@ -24,7 +24,7 @@ class Settings(SettingsUI):
         self.secondary_notifier_var.set(self.config.enable_secondary_notifier)
         self.top_theme_selector_var.set(self.config.enable_top_theme_selector)
         self.progress_bar_var.set(self.config.enable_progress_bar)
-        self.theme_var.set(self.config.theme)
+        self.theme_var.set(style_controller.style.theme.name)
         self.selected.set(self.config.clock_mode)
         self.page_var.set(Assets.page_names[self.config.starting_page])
         self.browser_var.set(self.config.browser)
