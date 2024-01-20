@@ -3,9 +3,8 @@ import tkinter as tk
 import ttkbootstrap as ttk
 import os
 import time
-from Modules.Configfile.Config import Configfile
 from ttkbootstrap.dialogs import Messagebox
-from Modules.Pages.Backup.Change_Settings_For_Backup import ChangeSettingsForBackup
+from Modules.Dialogs.Change_Backup_Locations import ChangeBackupLocations
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from datetime import datetime
 
@@ -100,7 +99,7 @@ class BackupPage:
             master=self.backup_page,
             text="Add new backup option",
             width=25, style="warning",
-            command=lambda: ChangeSettingsForBackup(master, window))
+            command=lambda: ChangeBackupLocations(master))
         self.add_new_option_button.pack(pady=15)
         self.backup_page.pack(fill="both")
 

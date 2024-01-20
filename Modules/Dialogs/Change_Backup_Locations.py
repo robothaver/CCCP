@@ -6,23 +6,23 @@ from tkinter import messagebox
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 
 
-class ChangeSettingsForBackup:
-    def __init__(self, master, window):
+class ChangeBackupLocations:
+    def __init__(self, master):
         # This class gets called by the BackupPage class
 
         # Define variables
         self.master = master
-        self.window = window
         self.config = Configfile()
 
         # Create_Top_Level
-        self.Top_Level = ttk.Toplevel(title=f"Change the settings for backup options")
-        self.Top_Level.minsize(width=600, height=430)
-        self.Top_Level.grab_set()
+        self.top_level = ttk.Toplevel(title=f"Change the settings for backup options")
+        self.top_level.minsize(width=600, height=430)
+        self.top_level.transient(master)
+        self.top_level.grab_set()
 
         # Create_tabel
         column = ["Backup options"]
-        self.tabel = ttk.Treeview(master=self.Top_Level, columns=column, style="secondary", show="headings")
+        self.tabel = ttk.Treeview(master=self.top_level, columns=column, style="secondary", show="headings")
         self.tabel.heading('Backup options', text="Backup options")
         self.tabel.bind('<<TreeviewSelect>>', self.update_entries_with_selected_item)
         for location in self.config.file_backup_names:
@@ -30,7 +30,7 @@ class ChangeSettingsForBackup:
         self.tabel.pack(padx=10, pady=10, fill="both")
 
         # Entries
-        selected_item_frame = ttk.LabelFrame(master=self.Top_Level, text="Change attributes for selected item",
+        selected_item_frame = ttk.LabelFrame(master=self.top_level, text="Change attributes for selected item",
                                              style="info")
         file_backup_name_entry_frame = ttk.Frame(master=selected_item_frame)
         self.file_backup_name_entry_var = tk.StringVar()
@@ -73,13 +73,13 @@ class ChangeSettingsForBackup:
         button_frame.pack()
 
         # Bottom buttons
-        cancel_button = ttk.Button(master=self.Top_Level, text="Cancel",
+        cancel_button = ttk.Button(master=self.top_level, text="Cancel",
                                    command=self.close_pop_up, style="danger", width=10)
-        accept_button = ttk.Button(master=self.Top_Level, text="Accept",
+        accept_button = ttk.Button(master=self.top_level, text="Accept",
                                    command=self.save_changes, style="success", width=10)
         accept_button.pack(padx=15, pady=10, side="right", anchor="s")
         cancel_button.pack(padx=15, pady=10, side="right", anchor="s")
-        self.Top_Level.mainloop()
+        self.top_level.mainloop()
 
     def locate_file(self):
         # This function runs whenever the "locate" button is pressed
@@ -161,9 +161,8 @@ class ChangeSettingsForBackup:
         # This function runs whenever the "accept" or "cancel" button is pressed
         for widget in self.master.winfo_children():
             widget.destroy()
-        self.Top_Level.destroy()
-        self.Top_Level.grab_release()
-        # BackupPage(master=self.master, window=self.window)
+        self.top_level.destroy()
+        self.top_level.grab_release()
 
     def save_changes(self):
         # This function runs whenever the "accept" button is pressed

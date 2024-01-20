@@ -16,9 +16,8 @@ class ChangePresetSettings:
         self.config = Configfile()
 
         # Create top level
-        self.top_level = ttk.Toplevel(master)
-        self.top_level.geometry("600x586")
-        self.top_level.title("Change preset settings")
+        self.top_level = ttk.Toplevel(master=master, title="Change preset settings", width=600, height=580)
+        self.top_level.transient(master)
         self.top_level.grab_set()
 
         # Create tabel

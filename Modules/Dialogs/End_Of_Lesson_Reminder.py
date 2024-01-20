@@ -1,5 +1,6 @@
-import ttkbootstrap as ttk
 import tkinter as tk
+
+import ttkbootstrap as ttk
 
 
 class EndOfLessonReminder:
@@ -9,7 +10,7 @@ class EndOfLessonReminder:
         self.top_level.grab_set()
         self.top_level.lift()
         self.top_level.title("End of lesson reminder")
-        self.top_level.resizable(False,False) #Blocks resize
+        self.top_level.resizable(False, False)
         self.top_level.attributes('-topmost', 'true')
         # Create widgets
         top_frame = ttk.Frame(self.top_level)

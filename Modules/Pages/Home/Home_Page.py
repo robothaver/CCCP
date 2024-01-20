@@ -6,7 +6,7 @@ from ttkbootstrap.dialogs import Messagebox
 from Assets import Assets
 from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
-from Modules.Pages.Home.Update_Button_Settings import UpdateButtonSettings
+from Modules.Dialogs.Change_Button_Settings import ChangeButtonSettings
 from Modules.Pages.Home.UI.Home_Page_UI import HomePageUI
 from Modules.Utilities.Launch_Browser import LaunchBrowser
 
@@ -68,7 +68,7 @@ class HomePage(HomePageUI):
 
     def open_program(self, index):
         if self.is_editing.get() == 1:
-            UpdateButtonSettings(index, self.config, self.update_button)
+            ChangeButtonSettings(self.master_container, index, self.config, self.update_button)
         else:
             # If editing is not enabled
             if self.config.program_locations[index] == "default":

@@ -6,7 +6,7 @@ import tkinter as tk
 
 
 class EditFileOutputLocations:
-    def __init__(self, update_widget):
+    def __init__(self, master, update_widget):
         # Define variables
         self.config = Configfile()
         self.update_widget = update_widget
@@ -14,6 +14,7 @@ class EditFileOutputLocations:
         # Create top level
         self.top_level = ttk.Toplevel(title=f"Change file output locations")
         self.top_level.minsize(width=600, height=360)
+        self.top_level.transient(master)
         self.top_level.grab_set()
 
         # Create the main container

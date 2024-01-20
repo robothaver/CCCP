@@ -6,9 +6,7 @@ import ttkbootstrap as ttk
 
 class ChangeNOL:
     def __init__(self, master):
-        self.top_level = ttk.Toplevel(master)
-        self.top_level.title("Set LPD")
-        self.top_level.geometry("225x370")
+        self.top_level = ttk.Toplevel(master=master, title="Set LPD", width=225, height=370)
         self.top_level.transient(master)
         self.top_level.grab_set()
         self.top_level.resizable(False, False)

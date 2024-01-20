@@ -9,8 +9,8 @@ from Modules.Utilities.Get_Realtive_Path import GetRelativePath
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 
 
-class UpdateButtonSettings:
-    def __init__(self, index, config, update_button):
+class ChangeButtonSettings:
+    def __init__(self, master, index, config, update_button):
         # This function gest called by the ApplicationLauncherGui class
 
         # Define variables
@@ -20,8 +20,9 @@ class UpdateButtonSettings:
         self.config = config
 
         # Create top level
-        self.top_level = ttk.Toplevel(title=f"Change the settings for button{index}")
+        self.top_level = ttk.Toplevel(master=master, title=f"Change the settings for button{index}")
         self.top_level.minsize(width=600, height=220)
+        self.top_level.transient(master)
         self.top_level.grab_set()
 
         # Create title

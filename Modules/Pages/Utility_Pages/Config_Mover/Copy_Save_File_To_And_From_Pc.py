@@ -4,7 +4,7 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
 from Modules.Pages.Dashboard import Application_Dashboard
-from Modules.Pages.Utility_Pages.Config_Mover.Change_Preset_Settings import ChangePresetSettings
+from Modules.Dialogs.Change_Preset_Settings import ChangePresetSettings
 from Modules.Configfile.Config import Configfile
 import shutil
 

@@ -4,10 +4,10 @@ import tkinter as tk
 
 class HomePageUI:
     def __init__(self, master):
-        self.home_page = ttk.Frame(master)
+        self.master_container = ttk.Frame(master)
 
         # Create button_container
-        self.button_container = ttk.Labelframe(self.home_page, text='Applications', style='info.TLabelframe')
+        self.button_container = ttk.Labelframe(self.master_container, text='Applications', style='info.TLabelframe')
 
         # Configure button container rows and columns
         for x in range(0, 4):
@@ -17,7 +17,7 @@ class HomePageUI:
 
         # Create edit button
         self.is_editing = tk.IntVar()
-        self.edit_button = ttk.Checkbutton(master=self.home_page, text="Edit buttons",
+        self.edit_button = ttk.Checkbutton(master=self.master_container, text="Edit buttons",
                                            style="warning.Roundtoggle.Toolbutton",
                                            variable=self.is_editing, command=self.is_editing)
         self.edit_button.pack(side="top", anchor="e", padx=35)
@@ -27,7 +27,7 @@ class HomePageUI:
 
         # Secondary buttons
         self.secondary_button_container = ttk.LabelFrame(
-            master=self.home_page,
+            master=self.master_container,
             text="Secondary functions",
             style="warning")
 
