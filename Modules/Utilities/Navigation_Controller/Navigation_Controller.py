@@ -1,7 +1,6 @@
 class NavigationController:
-    def __init__(self, master_container, refresh_top_panel):
+    def __init__(self, master_container):
         self.master_container = master_container
-        self.refresh_top_panel = refresh_top_panel
         self.page_index = 0
         self.pages = []
 

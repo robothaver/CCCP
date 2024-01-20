@@ -2,6 +2,7 @@ from Assets import Assets
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from Modules.Pages.Settings.Sub_Pages.About.About import About
 from Modules.Pages.Settings.UI.Settings_UI import SettingsUI
+from Modules.Dialogs.Change_NOL import ChangeNOL
 
 
 class Settings(SettingsUI):
@@ -16,6 +17,7 @@ class Settings(SettingsUI):
         self.show_settings_page()
         self.refresh_theme()
 
+        # Setting widget values
         self.custom_themes_button_var.set(self.config.custom_themes)
         reminder_value = "minute" if self.config.reminder_activation == 1 else "minutes"
         self.reminder_activation_var.set(f"{self.config.reminder_activation} {reminder_value}")
@@ -30,25 +32,22 @@ class Settings(SettingsUI):
         self.browser_var.set(self.config.browser)
 
         # Connecting buttons to functions
-        self.clock_settings_40_10.config(command=self.change_clock_settings)
-        self.clock_settings_45_10.config(command=self.change_clock_settings)
-        self.clock_settings_35_5.config(command=self.change_clock_settings)
-        self.clock_settings_35_10.config(command=self.change_clock_settings)
-
         self.page_var.trace("w", self.change_starting_page)
         self.theme_var.trace("w", self.change_theme)
         self.custom_themes_button_var.trace("w", self.change_custom_themes)
         self.reminder_activation_var.trace("w", self.change_reminder_activation)
         self.browser_var.trace("w", self.change_browser)
         self.progress_bar_var.trace("w", self.change_progress_bar_settings)
+
+        self.clock_settings_40_10.config(command=self.change_clock_settings)
+        self.clock_settings_45_10.config(command=self.change_clock_settings)
+        self.clock_settings_35_5.config(command=self.change_clock_settings)
+        self.clock_settings_35_10.config(command=self.change_clock_settings)
+        self.lesson_per_day_button.config(command=lambda: ChangeNOL(self.master_container))
         self.end_of_lesson_reminder_button.config(command=self.update_end_of_lesson_reminder)
-
         self.top_theme_selector_button.config(command=self.change_top_theme_selector_settings)
-
         self.primary_notifier.config(command=self.change_top_end_of_lesson_timer_settings)
-
         self.secondary_notifier.config(command=self.top_lesson_number_settings)
-
         self.about_button.config(command=self.change_page_to_about)
 
     def refresh_theme(self):
@@ -62,7 +61,6 @@ class Settings(SettingsUI):
         self.refresh_top_panel()
 
     def change_reminder_activation(self, *args):
-        print(self.reminder_activation_var.get())
         UpdateConfigfile("reminder_activation", int(self.reminder_activation_var.get().split()[0]))
         self.refresh_top_panel(True)
 

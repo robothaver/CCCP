@@ -1,14 +1,12 @@
 import ttkbootstrap as ttk
-from Modules.Configfile.Config import Configfile
 from Assets import Assets
-import os
+from Modules.Configfile.Config import Configfile
 from Modules.Utilities.Launch_Browser import LaunchBrowser
 
 
 class TtkbootstrapPage:
     def __init__(self, master, change_page):
         # Define variables
-        self.config = Configfile()
         self.master = master
         self.change_page = change_page
 
@@ -41,5 +39,6 @@ class TtkbootstrapPage:
     def back(self):
         self.change_page(0)
 
-    def open_github_page(self):
-        LaunchBrowser(Assets.ttkbootstrap_link, self.config.browser)
+    @staticmethod
+    def open_github_page():
+        LaunchBrowser(Assets.ttkbootstrap_link, Configfile().browser)
