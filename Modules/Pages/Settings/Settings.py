@@ -44,12 +44,22 @@ class Settings(SettingsUI):
         self.clock_settings_45_10.config(command=self.change_clock_settings)
         self.clock_settings_35_5.config(command=self.change_clock_settings)
         self.clock_settings_35_10.config(command=self.change_clock_settings)
-        self.lesson_per_day_button.config(command=lambda: ChangeNOL(self.master_container))
+        self.lesson_per_day_button.config(command=lambda: ChangeNOL(self.master_container, self.refresh_top_panel))
         self.end_of_lesson_reminder_button.config(command=self.update_end_of_lesson_reminder)
         self.top_theme_selector_button.config(command=self.change_top_theme_selector_settings)
         self.primary_notifier.config(command=self.change_top_end_of_lesson_timer_settings)
         self.secondary_notifier.config(command=self.top_lesson_number_settings)
         self.about_button.config(command=self.change_page_to_about)
+
+    def refresh_page(self, refresh_mode=0):
+        if refresh_mode == 0:
+            self.theme_var.trace_remove(*self.theme_var.trace_info()[0])
+            self.theme_var.set(value=self.style_controller.style.theme.name)
+            self.theme_var.trace("w", self.change_theme)
+        else:
+            new_value = not self.end_of_lesson_reminder_button_var.get()
+            self.end_of_lesson_reminder_button_var.set(value=new_value)
+            self.refresh_top_panel()
 
     def refresh_theme(self):
         self.theme_changer.set_menu(None, *self.style_controller.themes)
@@ -79,6 +89,7 @@ class Settings(SettingsUI):
     def update_end_of_lesson_reminder(self):
         UpdateConfigfile("end_of_lesson_reminder", bool(self.end_of_lesson_reminder_button_var.get()))
         self.refresh_top_panel(True)
+        self.navigation_controller.update_page(0)
 
     def change_clock_settings(self):
         UpdateConfigfile("clock_mode", self.selected.get())

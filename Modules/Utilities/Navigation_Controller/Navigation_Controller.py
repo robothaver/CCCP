@@ -3,9 +3,15 @@ class NavigationController:
         self.master_container = master_container
         self.page_index = 0
         self.pages = []
+        self.page_objects = []
 
-    def update_page(self, index):
-        self.pages[index].refresh_page()
+    def add_pages(self, pages):
+        self.page_objects = pages
+
+    def update_page(self, index, refresh_type=None):
+        if refresh_type is not None:
+            self.page_objects[index].refresh_page(refresh_type)
+        self.page_objects[index].refresh_page()
 
     def change_page(self, page_index):
         self.hide_all_pages()

@@ -5,12 +5,13 @@ import ttkbootstrap as ttk
 
 
 class ChangeNOL:
-    def __init__(self, master):
+    def __init__(self, master, refresh_top_panel):
         self.top_level = ttk.Toplevel(master=master, title="Set LPD", width=225, height=370)
         self.top_level.transient(master)
         self.top_level.grab_set()
         self.top_level.resizable(False, False)
 
+        self.refresh_top_panel = refresh_top_panel
         self.config = Configfile()
         self.options = [str(i) for i in range(11)]
         self.days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
@@ -26,6 +27,7 @@ class ChangeNOL:
     def save_changes(self):
         lessons_per_day = [value.get() for value in self.values]
         UpdateConfigfile("number_of_lessons", lessons_per_day)
+        self.refresh_top_panel()
         self.close_dialog()
 
     def generate_widgets(self):

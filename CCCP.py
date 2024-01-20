@@ -2,7 +2,6 @@ import tkinter as tk
 
 import ttkbootstrap as ttk
 
-from Modules.Style.Style_Controller import StyleController
 from Modules.Configfile.Config import Configfile
 from Modules.Pages.Backup.Backup_Page import BackupPage
 from Modules.Pages.Dashboard.Application_Dashboard import ApplicationDashboard
@@ -11,6 +10,7 @@ from Modules.Pages.Home.Home_Page import HomePage
 from Modules.Pages.Settings.Settings import Settings
 from Modules.Panels.Navigation_Bar.Bottom_Navigation_Bar import BottomNavigationBar
 from Modules.Panels.Top_Panel.Top_Panel import TopPanel
+from Modules.Style.Style_Controller import StyleController
 from Modules.Utilities.Navigation_Controller.Navigation_Controller import NavigationController
 
 
@@ -21,7 +21,7 @@ class CCCP:
         # Load in the configfile
         config = Configfile()
 
-        # Create the tkinter window
+        # Create the main window
         self.window = tk.Tk()
         self.window.geometry("600x850")
         self.window.title("CCCP")
@@ -46,20 +46,22 @@ class CCCP:
         self.bottom_frame = ttk.Frame(master=self.window)
         self.bottom_frame.pack(side="bottom", fill="x", ipady=20)
 
-        self.navigation_controller = NavigationController(self.middle_frame)
-        self.style_controller = StyleController(self.style, config)
+        navigation_controller = NavigationController(self.middle_frame)
+        style_controller = StyleController(self.style, config)
 
-        self.top_panel = TopPanel(self.top_frame, config, self.style_controller, self.navigation_controller)
+        self.top_panel = TopPanel(self.top_frame, config, style_controller, navigation_controller)
 
         # Add pages to middle frame
-        self.asd = HomePage(self.middle_frame, config)
-        BackupPage(self.middle_frame, self.window, config)
-        FileGeneratorPage(self.middle_frame, config)
-        ApplicationDashboard(self.middle_frame, self.navigation_controller)
-        Settings(self.middle_frame, config, self.style_controller, self.top_panel.refresh, self.navigation_controller)
+        navigation_controller.add_pages([
+            HomePage(self.middle_frame, config, navigation_controller),
+            BackupPage(self.middle_frame, self.window, config),
+            FileGeneratorPage(self.middle_frame, config),
+            ApplicationDashboard(self.middle_frame),
+            Settings(self.middle_frame, config, style_controller, self.top_panel.refresh, navigation_controller)]
+        )
 
         # Calling GUI elements
-        self.navbar = BottomNavigationBar(self.bottom_frame, self.navigation_controller, config)
+        self.navbar = BottomNavigationBar(self.bottom_frame, navigation_controller, config)
         self.navbar.change_page()
         self.window.mainloop()
 

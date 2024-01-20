@@ -12,12 +12,13 @@ from Modules.Utilities.Launch_Browser import LaunchBrowser
 
 
 class HomePage(HomePageUI):
-    def __init__(self, master, config):
+    def __init__(self, master, config, navigation_controller):
         super().__init__(master)
         # Defining variables
         self.config = config
         self.icons = self.load_images()
         self.buttons = self.create_buttons()
+        self.navigation_controller = navigation_controller
 
         self.end_of_lesson_reminder_button_var.set(value=self.config.end_of_lesson_reminder)
 
@@ -27,8 +28,15 @@ class HomePage(HomePageUI):
 
         self.edit_button.config(command=self.edit_is_on)
 
+        self.end_of_lesson_reminder_button.config(command=self.toggle_end_of_lesson_reminder)
+
+    def refresh_page(self):
+        new_value = not self.end_of_lesson_reminder_button_var.get()
+        self.end_of_lesson_reminder_button_var.set(value=new_value)
+
     def toggle_end_of_lesson_reminder(self):
         UpdateConfigfile("end_of_lesson_reminder", bool(self.end_of_lesson_reminder_button_var.get()))
+        self.navigation_controller.update_page(4, 1)
 
     def create_buttons(self):
         buttons = []

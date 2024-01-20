@@ -93,7 +93,7 @@ class Configfile:
         try:
             self.number_of_lessons_today = self.number_of_lessons[datetime.today().weekday()]
         except IndexError:
-            self.number_of_lessons_today = 0
+            self.number_of_lessons_today = 10
 
     def generate_config_file(self):
         # This function runs if the configfile doesn't exist

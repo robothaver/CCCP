@@ -8,11 +8,10 @@ from Modules.Pages.Utility_Pages.To_Do_List.To_Do_List import ToDoList
 
 
 class ApplicationDashboard(ApplicationDashboardUI):
-    def __init__(self, master, navigation_controller):
+    def __init__(self, master):
         self.dashboard_page = ttk.Frame(master)
         super().__init__(self.dashboard_page)
         self.master = master
-        self.navigation_controller = navigation_controller
 
         self.copy_save_file_button.config(command=lambda: self.change_local_page(0))
         self.to_do_list_button.config(command=lambda: self.change_local_page(1))
