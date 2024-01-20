@@ -6,12 +6,13 @@ from Modules.Dialogs.Change_NOL import ChangeNOL
 
 
 class Settings(SettingsUI):
-    def __init__(self, master, style_controller, refresh_top_panel, config):
+    def __init__(self, master, config, style_controller, refresh_top_panel, navigation_controller):
         super().__init__(master)
         # Define variables
         self.config = config
         self.style_controller = style_controller
         self.refresh_top_panel = refresh_top_panel
+        self.navigation_controller = navigation_controller
         self.about_page = About(self.about_container, self.show_settings_page, self.config)
 
         self.show_settings_page()

@@ -8,11 +8,12 @@ from Modules.Utilities.Calculate_Delta import CalculateDelta
 
 
 class TopPanel(TopPanelUI):
-    def __init__(self, master, style_controller, config):
+    def __init__(self, master, config, style_controller, navigation_controller):
         super().__init__(master)
         # Define variables
         self.config = config
         self.style_controller = style_controller
+        self.navigation_controller = navigation_controller
         self.method_id = None
         self.cooldown = False
 
@@ -22,8 +23,8 @@ class TopPanel(TopPanelUI):
         # self.time = datetime.strptime("12:49:50", "%H:%M:%S")
         self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
         self.refresh_time()
+        self.refresh()
         self.greet()
-        self.show_enabled_widgets()
         self.update_notifiers()
 
     def refresh(self, update_notifiers=False):

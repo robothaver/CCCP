@@ -8,10 +8,11 @@ from Modules.Pages.Utility_Pages.To_Do_List.To_Do_List import ToDoList
 
 
 class ApplicationDashboard(ApplicationDashboardUI):
-    def __init__(self, master):
+    def __init__(self, master, navigation_controller):
         self.dashboard_page = ttk.Frame(master)
         super().__init__(self.dashboard_page)
         self.master = master
+        self.navigation_controller = navigation_controller
 
         self.copy_save_file_button.config(command=lambda: self.change_local_page(0))
         self.to_do_list_button.config(command=lambda: self.change_local_page(1))
@@ -19,25 +20,28 @@ class ApplicationDashboard(ApplicationDashboardUI):
         self.copy_network_settings_button.config(command=lambda: self.change_local_page(3))
         self.relative_path_generator_button.config(command=lambda: self.change_local_page(4))
 
-    def hide_dashboard(self):
+        self.utility_pages = [
+            CopySaveFileToAndFromPc(self.secondary_container, self.show_dashboard),
+            ToDoList(self.secondary_container, self.show_dashboard),
+            BreakPattern(self.secondary_container, self.show_dashboard),
+            CopyNetworkSettings(self.secondary_container, self.show_dashboard),
+            RelativePathGenerator(self.secondary_container, self.show_dashboard)
+        ]
+
+    def hide_menu(self):
         self.main_container.pack_forget()
         self.secondary_container.pack(fill="both", expand=True)
 
     def show_dashboard(self):
         self.main_container.pack(fill="both", expand=True)
         for widget in self.secondary_container.winfo_children():
-            widget.destroy()
+            widget.pack_forget()
         self.secondary_container.pack_forget()
 
+    def hide_all_widgets(self):
+        for widget in self.secondary_container.winfo_children():
+            widget.pack_forget()
+
     def change_local_page(self, index):
-        self.hide_dashboard()
-        if index == 0:
-            CopySaveFileToAndFromPc(self.secondary_container, self.show_dashboard)
-        elif index == 1:
-            ToDoList(self.secondary_container, self.show_dashboard)
-        elif index == 2:
-            BreakPattern(self.secondary_container, self.show_dashboard)
-        elif index == 3:
-            CopyNetworkSettings(self.secondary_container, self.show_dashboard)
-        else:
-            RelativePathGenerator(self.secondary_container, self.show_dashboard)
+        self.hide_menu()
+        self.utility_pages[index].master_container.pack(fill="both", expand=True)

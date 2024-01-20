@@ -16,7 +16,8 @@ class CopySaveFileToAndFromPc:
         self.config = Configfile()
 
         # Create back button
-        back_frame = ttk.Frame(master)
+        self.master_container = ttk.Frame(master)
+        back_frame = ttk.Frame(self.master_container)
         self.back_button_icon = tk.PhotoImage(file="Assets/Images/back_icon.png")
         back_button = ttk.Button(back_frame, text="Back", command=show_dashboard,
                                  image=self.back_button_icon, compound="left")
@@ -26,7 +27,7 @@ class CopySaveFileToAndFromPc:
         # Create preset selector
         self.preset_selector_var = tk.StringVar()
         options = self.config.preset_name
-        preset_selector = ttk.OptionMenu(master, self.preset_selector_var, "Select preset", *options,
+        preset_selector = ttk.OptionMenu(self.master_container, self.preset_selector_var, "Select preset", *options,
                                          style="info outline", command=lambda preset: self.load_preset(preset))
         preset_selector.pack(pady=10)
 
@@ -35,7 +36,7 @@ class CopySaveFileToAndFromPc:
         self.copy_from_computer_icon = tk.PhotoImage(file="Assets/Images/Copy_Save_From_Computer_Icon.png")
 
         # Create button frame
-        button_frame = ttk.Frame(master)
+        button_frame = ttk.Frame(self.master_container)
         button_frame.rowconfigure(0, weight=1)
 
         # Configure button frame row and column settings
@@ -60,12 +61,12 @@ class CopySaveFileToAndFromPc:
         button_frame.pack(pady=15, padx=15, fill="both", expand=True)
 
         # Create change preset settings button
-        self.change_preset_settings = ttk.Button(master=master, text="Change preset settings",
+        self.change_preset_settings = ttk.Button(master=self.master_container, text="Change preset settings",
                                                  width=30, command=lambda: ChangePresetSettings(master))
         self.change_preset_settings.pack(side="bottom", pady=(10, 40))
 
         # Create launch application button
-        self.launch_application_button = ttk.Button(master=master, text="Launch application",
+        self.launch_application_button = ttk.Button(master=self.master_container, text="Launch application",
                                                     width=30, style="secondary", state="disabled",
                                                     command=self.launch_application)
         self.launch_application_button.pack(side="bottom", pady=10)

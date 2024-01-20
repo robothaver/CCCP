@@ -12,7 +12,8 @@ class BreakPattern:
         self.current_page = 0
 
         # Creating back button
-        back_frame = ttk.Frame(master)
+        self.master_container = ttk.Frame(master)
+        back_frame = ttk.Frame(self.master_container)
         self.back_button_icon = tk.PhotoImage(file="Assets/Images/back_icon.png")
         back_button = ttk.Button(back_frame, text="Back", command=show_dashboard,
                                  image=self.back_button_icon, compound="left")
@@ -20,7 +21,7 @@ class BreakPattern:
         back_frame.pack(fill="x")
 
         # Create title frame
-        title_frame = ttk.Frame(master)
+        title_frame = ttk.Frame(self.master_container)
         for x in range(3):
             title_frame.columnconfigure(x, weight=1)
 
@@ -40,12 +41,12 @@ class BreakPattern:
 
         # Create current time label
         self.current_time_settings_var = tk.StringVar()
-        current_time_settings_label = ttk.Label(master, textvariable=self.current_time_settings_var,
+        current_time_settings_label = ttk.Label(self.master_container, textvariable=self.current_time_settings_var,
                                                 font=('Arial', '13', 'bold'), style="warning")
         current_time_settings_label.pack(pady=5)
 
         # Create heading container
-        headings_container = ScrolledFrame(master, style="info")
+        headings_container = ScrolledFrame(self.master_container, style="info")
 
         # Configure heading container row and column settings
         for i in range(9):

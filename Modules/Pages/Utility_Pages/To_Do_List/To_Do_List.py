@@ -14,8 +14,9 @@ class ToDoList:
         self.config = GenerateToDoFile()
 
         # Creating back_frame
+        self.master_container = ttk.Frame(master)
         self.back_button_icon = tk.PhotoImage(file="Assets/Images/back_icon.png")
-        back_frame = ttk.Frame(master)
+        back_frame = ttk.Frame(self.master_container)
         back_button = ttk.Button(back_frame, text="Back", command=show_dashboard,
                                  image=self.back_button_icon, compound="left")
         back_button.pack(side="left", padx=10, pady=(2, 10))
@@ -25,11 +26,11 @@ class ToDoList:
         back_frame.pack(fill="x")
 
         # Creating separator
-        separator = ttk.Separator(master)
+        separator = ttk.Separator(self.master_container)
         separator.pack(fill="x", padx=10, pady=5)
 
         # Creating top_frame
-        top_frame = ttk.Frame(master)
+        top_frame = ttk.Frame(self.master_container)
         # This is where the user can choose which type of tasks they want to view
         self.selected_page = tk.IntVar(value=0)
         show_all_button = ttk.Radiobutton(top_frame, text="All tasks", style="info outline-toolbutton",
@@ -44,7 +45,7 @@ class ToDoList:
         top_frame.pack(pady=10, fill="x")
 
         # Creating scrolledframe
-        self.scrolledframe = ScrolledFrame(master, autohide=True)
+        self.scrolledframe = ScrolledFrame(self.master_container, autohide=True)
         self.scrolledframe.pack(fill="both", expand=1, padx=5, pady=5)
 
         # If the config file is empty

@@ -9,10 +9,11 @@ class CopyNetworkSettings:
     def __init__(self, master, show_dashboard):
         # Define variables
         self.master = master
+        self.master_container = ttk.Frame(master)
 
         # Create back button
         self.back_button_icon = tk.PhotoImage(file="Assets/Images/back_icon.png")
-        back_frame = ttk.Frame(master)
+        back_frame = ttk.Frame(self.master_container)
         back_button = ttk.Button(back_frame, text="Back", command=show_dashboard,
                                  image=self.back_button_icon, compound="left")
         back_button.pack(side="left", padx=10, pady=5)
@@ -25,11 +26,11 @@ class CopyNetworkSettings:
         back_frame.pack(fill="x")
 
         # Create title label
-        title_label = ttk.Label(master, text="Network settings:", font=('Aril', '16', 'bold'), style="info")
+        title_label = ttk.Label(self.master_container, text="Network settings:", font=('Aril', '16', 'bold'), style="info")
         title_label.pack(pady=10)
 
         # Create ipv4 frame
-        ipv4_frame = ttk.Frame(master)
+        ipv4_frame = ttk.Frame(self.master_container)
         # Create ipv4 label
         ipv4_label = ttk.Label(ipv4_frame, text="IPv4 Address:", font=('Aril', '13'), style="info", width=15)
         # Create ipv4 entry
@@ -41,7 +42,7 @@ class CopyNetworkSettings:
         ipv4_frame.pack(padx=25, pady=10, fill="x")
 
         # Create subnet mask frame
-        subnet_mask_frame = ttk.Frame(master)
+        subnet_mask_frame = ttk.Frame(self.master_container)
         # Create subnet mask label
         subnet_mask_label = ttk.Label(subnet_mask_frame, text="Subnet Mask:", font=('Aril', '13'),
                                       style="info", width=15)
@@ -55,7 +56,7 @@ class CopyNetworkSettings:
         subnet_mask_frame.pack(padx=25, pady=10, fill="x")
 
         # Create default gateway frame
-        default_gateway_frame = ttk.Frame(master)
+        default_gateway_frame = ttk.Frame(self.master_container)
         # Create default gateway label
         default_gateway_label = ttk.Label(default_gateway_frame, text="Default Gateway:", font=('Aril', '13'),
                                           style="info", width=15)
@@ -69,7 +70,7 @@ class CopyNetworkSettings:
         default_gateway_frame.pack(padx=25, pady=10, fill="x")
 
         # Create dns server frame
-        dns_servers_frame = ttk.Frame(master)
+        dns_servers_frame = ttk.Frame(self.master_container)
         # Create dns server label
         dns_servers_label = ttk.Label(dns_servers_frame, text="DNS Servers:", font=('Aril', '13'),
                                       style="info", width=15)
@@ -83,7 +84,7 @@ class CopyNetworkSettings:
         dns_servers_frame.pack(padx=25, pady=10, fill="x")
 
         # Create save network settings button
-        save_network_settings_button = ttk.Button(master, text="Save network settings",
+        save_network_settings_button = ttk.Button(self.master_container, text="Save network settings",
                                                   style="success", command=self.save_network_settings)
         save_network_settings_button.pack(fill="x", padx=50, pady=20)
 

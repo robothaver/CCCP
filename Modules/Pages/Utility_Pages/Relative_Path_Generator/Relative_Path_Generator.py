@@ -11,21 +11,22 @@ class RelativePathGenerator:
     def __init__(self, master, show_dashboard):
         # Define variables
         self.master = master
+        self.master_container = ttk.Frame(master)
 
         # Create back button
         self.back_button_icon = tk.PhotoImage(file="Assets/Images/back_icon.png")
-        back_frame = ttk.Frame(master)
+        back_frame = ttk.Frame(self.master_container)
         back_button = ttk.Button(back_frame, text="Back", command=show_dashboard,
                                  image=self.back_button_icon, compound="left")
         back_button.pack(side="left", padx=10, pady=5)
         back_frame.pack(fill="x")
 
         # Create title label
-        title_label = ttk.Label(master, text="Relative path finder", font=('Aril', '16', 'bold'), style="info")
+        title_label = ttk.Label(self.master_container, text="Relative path finder", font=('Aril', '16', 'bold'), style="info")
         title_label.pack(pady=10)
 
         # Create the main container
-        main_container = ttk.LabelFrame(master, text="Path settings", style="info")
+        main_container = ttk.LabelFrame(self.master_container, text="Path settings", style="info")
 
         # Create frames
         path_entry_frame = ttk.Frame(main_container)
@@ -87,7 +88,7 @@ class RelativePathGenerator:
         main_container.pack(fill="x", padx=10)
 
         # Create relative path widgets
-        relative_path_frame = ttk.Frame(master)
+        relative_path_frame = ttk.Frame(self.master_container)
         relative_path_label = ttk.Label(relative_path_frame, text="Relative path:", style="warning")
         relative_path_label.pack(side="left", padx=5)
         self.relative_path_entry_var = tk.StringVar()
