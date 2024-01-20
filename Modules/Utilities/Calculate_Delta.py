@@ -29,7 +29,7 @@ class CalculateDelta:
         current_start_time = datetime.strptime(self.config.break_pattern[self.class_number][0], "%H:%M:%S")
 
         if current_time > current_end_time and self.class_number == self.config.number_of_lessons_today - 1:
-            # The last lessons are over
+            # The last lesson is over
             self.is_lesson_over = True
         elif current_time < current_start_time:
             # If the day hasn't begun yet

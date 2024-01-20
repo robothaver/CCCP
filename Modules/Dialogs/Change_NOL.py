@@ -34,7 +34,7 @@ class ChangeNOL:
         for i in range(5):
             frame = ttk.Frame(self.top_level)
             label = ttk.Label(frame, width=15, text=self.days[i], font=('calibri', '10', 'bold'))
-            option_menu_var = tk.StringVar(value=self.config.number_of_lessons[i])
+            option_menu_var = tk.IntVar(value=self.config.number_of_lessons[i])
             option_menu = ttk.OptionMenu(frame, option_menu_var, "", *self.options)
             option_menu.config(width=2)
             label.pack(side="left")
