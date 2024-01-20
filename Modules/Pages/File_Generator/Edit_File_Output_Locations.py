@@ -1,15 +1,15 @@
-from Modules.Pages.File_Generator import File_Generator
-from Modules.Pages.File_Generator.File_Generator import *
+from Modules.Pages.File_Generator.File_Generator_Page import *
 from tkinter import filedialog
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 import ttkbootstrap as ttk
+import tkinter as tk
 
 
 class EditFileOutputLocations:
-    def __init__(self, master):
+    def __init__(self, update_widget):
         # Define variables
         self.config = Configfile()
-        self.master = master
+        self.update_widget = update_widget
 
         # Create top level
         self.top_level = ttk.Toplevel(title=f"Change file output locations")
@@ -112,14 +112,13 @@ class EditFileOutputLocations:
         self.apply_changes()
         output_locations = []
         for item in self.tabel.get_children():
+            print(self.tabel.item(item)['values'])
             output_locations.append(" ".join(self.tabel.item(item)['values']))
         UpdateConfigfile("file_output_locations", output_locations)
         self.close_pop_up()
 
     def close_pop_up(self):
         # This function runs whenever the "accept" or "cancel" button is pressed
-        for widget in self.master.winfo_children():
-            widget.destroy()
+        self.update_widget()
         self.top_level.destroy()
         self.top_level.grab_release()
-        File_Generator.FileGenerator(self.master)

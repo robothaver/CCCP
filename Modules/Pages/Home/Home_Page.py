@@ -12,10 +12,10 @@ from Modules.Utilities.Launch_Browser import LaunchBrowser
 
 
 class HomePage(HomePageUI):
-    def __init__(self, master):
+    def __init__(self, master, config):
         super().__init__(master)
         # Defining variables
-        self.config = Configfile()
+        self.config = config
         self.icons = self.load_images()
         self.buttons = self.create_buttons()
 

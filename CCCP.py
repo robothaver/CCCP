@@ -1,6 +1,7 @@
 import tkinter as tk
 
 import ttkbootstrap as ttk
+
 from Modules.Style.Style_Controller import StyleController
 from Modules.Configfile.Config import Configfile
 from Modules.Pages.Backup.Backup_Page import BackupPage
@@ -18,7 +19,7 @@ class CCCP:
         # This is the main class of the program
 
         # Load in the configfile
-        config = Configfile()
+        self.config = Configfile()
 
         # Create the tkinter window
         self.window = tk.Tk()
@@ -27,7 +28,6 @@ class CCCP:
         icon = tk.PhotoImage(file="Assets/Images/CCCP_logo_500x500.png")
         self.window.iconphoto(False, icon)
         self.style = ttk.Style()
-
         # self.window.resizable(False,False) #Blocks resize
         # self.window.attributes('-topmost', 'true')
 
@@ -48,25 +48,21 @@ class CCCP:
         self.bottom_frame = ttk.Frame(master=self.window)
         self.bottom_frame.pack(side="bottom", fill="x", ipady=20)
 
-        self.navigation_controller = NavigationController(self.middle_frame, self.refresh_top_panel)
-        self.style_controller = StyleController(self.style, config)
-
-        self.top_panel = TopPanel(self.top_frame, self.style_controller)
+        self.navigation_controller = NavigationController(self.middle_frame)
+        self.style_controller = StyleController(self.style, self.config)
+        self.top_panel = TopPanel(self.top_frame, self.style_controller, self.config)
 
         # Add pages to middle frame
-        HomePage(self.middle_frame)
-        BackupPage(self.middle_frame, self.window)
-        FileGeneratorPage(self.middle_frame)
+        HomePage(self.middle_frame, self.config)
+        BackupPage(self.middle_frame, self.window, self.config)
+        FileGeneratorPage(self.middle_frame, self.config)
         ApplicationDashboard(self.middle_frame)
-        Settings(self.middle_frame, self.style_controller, self.refresh_top_panel)
+        Settings(self.middle_frame, self.style_controller, self.top_panel.refresh, self.config)
 
         # Calling GUI elements
-        self.navbar = BottomNavigationBar(self.bottom_frame, self.navigation_controller)
+        self.navbar = BottomNavigationBar(self.bottom_frame, self.navigation_controller, self.config)
         self.navbar.change_page()
         self.window.mainloop()
-
-    def refresh_top_panel(self):
-        self.top_panel.refresh()
 
 
 if __name__ == '__main__':

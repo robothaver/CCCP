@@ -11,11 +11,10 @@ from datetime import datetime
 
 
 class BackupPage:
-    def __init__(self, master, window):
-        UpdateConfigfile("current_page", 1)
+    def __init__(self, master, window, config):
         # Define variables
         self.window = window
-        self.config = Configfile()
+        self.config = config
         self.start_time = datetime
         self.end_time = datetime
 
