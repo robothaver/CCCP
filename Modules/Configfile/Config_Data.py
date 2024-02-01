@@ -10,7 +10,7 @@ config_data = {
             "enable_secondary_notifier": True,
             "enable_progress_bar": True,
             "current_page": 0,
-            "browser": "google",
+            "browser": "chrome",
             "show_files_being_copied_in_cmd": 1,
             "number_of_lessons": [],
             "image_locations": [],
