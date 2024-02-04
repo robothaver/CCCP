@@ -7,15 +7,16 @@ from Modules.Configfile.Update_Configfile import UpdateConfigfile
 
 
 class ChangeBackupLocations:
-    def __init__(self, master):
+    def __init__(self, master, update_page):
         # This class gets called by the BackupPage class
 
         # Define variables
         self.master = master
         self.config = Configfile()
+        self.update_page = update_page
 
         # Create_Top_Level
-        self.top_level = ttk.Toplevel(title=f"Change the settings for backup options")
+        self.top_level = ttk.Toplevel(title="Change the settings for backup options")
         self.top_level.minsize(width=600, height=430)
         self.top_level.transient(master)
         self.top_level.grab_set()
@@ -105,10 +106,13 @@ class ChangeBackupLocations:
             selected_item = self.tabel.selection()
             index = self.config.file_backup_names.index(self.tabel.item(selected_item)['values'][0])
             # Update tabel option name
-            self.tabel.item(selected_item, values=[self.file_backup_name_entry_var.get()])
-            # Update the config list with the new values (not the configfile)
-            self.config.file_backup_names[index] = self.file_backup_name_entry_var.get()
-            self.config.file_backup_locations[index] = self.file_backup_source_entry_var.get()
+            new_name = self.file_backup_name_entry_var.get()
+            if self.validate_name(new_name):
+                self.tabel.item(selected_item, values=[new_name])
+                self.config.file_backup_names[index] = self.file_backup_name_entry_var.get()
+            new_location = self.file_backup_source_entry_var.get()
+            if self.validate_location(new_location):
+                self.config.file_backup_locations[index] = self.file_backup_source_entry_var.get()
         except IndexError:
             pass
 
@@ -138,51 +142,70 @@ class ChangeBackupLocations:
         except IndexError:
             pass
 
+    @staticmethod
+    def validate_location(location):
+        # If a name is given
+        if location != "":
+            return True
+        else:
+            messagebox.showwarning(title="Warning", message="You must give a location!")
+            return False
+
     def add_item(self):
         # This function runs whenever the "add new option" button is pressed
         # This function add in a new backup option with the settings given by the user
-        if self.file_backup_name_entry_var.get() != "":
-            # If a name is given
-            if self.file_backup_source_entry_var.get() != "":
-                # If a source is given
-                if self.check_if_max_number_is_reached():
-                    # If max number isn't reached
-                    self.tabel.insert('', 0, values=[self.file_backup_name_entry_var.get()])
-                    self.config.file_backup_names.append(self.file_backup_name_entry_var.get())
-                    self.config.file_backup_locations.append(self.file_backup_source_entry_var.get())
-                else:
-                    messagebox.showwarning(title="Warning", message="The maximum number of backup options is 10!")
+        if self.validate_name(self.file_backup_name_entry_var.get()):
+            if self.validate_location(self.file_backup_source_entry_var.get()):
+                # If max number isn't reached
+                self.tabel.insert('', 0, values=[self.file_backup_name_entry_var.get()])
+                self.config.file_backup_names.append(self.file_backup_name_entry_var.get())
+                self.config.file_backup_locations.append(self.file_backup_source_entry_var.get())
+
+    def validate_name(self, name):
+        if self.check_if_name_is_valid(name):
+            if self.name_does_not_exists(name):
+                return True
             else:
-                messagebox.showwarning(title="Warning", message="You must give a location!")
+                messagebox.showwarning(title="Warning", message="Name already in list!")
         else:
-            messagebox.showwarning(title="Warning", message="You must give a name!")
+            messagebox.showwarning(title="Warning", message="Invalid name!")
+        return False
+
+    def name_does_not_exists(self, name):
+        all_names = self.get_all_option_names()
+        if name not in all_names:
+            return True
+        return False
+
+    def check_if_name_is_valid(self, name):
+        special_characters = "[@_!#$%^&*()<>?/\|}{~:]"
+        is_valid = False
+        if name != "":
+            for char in special_characters:
+                if char not in name:
+                    is_valid = True
+                else:
+                    is_valid = False
+                    break
+        return is_valid
 
     def close_pop_up(self):
-        # This function runs whenever the "accept" or "cancel" button is pressed
-        for widget in self.master.winfo_children():
-            widget.destroy()
         self.top_level.destroy()
         self.top_level.grab_release()
+
+    def get_all_option_names(self):
+        file_backup_names = []
+        for item in reversed(self.tabel.get_children()):
+            file_backup_names.append(" ".join(self.tabel.item(item)['values']))
+        return file_backup_names
 
     def save_changes(self):
         # This function runs whenever the "accept" button is pressed
         # This function updates the configfile with the values from the tabel and config list
         self.apply_changes_for_option()
-        file_backup_names = []
-        for item in reversed(self.tabel.get_children()):
-            file_backup_names.append(" ".join(self.tabel.item(item)['values']))
+        file_backup_names = self.get_all_option_names()
         # Update configfile
         UpdateConfigfile("file_backup_names", file_backup_names)
         UpdateConfigfile("file_backup_locations", self.config.file_backup_locations)
+        self.update_page()
         self.close_pop_up()
-
-    def check_if_max_number_is_reached(self):
-        # This function runs whenever the "add" button is pressed,
-        # and it checks if the max number of backup options is reached
-        file_backup_names = []
-        for item in reversed(self.tabel.get_children()):
-            file_backup_names.append(" ".join(self.tabel.item(item)['values']))
-        if len(file_backup_names) < 10:
-            return True
-        else:
-            return False
