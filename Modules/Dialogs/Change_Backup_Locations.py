@@ -1,8 +1,10 @@
-import ttkbootstrap as ttk
 import tkinter as tk
 from tkinter import filedialog
-from Modules.Configfile.Config import Configfile
 from tkinter import messagebox
+
+import ttkbootstrap as ttk
+
+from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 
 
@@ -28,7 +30,7 @@ class ChangeBackupLocations:
         self.tabel.bind('<<TreeviewSelect>>', self.update_entries_with_selected_item)
         for location in self.config.file_backup_names:
             self.tabel.insert('', 0, values=[location])
-        self.tabel.pack(padx=10, pady=10, fill="both")
+        self.tabel.pack(padx=10, pady=10, fill="both", expand=True)
 
         # Entries
         selected_item_frame = ttk.LabelFrame(master=self.top_level, text="Change attributes for selected item",
@@ -57,6 +59,11 @@ class ChangeBackupLocations:
         file_backup_location_entry.pack(side="left", padx=15, pady=10, fill="x", expand=True)
         locate_button.pack(padx=(0, 15), side="left")
         selected_item_frame.pack(fill="x", padx=15)
+
+        path_label = ttk.Label(selected_item_frame, text="You can use [HOME] for getting the path to "
+                                                         "your home folder. (e.g. C:/Users/username)",
+                               style="secondary")
+        path_label.pack(padx=15, anchor="w")
 
         # Entry buttons
         button_frame = ttk.Frame(master=selected_item_frame)
@@ -92,7 +99,7 @@ class ChangeBackupLocations:
         selected_item = self.tabel.selection()
         try:
             # If the selection exists
-            index = self.config.file_backup_names.index(self.tabel.item(selected_item)['values'][0])
+            index = self.config.file_backup_names.index(str(self.tabel.item(selected_item)['values'][0]))
             self.file_backup_name_entry_var.set(self.config.file_backup_names[index])
             self.file_backup_source_entry_var.set(self.config.file_backup_locations[index])
         except IndexError:
@@ -104,12 +111,13 @@ class ChangeBackupLocations:
         try:
             # If the selection exists
             selected_item = self.tabel.selection()
-            index = self.config.file_backup_names.index(self.tabel.item(selected_item)['values'][0])
+            index = self.config.file_backup_names.index(str(self.tabel.item(selected_item)['values'][0]))
             # Update tabel option name
             new_name = self.file_backup_name_entry_var.get()
-            if self.validate_name(new_name):
-                self.tabel.item(selected_item, values=[new_name])
-                self.config.file_backup_names[index] = self.file_backup_name_entry_var.get()
+            if new_name != self.tabel.item(selected_item)['values'][0]:
+                if self.validate_name(new_name):
+                    self.tabel.item(selected_item, values=[new_name])
+                    self.config.file_backup_names[index] = self.file_backup_name_entry_var.get()
             new_location = self.file_backup_source_entry_var.get()
             if self.validate_location(new_location):
                 self.config.file_backup_locations[index] = self.file_backup_source_entry_var.get()
@@ -124,7 +132,7 @@ class ChangeBackupLocations:
 
             # Get selected item
             selected_item = self.tabel.selection()
-            index = self.config.file_backup_names.index(self.tabel.item(selected_item)['values'][0])
+            index = self.config.file_backup_names.index(str(self.tabel.item(selected_item)['values'][0]))
             # Delete selected item
             self.tabel.delete(selected_item)
             # Create new lists to store new values
@@ -142,22 +150,13 @@ class ChangeBackupLocations:
         except IndexError:
             pass
 
-    @staticmethod
-    def validate_location(location):
-        # If a name is given
-        if location != "":
-            return True
-        else:
-            messagebox.showwarning(title="Warning", message="You must give a location!")
-            return False
-
     def add_item(self):
         # This function runs whenever the "add new option" button is pressed
         # This function add in a new backup option with the settings given by the user
         if self.validate_name(self.file_backup_name_entry_var.get()):
             if self.validate_location(self.file_backup_source_entry_var.get()):
                 # If max number isn't reached
-                self.tabel.insert('', 0, values=[self.file_backup_name_entry_var.get()])
+                self.tabel.insert('', 0, values=[str(self.file_backup_name_entry_var.get())])
                 self.config.file_backup_names.append(self.file_backup_name_entry_var.get())
                 self.config.file_backup_locations.append(self.file_backup_source_entry_var.get())
 
@@ -177,18 +176,6 @@ class ChangeBackupLocations:
             return True
         return False
 
-    def check_if_name_is_valid(self, name):
-        special_characters = "[@_!#$%^&*()<>?/\|}{~:]"
-        is_valid = False
-        if name != "":
-            for char in special_characters:
-                if char not in name:
-                    is_valid = True
-                else:
-                    is_valid = False
-                    break
-        return is_valid
-
     def close_pop_up(self):
         self.top_level.destroy()
         self.top_level.grab_release()
@@ -196,7 +183,7 @@ class ChangeBackupLocations:
     def get_all_option_names(self):
         file_backup_names = []
         for item in reversed(self.tabel.get_children()):
-            file_backup_names.append(" ".join(self.tabel.item(item)['values']))
+            file_backup_names.append(str(self.tabel.item(item)['values']).replace("[", "").replace("]", ""))
         return file_backup_names
 
     def save_changes(self):
@@ -209,3 +196,25 @@ class ChangeBackupLocations:
         UpdateConfigfile("file_backup_locations", self.config.file_backup_locations)
         self.update_page()
         self.close_pop_up()
+
+    @staticmethod
+    def check_if_name_is_valid(name):
+        special_characters = "[@_!#$%^&*()<>?/\|}{~:]"
+        is_valid = False
+        if name != "":
+            for char in special_characters:
+                if char not in name:
+                    is_valid = True
+                else:
+                    is_valid = False
+                    break
+        return is_valid
+
+    @staticmethod
+    def validate_location(location):
+        # If a name is given
+        if location != "":
+            return True
+        else:
+            messagebox.showwarning(title="Warning", message="You must give a location!")
+            return False
