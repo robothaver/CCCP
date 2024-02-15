@@ -20,7 +20,7 @@ class TopPanel(TopPanelUI):
         self.theme_var.trace("w", self.change_theme)
 
         self.delta = CalculateDelta()
-        self.time = datetime.strptime("12:49:50", "%H:%M:%S")
+        self.time = datetime.strptime("12:53:50", "%H:%M:%S")
         # self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
         self.refresh_time()
         self.refresh()
@@ -53,10 +53,10 @@ class TopPanel(TopPanelUI):
             self.theme_changer.grid(row=1, column=1, sticky="e", padx=5)
         else:
             self.theme_changer.grid_forget()
-        # if self.config.enable_progress_bar:
-        #     self.progress_bar.grid(row=2, columnspan=2, sticky="we", padx=10, pady=(10, 5))
-        # else:
-        #     self.progress_bar.grid_forget()
+        if self.config.enable_progress_bar and not self.delta.is_lesson_over:
+            self.progress_bar.grid(row=2, columnspan=2, sticky="we", padx=10, pady=(10, 5))
+        else:
+            self.progress_bar.grid_forget()
 
     def change_theme(self, *args):
         self.style_controller.set_current_theme(self.theme_var.get())
@@ -65,7 +65,7 @@ class TopPanel(TopPanelUI):
 
     def refresh_time(self):
         current_time = time.strftime("%H:%M:%S")
-        current_year = time.strftime("%Y:%m:%d")
+        current_year = time.strftime("%Y.%m.%d")
         clock_var = f"{current_year}\n{current_time}"
         self.clock_label_var.set(value=clock_var)
         self.clock_label.after(1000, self.refresh_time)
@@ -161,8 +161,7 @@ class TopPanel(TopPanelUI):
         If enabled, the program will open a pop-up to remind the user that the lesson is close to the end
         :return: None
         """
-        if not self.cooldown:
-            if self.config.end_of_lesson_reminder == 1:
-                if self.delta.time_delta <= timedelta(minutes=self.config.reminder_activation):
-                    self.cooldown = True
-                    EndOfLessonReminder(message="The lesson is ending soon, it is time to prepare!")
+        if not self.cooldown and self.config.end_of_lesson_reminder == 1:
+            if self.delta.time_delta <= timedelta(minutes=self.config.reminder_activation):
+                self.cooldown = True
+                EndOfLessonReminder(message="The lesson is ending soon, it is time to prepare!")
