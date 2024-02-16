@@ -8,9 +8,9 @@ from Modules.Pages.Utility_Pages.To_Do_List.To_Do_List import ToDoList
 
 
 class ApplicationDashboard(ApplicationDashboardUI):
-    def __init__(self, master):
-        self.dashboard_page = ttk.Frame(master)
-        super().__init__(self.dashboard_page)
+    def __init__(self, master, config):
+        self.master_container = ttk.Frame(master)
+        super().__init__(self.master_container)
         self.master = master
 
         self.copy_save_file_button.config(command=lambda: self.change_local_page(0))
@@ -20,7 +20,7 @@ class ApplicationDashboard(ApplicationDashboardUI):
         self.relative_path_generator_button.config(command=lambda: self.change_local_page(4))
 
         self.utility_pages = [
-            CopySaveFileToAndFromPc(self.secondary_container, self.show_dashboard),
+            CopySaveFileToAndFromPc(self.secondary_container, self.show_dashboard, config),
             ToDoList(self.secondary_container, self.show_dashboard),
             BreakPattern(self.secondary_container, self.show_dashboard),
             CopyNetworkSettings(self.secondary_container, self.show_dashboard),

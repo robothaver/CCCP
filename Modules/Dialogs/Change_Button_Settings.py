@@ -5,8 +5,9 @@ from tkinter import filedialog
 import ttkbootstrap as ttk
 from Assets import Assets
 from Modules.Utilities.Create_Icons import CreateIcon
-from Modules.Utilities.Get_Realtive_Path import GetRelativePath
+from Modules.Utilities.Get_Relative_Path import GetRelativePath
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
+from Modules.Utilities.Locate_File import LocateFile
 
 
 class ChangeButtonSettings:
@@ -108,7 +109,7 @@ class ChangeButtonSettings:
         self.close_pop_up()
 
     def get_absolute_path(self, index):
-        path = self.locate_file("Get absolute path to file")
+        path = LocateFile().get_absolute_path()
         if path is not None:
             if index == 0:
                 self.program_location_entry_var.set(value=path)
@@ -116,18 +117,9 @@ class ChangeButtonSettings:
                 self.program_icon_entry_var.set(value=path)
 
     def get_relative_path(self):
-        path = self.locate_file("Get relative path to file")
+        path = LocateFile().get_relative_path()
         if path is not None:
-            self.program_location_entry_var.set(value=GetRelativePath(path).get_path())
-
-    @staticmethod
-    def locate_file(title):
-        # This function gets called whenever one of the "locate" buttons is pressed
-        file = filedialog.askopenfilename(title=title)
-        if file != ():
-            if file != "":
-                # If the filedialog is not empty
-                return file
+            self.program_location_entry_var.set(value=path)
 
     def close_pop_up(self):
         # This function gets called whenever the "cancel" or "accept" button is pressed
