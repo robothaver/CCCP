@@ -1,8 +1,6 @@
 class NavigationController:
-    def __init__(self, master_container):
-        self.master_container = master_container
+    def __init__(self):
         self.page_index = 0
-        self.pages = []
         self.page_objects = []
 
     def add_pages(self, pages):
@@ -14,13 +12,11 @@ class NavigationController:
         self.page_objects[index].refresh_page()
 
     def change_page(self, page_index):
-        self.hide_all_pages()
-        self.pages = self.get_all_pages()
-        self.pages[page_index].pack(fill="both", expand=True)
+        # Hide current page
+        self.hide_page(self.page_index)
+        self.page_index = page_index
+        # Show selected page
+        self.page_objects[page_index].master_container.pack(fill="both", expand=True)
 
-    def get_all_pages(self):
-        return self.master_container.winfo_children()
-
-    def hide_all_pages(self):
-        for page in self.master_container.winfo_children():
-            page.pack_forget()
+    def hide_page(self, index):
+        self.page_objects[index].master_container.pack_forget()
