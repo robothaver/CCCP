@@ -55,7 +55,7 @@ class BreakPattern:
         headings_container.columnconfigure(1, weight=3)
 
         # Create class label
-        class_label = ttk.Label(headings_container, text="Class:", font=('Arial', '13'), style="info inverse", )
+        class_label = ttk.Label(headings_container, text="Lesson:", font=('Arial', '13'), style="info inverse", )
         class_label.grid(row=0, column=0, ipady=25)
 
         # Create time label
@@ -71,7 +71,7 @@ class BreakPattern:
 
                 # Create class number (1. class)
                 new_class_number_frame = ttk.Frame(headings_container, style="secondary")
-                new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Class", font=('Arial', '12'),
+                new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Lesson", font=('Arial', '12'),
                                                    style="secondary inverse")
                 new_class_number_label.place(relx=.5, rely=.5, anchor="center")
                 new_class_number_frame.grid(sticky="nsew", column=0, row=i + 1, ipady=30)
@@ -87,7 +87,7 @@ class BreakPattern:
                 # If the index is even the row will be dark color
                 # Create class number (2. class)
                 new_class_number_frame = ttk.Frame(headings_container, style="dark")
-                new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Class", font=('Arial', '12'),
+                new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Lesson", font=('Arial', '12'),
                                                    style="dark inverse")
                 new_class_number_label.place(relx=.5, rely=.5, anchor="center")
                 new_class_number_frame.grid(sticky="nsew", column=0, row=i + 1, ipady=30)
