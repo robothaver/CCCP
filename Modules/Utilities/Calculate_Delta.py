@@ -5,9 +5,10 @@ from Modules.Configfile.Config import Configfile
 
 class CalculateDelta:
     def __init__(self):
-        # This class calculates out the delta between the current time and the end of the lesson or break
+        # This class calculates the delta between the current time and the end of the lesson or break
 
         # Defining variables
+        self.day_of_week = 0
         self.config = None
         self.time_left = 0
         self.class_number = 0
@@ -20,6 +21,7 @@ class CalculateDelta:
         # If there is no lesson it will set is_lesson_over to True
 
         self.config = config
+        self.day_of_week = datetime.today().weekday()
         # Get current time
         # current_time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
 
@@ -27,8 +29,10 @@ class CalculateDelta:
 
         current_end_time = datetime.strptime(self.config.break_pattern[self.class_number][1], "%H:%M:%S")
         current_start_time = datetime.strptime(self.config.break_pattern[self.class_number][0], "%H:%M:%S")
-
-        if current_time > current_end_time and self.class_number == self.config.number_of_lessons_today - 1:
+        if self.day_of_week > 4:
+            # If it is the weekend
+            self.is_lesson_over = True
+        elif current_time > current_end_time and self.class_number == self.config.number_of_lessons_today - 1:
             # The last lesson is over
             self.is_lesson_over = True
         elif current_time < current_start_time:

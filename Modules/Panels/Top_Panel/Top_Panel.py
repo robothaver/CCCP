@@ -118,15 +118,14 @@ class TopPanel(TopPanelUI):
 
     def show_dynamic_message(self):
         self.change_notifier_styles("success")
-        day_of_week = datetime.today().weekday()
-        if self.delta.class_number == self.config.number_of_lessons_today - 1 and day_of_week == 4:
+        if self.delta.class_number == self.config.number_of_lessons_today - 1 and self.delta.day_of_week == 4:
             # If It's friday and the lessons are over
             self.update_widgets(
                 "You are done for this week! ☕",
                 "Have a nice weekend!",
                 False
             )
-        elif day_of_week > 4:
+        elif self.delta.day_of_week > 4:
             # If its weekend
             self.update_widgets(
                 "Have a nice weekend! ☕",
