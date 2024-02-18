@@ -26,10 +26,11 @@ class StyleController:
             if not loading_success_full:
                 self.show_error_dialog("Themes file is invalid! Some of the custom themes might not be available.")
         else:
-            self.set_current_theme(self.initial_theme)
+            self.themes = self.default_themes
             self.show_error_dialog("The themes file doesn't exists!\nOnly default theme are available.")
 
     def set_current_theme(self, theme):
+        print("SADASDSDA")
         if theme in self.themes:
             self.set_theme(theme)
             UpdateConfigfile("theme", self.style.theme.name)

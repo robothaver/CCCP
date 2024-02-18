@@ -1,5 +1,6 @@
 from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
+from Assets.Assets import break_pattern_45_10
 import tkinter as tk
 import ttkbootstrap as ttk
 
@@ -13,7 +14,7 @@ class ChangeNOL:
 
         self.refresh_top_panel = refresh_top_panel
         self.config = Configfile()
-        self.options = [str(i) for i in range(11)]
+        self.options = [str(i) for i in range(len(break_pattern_45_10) + 1)]
         self.days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
         self.values = []
 
