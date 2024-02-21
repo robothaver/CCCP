@@ -1,18 +1,20 @@
-from Modules.Pages.File_Generator.File_Generator_Page import *
 from tkinter import filedialog
+from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 import ttkbootstrap as ttk
 import tkinter as tk
 
+from Modules.Utilities.Locate_File import LocateFile
 
-class EditFileOutputLocations:
+
+class ManageProjectOutputLocations:
     def __init__(self, master, update_widget):
         # Define variables
         self.config = Configfile()
         self.update_widget = update_widget
 
         # Create top level
-        self.top_level = ttk.Toplevel(title=f"Change file output locations")
+        self.top_level = ttk.Toplevel(title="Change file output locations")
         self.top_level.minsize(width=600, height=360)
         self.top_level.transient(master)
         self.top_level.grab_set()
@@ -36,12 +38,17 @@ class EditFileOutputLocations:
         location_entry_label = ttk.Label(location_entry_frame, text="File destination location", style="info", )
         self.location_entry_var = tk.StringVar()
         location_entry = ttk.Entry(location_entry_frame, textvariable=self.location_entry_var)
-        location_entry_locate_button = ttk.Button(location_entry_frame, text="locate",
-                                                  style="info", command=self.locate_file)
+        locate_icon = tk.PhotoImage(file="Assets/Images/Open_Folder.png")
+        self.locate_absolute_path_btn = ttk.Button(master=location_entry_frame, image=locate_icon)
+        self.locate_absolute_path_btn.image = locate_icon
+        relative_path_icon = tk.PhotoImage(file="Assets/Images/Find_Relative_Path.png")
+        self.locate_relative_path_btn = ttk.Button(master=location_entry_frame, image=relative_path_icon)
+        self.locate_relative_path_btn.image = relative_path_icon
         # Packing
         location_entry_label.pack(side="left", padx=5, pady=5)
         location_entry.pack(side="left", fill="x", expand=1, padx=5)
-        location_entry_locate_button.pack(side="left", padx=5)
+        self.locate_absolute_path_btn.pack(side="left", padx=5)
+        self.locate_relative_path_btn.pack(side="left", padx=(0, 5))
         location_entry_frame.pack(fill="x", padx=5)
 
         # Create buttons
@@ -76,7 +83,20 @@ class EditFileOutputLocations:
         self.cancel_button.pack(padx=(5, 15), pady=10, side="right")
         self.bottom_frame.pack(fill="x", side="bottom")
 
+        self.locate_absolute_path_btn.config(command=self.locate_absolute_path)
+        self.locate_relative_path_btn.config(command=self.locate_relative_path)
+
         self.top_level.mainloop()
+
+    def locate_absolute_path(self):
+        location = LocateFile().get_absolute_path(1)
+        if location is not None:
+            self.location_entry_var.set(location)
+
+    def locate_relative_path(self):
+        location = LocateFile().get_relative_path(1)
+        if location is not None:
+            self.location_entry_var.set(location)
 
     def update_entries_with_selected_item(self, event):
         # This function runs whenever the user selects one of the preset in the tabel
@@ -94,7 +114,7 @@ class EditFileOutputLocations:
     def remove_selected_location(self):
         # This function gets called whenever the "remove location" button is pressed,
         # and it deletes the selected location
-        if not self.tabel.item(self.tabel.selection())["values"] == "":
+        if self.tabel.item(self.tabel.selection())["values"] != "":
             self.tabel.delete(self.tabel.selection())
 
     def apply_changes(self):

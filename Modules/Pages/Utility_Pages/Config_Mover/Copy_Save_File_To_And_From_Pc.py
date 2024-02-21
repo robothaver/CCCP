@@ -10,10 +10,10 @@ import shutil
 
 
 class CopySaveFileToAndFromPc:
-    def __init__(self, master, show_dashboard):
+    def __init__(self, master, show_dashboard, config):
         # Define variables
         self.master = master
-        self.config = Configfile()
+        self.config = config
 
         # Create back button
         self.master_container = ttk.Frame(master)
@@ -71,11 +71,6 @@ class CopySaveFileToAndFromPc:
                                                     command=self.launch_application)
         self.launch_application_button.pack(side="bottom", pady=10)
 
-    def back(self):
-        for widget in self.master.winfo_children():
-            widget.destroy()
-        Application_Dashboard.ApplicationDashboard(self.master)
-
     def load_preset(self, preset):
         # This function runs whenever the constructor gets called
         if preset != "Select preset":
@@ -86,7 +81,7 @@ class CopySaveFileToAndFromPc:
                 self.launch_application_button.config(bootstyle="success", state="normal")
 
     def copy_save_to_pc(self):
-        # This function gets called whenver the "copy save to pc" button is pressed
+        # This function gets called whenever the "copy save to pc" button is pressed
         if self.preset_selector_var.get() != "Select preset":
             try:
                 # If the preset selector is not "default"
@@ -101,7 +96,7 @@ class CopySaveFileToAndFromPc:
                 try:
                     shutil.copytree(src=self.config.preset_input[index], dst=destination, dirs_exist_ok=True)
                 except FileNotFoundError:
-                    Messagebox.show_error("Erro", message="File not found!")
+                    Messagebox.show_error(title="Error", message="File not found!")
                 Messagebox.ok(message=f"Copying finished to: {destination}")
             except FileNotFoundError:
                 Messagebox.show_error(title="Error", message="File not found!")

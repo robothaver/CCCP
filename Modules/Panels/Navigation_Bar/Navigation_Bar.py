@@ -10,7 +10,7 @@ from Modules.Pages.Dashboard.Application_Dashboard import ApplicationDashboard
 
 
 # noinspection PyArgumentList
-class BottomNavigationBar:
+class NavigationBar:
     def __init__(self, master, navigation_controller, config):
         # Define variables
         self.master = master
@@ -36,10 +36,10 @@ class BottomNavigationBar:
         for i, icon in enumerate(Assets.selected_navbar_icons):
             self.selected_navbar_icons.append(tk.PhotoImage(file=icon))
             self.deselected_navbar_icons.append(tk.PhotoImage(file=Assets.deselected_navbar_icons[i]))
-
+        style = "info, outline-toolbutton"
         # Create home button
         self.home_button = ttk.Radiobutton(master=self.master,
-                                           style="info, outline-toolbutton",
+                                           style=style,
                                            value=0, variable=self.selected_page_button_var,
                                            image=self.deselected_navbar_icons[0],
                                            command=self.change_page)
@@ -47,7 +47,7 @@ class BottomNavigationBar:
 
         # Create backup button
         self.backup_button = ttk.Radiobutton(master=self.master,
-                                             style="info, outline-toolbutton",
+                                             style=style,
                                              value=1,
                                              variable=self.selected_page_button_var,
                                              image=self.deselected_navbar_icons[1],
@@ -56,7 +56,7 @@ class BottomNavigationBar:
 
         # Create filegenerator button
         self.filegenerator_button = ttk.Radiobutton(master=self.master,
-                                                    style="info, outline-toolbutton",
+                                                    style=style,
                                                     value=2,
                                                     variable=self.selected_page_button_var,
                                                     image=self.deselected_navbar_icons[2],
@@ -65,7 +65,7 @@ class BottomNavigationBar:
 
         # Create application dashboard button
         self.application_dashboard = ttk.Radiobutton(master=self.master,
-                                                     style="info, outline-toolbutton",
+                                                     style=style,
                                                      value=3,
                                                      variable=self.selected_page_button_var,
                                                      image=self.deselected_navbar_icons[3],
@@ -75,7 +75,7 @@ class BottomNavigationBar:
         # Create settings button
         self.settings = ttk.Radiobutton(master=self.master,
                                         text="Settings",
-                                        style="info, outline-toolbutton",
+                                        style=style,
                                         value=4,
                                         variable=self.selected_page_button_var,
                                         image=self.deselected_navbar_icons[4],

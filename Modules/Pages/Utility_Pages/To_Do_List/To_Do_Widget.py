@@ -3,7 +3,6 @@ import ttkbootstrap as ttk
 from Modules.Pages.Utility_Pages.To_Do_List.Update_To_Do_List import UpdateToDoList
 import json
 from Modules.Pages.Utility_Pages.To_Do_List.Generate_To_Do_File import GenerateToDoFile
-# from Modules.Pages.Utility_Pages.To_Do_List.To_Do_List import ToDoList
 import ttkbootstrap.dialogs
 
 
@@ -23,8 +22,8 @@ class ToDoWidget:
         # Icons
         self.widget_open_icon = tk.PhotoImage(file="Assets/Images/icons8_double_right_24px.png")
         self.widget_closed_icon = tk.PhotoImage(file="Assets/Images/icons8_double_up_24px.png")
-        self.check_button_Selected_img = tk.PhotoImage(file="Assets/Images/Check_Button_Selected_Icon.png")
-        self.check_button_Deselected_img = tk.PhotoImage(file="Assets/Images/Check_Button_Deselected_Icon.png")
+        self.check_button_selected_img = tk.PhotoImage(file="Assets/Images/Check_Button_Selected_Icon.png")
+        self.check_button_deselected_img = tk.PhotoImage(file="Assets/Images/Check_Button_Deselected_Icon.png")
         self.delete_button_icon = tk.PhotoImage(file="Assets/Images/Delete_Button_Icon.png")
         self.edit_button_icon = tk.PhotoImage(file="Assets/Images/Edit_Button_Icon.png")
 
@@ -46,7 +45,7 @@ class ToDoWidget:
 
         # Creating check button
         self.check_button_var = tk.IntVar(value=self.config.is_done[index])
-        self.check_button = ttk.Checkbutton(self.title_container, image=self.check_button_Deselected_img,
+        self.check_button = ttk.Checkbutton(self.title_container, image=self.check_button_deselected_img,
                                             style="success toolbutton", variable=self.check_button_var,
                                             command=self.mark_task_as_done)
         self.check_button.pack(side="right")
@@ -67,7 +66,7 @@ class ToDoWidget:
         # This function runs whenever the constructor is called
         # It checks if the task is done and changes the style of the widget to match it
         if self.check_button_var.get() == 1:
-            self.check_button.config(image=self.check_button_Selected_img)
+            self.check_button.config(image=self.check_button_selected_img)
             self.title_container.config(bootstyle="success")
             self.container_title_label.config(bootstyle="success inverse")
             self.open_button.config(bootstyle="success")
@@ -102,7 +101,7 @@ class ToDoWidget:
         # This function runs whenever check_button is pressed
         if self.check_button_var.get() == 0:
             # If check_button was pressed
-            self.check_button.config(image=self.check_button_Deselected_img)
+            self.check_button.config(image=self.check_button_deselected_img)
             self.title_container.config(bootstyle="secondary")
             self.container_title_label.config(bootstyle="secondary inverse")
             self.open_button.config(bootstyle="secondary")
@@ -110,7 +109,7 @@ class ToDoWidget:
             UpdateToDoList("is_done", self.index, 0)
         if self.check_button_var.get() == 1:
             # If check_button was not pressed
-            self.check_button.config(image=self.check_button_Selected_img)
+            self.check_button.config(image=self.check_button_selected_img)
             self.title_container.config(bootstyle="success")
             self.container_title_label.config(bootstyle="success inverse")
             self.open_button.config(bootstyle="success")

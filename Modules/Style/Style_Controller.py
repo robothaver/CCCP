@@ -30,7 +30,6 @@ class StyleController:
             self.show_error_dialog("The themes file doesn't exists!\nOnly default theme are available.")
 
     def set_current_theme(self, theme):
-        print("SADASDSDA")
         if theme in self.themes:
             self.set_theme(theme)
             UpdateConfigfile("theme", self.style.theme.name)

@@ -92,7 +92,6 @@ class Configfile:
     def get_number_of_lessons_today(self):
         try:
             self.number_of_lessons_today = self.number_of_lessons[datetime.today().weekday()]
-            print(self.number_of_lessons_today)
         except IndexError:
             self.number_of_lessons_today = self.number_of_lessons[4]
 

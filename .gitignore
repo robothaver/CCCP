@@ -10,6 +10,10 @@ To_Do_List.json
 Config.json
 
 Icons
+Backups
+sonar-scanner-5.0.1.3006-linux
+.sonar_lock
+report_task.txt
 
 # C extensions
 *.so
@@ -200,3 +204,5 @@ fabric.properties
 /test3.py
 /test_2.py
 /test5.py
+/.scannerwork/report-task.txt
+/Assets/old/

@@ -1,3 +1,5 @@
+import os
+import socket
 import tkinter as tk
 import ttkbootstrap as ttk
 import subprocess
@@ -109,5 +111,6 @@ class CopyNetworkSettings:
         if self.is_kando_var.get() == 0:
             self.dns_servers_entry_var.set(value=subprocess.getoutput('ipconfig -all')[1130:1140].replace(" ", ""))
         else:
+            print(os.system('ipconfig'))
             self.dns_servers_entry_var.set(
                 value=subprocess.getoutput('ipconfig -all | findstr /i "DNS Servers"')[167:185])

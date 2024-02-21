@@ -152,8 +152,7 @@ class ChangePresetSettings:
             file = filedialog.askdirectory(title="Select directory")
         else:
             file = filedialog.askopenfilename(title="Select file")
-        if file != ():
-            if file != "":
+        if file != () and file != "":
                 if index == 0:
                     self.preset_source_entry_var.set(file)
                 elif index == 1:
