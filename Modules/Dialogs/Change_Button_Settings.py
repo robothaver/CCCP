@@ -21,13 +21,13 @@ class ChangeButtonSettings:
         self.config = config
 
         # Create top level
-        self.top_level = ttk.Toplevel(master=master, title=f"Change the settings for button{index}")
+        self.top_level = ttk.Toplevel(master=master, title=f"Change the settings for button_{index}")
         self.top_level.minsize(width=600, height=220)
         self.top_level.transient(master)
         self.top_level.grab_set()
 
         # Create title
-        title = ttk.Label(master=self.top_level, text=f"Change the settings for button{self.index}", font=15)
+        title = ttk.Label(master=self.top_level, text=f"Change the settings for button_{self.index}", font=15)
         title.pack(pady=10)
 
         # Create name entry frame

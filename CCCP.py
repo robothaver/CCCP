@@ -3,10 +3,12 @@ import tkinter as tk
 import ttkbootstrap as ttk
 
 from Modules.Configfile.Config import Configfile
+from Modules.Dialogs.Create_Empty_Project.Generate_Empty_Project import GenerateEmptyProject
 from Modules.Dialogs.Project_Generated_Dialog.Project_Generated_Dialog import ProjectGeneratedDialog
+from Modules.Dialogs.Project_Names.Project_Names import ProjectNames
 from Modules.Pages.Backup.Backup_Page import BackupPage
 from Modules.Pages.Dashboard.Application_Dashboard import ApplicationDashboard
-from Modules.Pages.File_Generator.File_Generator_Page import FileGeneratorPage
+from Modules.Pages.Project_Generator.Project_Generator_Page import ProjectGeneratorPage
 from Modules.Pages.Home.Home_Page import HomePage
 from Modules.Pages.Settings.Settings import Settings
 from Modules.Panels.Navigation_Bar.Navigation_Bar import NavigationBar
@@ -56,7 +58,7 @@ class CCCP:
         navigation_controller.add_pages([
             HomePage(self.middle_frame, config, navigation_controller),
             BackupPage(self.middle_frame, config),
-            FileGeneratorPage(self.middle_frame, config),
+            ProjectGeneratorPage(self.middle_frame, config),
             ApplicationDashboard(self.middle_frame, config),
             Settings(self.middle_frame, config, style_controller, self.top_panel.refresh, navigation_controller)]
         )

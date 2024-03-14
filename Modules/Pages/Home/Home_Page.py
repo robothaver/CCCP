@@ -1,6 +1,5 @@
 import os
 import tkinter as tk
-from tkinter import messagebox
 import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
 from Assets import Assets
@@ -81,7 +80,7 @@ class HomePage(HomePageUI):
             # If editing is not enabled
             if self.config.program_locations[index] == "default":
                 # If button is not set up
-                messagebox.showinfo(title="Error", message="You must set the location of a program!")
+                Messagebox.show_info(title="Error", message="You must set the location of a program!")
             else:
                 self.try_start_program(self.config.program_locations[index])
 
@@ -105,4 +104,4 @@ class HomePage(HomePageUI):
         try:
             os.startfile(program)
         except FileNotFoundError:
-            messagebox.showerror(title="Error", message="Program not found!")
+            Messagebox.show_error(title="Error", message="Program not found!")

@@ -29,7 +29,7 @@ class CalculateDelta:
 
         current_end_time = datetime.strptime(self.config.break_pattern[self.class_number][1], "%H:%M:%S")
         current_start_time = datetime.strptime(self.config.break_pattern[self.class_number][0], "%H:%M:%S")
-        if self.day_of_week > 4:
+        if self.day_of_week > 4 or self.config.number_of_lessons_today == 0:
             # If it is the weekend
             self.is_lesson_over = True
         elif current_time > current_end_time and self.class_number == self.config.number_of_lessons_today - 1:

@@ -1,4 +1,4 @@
-from tkinter import messagebox
+from ttkbootstrap.dialogs import Messagebox
 from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from Modules.Dialogs.Change_Backup_Locations.UI.Change_Backup_Locations_UI import ChangeBackupLocationsUI
@@ -60,9 +60,10 @@ class ChangeBackupLocations(ChangeBackupLocationsUI):
         new_location = self.file_backup_source_entry_var.get()
         if len(self.config.file_backup_names) != 0:
             if ValidateName(new_name).is_valid and self.validate_location(new_location):
-                self.tabel.item(selected_item, values=[new_name])
-                self.config.file_backup_names[index] = self.file_backup_name_entry_var.get()
-                self.config.file_backup_locations[index] = self.file_backup_source_entry_var.get()
+                if not self.name_in_config(new_name):
+                    self.tabel.item(selected_item, values=[new_name])
+                    self.config.file_backup_names[index] = self.file_backup_name_entry_var.get()
+                    self.config.file_backup_locations[index] = self.file_backup_source_entry_var.get()
 
     def get_current_row_index(self):
         return self.tabel.index(self.tabel.selection())
@@ -93,10 +94,13 @@ class ChangeBackupLocations(ChangeBackupLocationsUI):
         return False
 
     def does_name_exists(self, name):
-        if name not in self.config.file_backup_names:
+        if not self.name_in_config(name):
             return False
-        messagebox.showwarning(title="Warning", message="Name already in list!")
+        Messagebox.show_warning(title="Warning", message="Name already in list!")
         return True
+
+    def name_in_config(self, name):
+        return name in self.config.file_backup_names
 
     def close_pop_up(self):
         self.top_level.grab_release()
@@ -118,5 +122,5 @@ class ChangeBackupLocations(ChangeBackupLocationsUI):
         if location != "":
             return True
         else:
-            messagebox.showwarning(title="Warning", message="You must give a location!")
+            Messagebox.show_warning(title="Warning", message="You must give a location!")
             return False

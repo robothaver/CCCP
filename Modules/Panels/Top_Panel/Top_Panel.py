@@ -1,6 +1,7 @@
 import time
 from datetime import datetime
 from datetime import timedelta
+
 from Modules.Configfile.Config import Configfile
 from Modules.Dialogs.End_Of_Lesson_Reminder import EndOfLessonReminder
 from Modules.Panels.Top_Panel.UI.Top_Panel_UI import TopPanelUI
@@ -20,8 +21,10 @@ class TopPanel(TopPanelUI):
         self.theme_var.trace("w", self.change_theme)
 
         self.delta = CalculateDelta()
-        self.time = datetime.strptime("12:53:50", "%H:%M:%S")
-        # self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
+
+        # self.time = datetime.strptime("8:14:50", "%H:%M:%S")
+        self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
+
         self.refresh_time()
         self.refresh()
         self.greet()
@@ -132,18 +135,19 @@ class TopPanel(TopPanelUI):
                 "",
                 False
             )
-        elif self.delta.class_number == self.config.number_of_lessons_today - 1:
+        elif self.delta.class_number == self.config.number_of_lessons_today - 1 or \
+                self.config.number_of_lessons_today == 0:
             # If the day is over
             self.update_widgets(
                 "You are done for the day ☕",
-                f"Your first lesson begins at {self.config.break_pattern[0][0]}",
+                "",
                 False
             )
         elif self.delta.class_number == 0 and self.delta.time_delta == 0:
             # If the day hasn't begun yet
             self.update_widgets(
-                "",
                 f"Your first lesson starts at {self.config.break_pattern[0][0]}",
+                "",
                 False
             )
         else:
@@ -156,10 +160,7 @@ class TopPanel(TopPanelUI):
             )
 
     def end_of_lesson_reminder(self):
-        """
-        If enabled, the program will open a pop-up to remind the user that the lesson is close to the end
-        :return: None
-        """
+        # If enabled, the program will open a pop-up to remind the user that the lesson is close to the end
         if not self.cooldown and self.config.end_of_lesson_reminder == 1:
             if self.delta.time_delta <= timedelta(minutes=self.config.reminder_activation):
                 self.cooldown = True

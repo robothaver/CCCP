@@ -1,4 +1,4 @@
-from tkinter import messagebox
+from ttkbootstrap.dialogs import Messagebox
 
 
 class ValidateName:
@@ -20,10 +20,10 @@ class ValidateName:
                 if len(self.string) < 25:
                     is_valid = True
                 else:
-                    messagebox.showwarning(title="Warning", message="Name too long! 25 letters max")
+                    Messagebox.show_warning(title="Warning", message="Name too long! 25 letters max")
             else:
                 is_valid = False
-                messagebox.showwarning(title="Warning", message="Name can't contain special characters!")
+                Messagebox.show_warning(title="Warning", message="Name can't contain special characters!")
         else:
-            messagebox.showwarning(title="Warning", message="You must input a name!")
+            Messagebox.show_warning(title="Warning", message="You must input a name!")
         return is_valid

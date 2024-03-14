@@ -29,8 +29,8 @@ class ManageProjectOutputLocations:
         self.tabel.bind('<<TreeviewSelect>>', self.update_entries_with_selected_item)
 
         # Load datas to tabel
-        for location in self.config.file_output_locations:
-            self.tabel.insert('', 0, values=[location])
+        for i, location in enumerate(self.config.project_output_locations):
+            self.tabel.insert('', i, values=[location])
         self.tabel.pack(padx=10, pady=10, fill="both")
 
         # Create location entry widgets
@@ -99,47 +99,43 @@ class ManageProjectOutputLocations:
             self.location_entry_var.set(location)
 
     def update_entries_with_selected_item(self, event):
-        # This function runs whenever the user selects one of the preset in the tabel
         selected_item = self.tabel.selection()
         try:
             self.location_entry_var.set(self.tabel.item(selected_item)['values'][0])
         except IndexError:
             pass
 
-    def locate_file(self):
-        # This function runs whenever the "locate" button is pressed
-        file = filedialog.askdirectory(title="Select directory")
-        self.location_entry_var.set(file)
-
     def remove_selected_location(self):
-        # This function gets called whenever the "remove location" button is pressed,
-        # and it deletes the selected location
-        if self.tabel.item(self.tabel.selection())["values"] != "":
-            self.tabel.delete(self.tabel.selection())
+        selected_item = self.tabel.selection()
+        if self.tabel.item(selected_item)["values"] != "":
+            del self.config.project_output_locations[self.tabel.index(selected_item)]
+            self.tabel.delete(selected_item)
+        print(self.config.project_output_locations)
 
     def apply_changes(self):
-        # This function runs whenever the "apply changes" button is pressed
         selected_item = self.tabel.selection()
-        self.tabel.item(selected_item, values=[self.location_entry_var.get()])
+        index = self.tabel.index(self.tabel.selection())
+        print(index)
+        new_path = self.location_entry_var.get()
+        if new_path not in self.config.project_output_locations:
+            self.tabel.item(selected_item, values=[new_path])
+            try:
+                self.config.project_output_locations[index] = new_path
+            except IndexError:
+                pass
+            print(self.config.project_output_locations)
 
     def add_item(self):
-        # This function gets called whenever the "add location" button is pressed, and it adds in the new location
-        if self.location_entry_var.get() != "":
-            self.tabel.insert('', 0, values=[self.location_entry_var.get()])
+        new_location = self.location_entry_var.get()
+        if new_location != "" and new_location not in self.config.project_output_locations:
+            self.config.project_output_locations.append(new_location)
+            self.tabel.insert('', len(self.config.project_output_locations), values=[new_location])
 
     def save_changes(self):
-        # This function runs whenever the "accept" button is pressed
-        # This function updates the self.configfile with the values from the tabel and self.config list
-        self.apply_changes()
-        output_locations = []
-        for item in self.tabel.get_children():
-            print(self.tabel.item(item)['values'])
-            output_locations.append(" ".join(self.tabel.item(item)['values']))
-        UpdateConfigfile("file_output_locations", output_locations)
+        UpdateConfigfile("project_output_locations", self.config.project_output_locations)
         self.close_pop_up()
 
     def close_pop_up(self):
-        # This function runs whenever the "accept" or "cancel" button is pressed
         self.update_widget()
         self.top_level.destroy()
         self.top_level.grab_release()

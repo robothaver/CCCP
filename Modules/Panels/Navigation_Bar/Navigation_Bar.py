@@ -1,4 +1,4 @@
-from Modules.Pages.File_Generator.File_Generator_Page import FileGeneratorPage
+from Modules.Pages.Project_Generator.Project_Generator_Page import ProjectGeneratorPage
 from Modules.Pages.Home.Home_Page import HomePage
 from Modules.Pages.Backup.Backup_Page import BackupPage
 from Modules.Pages.Settings.Settings import Settings
