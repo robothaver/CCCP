@@ -1,13 +1,14 @@
 from Modules.Configfile.Config import Configfile
 from Modules.Dialogs.Change_Backup_Locations.Change_Backup_Locations import ChangeBackupLocations
 from ttkbootstrap.dialogs import Messagebox
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import shutil
 import threading
 import time
 import ttkbootstrap as ttk
 
+from Modules.Dialogs.Backup_Finished import BackupFinished
 from Modules.Pages.Backup.UI.Backup_UI import BackupUI
 
 
@@ -17,10 +18,10 @@ class BackupPage(BackupUI):
         # Define variables
         self.config = config
         self.master = master
-        self.start_time = datetime
-        self.end_time = datetime
         self.thread = threading.Thread
         self.error = None
+        self.start_time = None
+        self.end_time = None
 
         self.progress = 0
         self.files_to_backup = []
@@ -30,16 +31,20 @@ class BackupPage(BackupUI):
         self.check_button_variables = []
         self.not_found = []
 
-        # Generate check button widgets
         self.generate_widgets()
 
         # Pack files to include frame
         if len(config.file_backup_locations) != 0:
-            self.files_to_include_frame.pack(pady=15)
+            self.right_container.grid(row=0, column=1, sticky="nsew", padx=15)
 
         self.add_new_option_button.config(command=self.change_backup_options)
         self.back_files_up_button.config(command=self.start_backup)
+        self.select_all_btn.config(command=self.select_all)
 
+    def select_all(self):
+        state = 0 if self.check_button_variables[0].get() == 1 else 1
+        for var in self.check_button_variables:
+            var.set(state)
 
     def change_backup_options(self):
         ChangeBackupLocations(self.master, self.update_page)
@@ -63,10 +68,11 @@ class BackupPage(BackupUI):
         self.config = Configfile()
         self.clear_widgets()
         self.generate_widgets()
+        self.progress_bar.configure(amountused=0)
         if len(self.config.file_backup_locations) != 0:
-            self.files_to_include_frame.pack(pady=15)
+            self.right_container.grid(row=0, column=1, sticky="nsew", padx=15)
         else:
-            self.files_to_include_frame.pack_forget()
+            self.right_container.grid_forget()
 
     def work(self):
         save_folder_name = time.strftime("%Y-%m-%d %H-%M-%S")
@@ -77,7 +83,7 @@ class BackupPage(BackupUI):
             progress += 1
             progress_bar_value = round((progress / len(self.files_to_backup)) * 100, 2)
             self.try_copy_file(self.files_to_backup[i], f"{output_path}/{self.backup_names[i]}")
-            # self.progress_bar.configure(amountused=progress_bar_value)
+            self.progress_bar.configure(amountused=progress_bar_value)
             if self.error is not None:
                 exit()
 
@@ -93,35 +99,32 @@ class BackupPage(BackupUI):
 
     def check_thread_state(self):
         if not self.thread.is_alive():
-            print("finished")
-            print(self.not_found)
+            self.end_time = datetime.now()
             if self.error is not None:
                 Messagebox.show_error(title="Error", message=str(self.error))
-            if len(self.not_found) != 0:
-                files_not_found = "\n".join(self.not_found)
-                Messagebox.show_error(title="Files not found", message=f"Files not found:\n{files_not_found}")
             self.back_files_up_button.config(state="enabled")
+            BackupFinished(self.master, self.get_finished_time(), self.not_found, len(self.files_to_backup))
         else:
-            print("RUNNING")
             self.master.after(1000, self.check_thread_state)
 
-    def start_backup(self):
-        self.get_files_to_backup()
-        if len(self.files_to_backup) != 0:
-            self.start_thread()
-        else:
-            Messagebox.show_warning(title="Warning", message="You must set the files to backup!")
-
-    def start_thread(self):
+    def reset_backup_state(self):
         self.error = None
         self.not_found.clear()
         self.files_to_backup.clear()
         self.backup_names.clear()
+        self.progress_bar.configure(amountused=0)
 
-        # self.progress_bar.configure(amountused=0)
+    def start_backup(self):
+        self.reset_backup_state()
         self.get_files_to_backup()
+        if len(self.files_to_backup) != 0:
+            self.start_thread()
+        else:
+            Messagebox.show_warning(title="Warning", message="You must select the files to backup!")
 
+    def start_thread(self):
         self.back_files_up_button.config(state="disabled")
+        self.start_time = datetime.now()
         self.thread = threading.Thread(target=self.work, daemon=True)
         self.thread.start()
         self.check_thread_state()
@@ -132,9 +135,8 @@ class BackupPage(BackupUI):
                 self.files_to_backup.append(self.config.file_backup_locations[i])
                 self.backup_names.append(self.config.file_backup_names[i])
 
-    def show_copy_finished_time(self):
-        delta = self.end_time - self.start_time
-        Messagebox.show_info(title="Copying finished", message=f"Copying finished in {delta}")
+    def get_finished_time(self):
+        return timedelta(seconds=(self.end_time - self.start_time).seconds)
 
     @staticmethod
     def generate_backup_folders(save_folder_name):

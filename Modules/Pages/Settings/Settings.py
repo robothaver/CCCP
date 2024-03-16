@@ -85,6 +85,7 @@ class Settings(SettingsUI):
 
     def change_browser(self, *args):
         UpdateConfigfile("browser", self.browser_var.get())
+        self.navigation_controller.update_page(0)
 
     def update_end_of_lesson_reminder(self):
         UpdateConfigfile("end_of_lesson_reminder", bool(self.end_of_lesson_reminder_button_var.get()))
@@ -101,6 +102,7 @@ class Settings(SettingsUI):
 
     def change_progress_bar_settings(self, *args):
         UpdateConfigfile("enable_progress_bar", bool(self.progress_bar_var.get()))
+        self.update_end_of_lesson_reminder()
         self.refresh_top_panel()
 
     def top_lesson_number_settings(self):
