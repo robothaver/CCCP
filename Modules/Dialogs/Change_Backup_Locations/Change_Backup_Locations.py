@@ -30,12 +30,24 @@ class ChangeBackupLocations(ChangeBackupLocationsUI):
         self.top_level.mainloop()
 
     def locate_absolute_path(self):
-        location = LocateFile().get_absolute_path(1)
+        option = Messagebox.show_question(message="What would you like to locate? file or folder",
+                                          title="Choose locate option", parent=self.top_level,
+                                          buttons=["File", "Folder"])
+        if option == "File":
+            location = LocateFile().get_absolute_path(0)
+        else:
+            location = LocateFile().get_absolute_path(1)
         if location is not None:
             self.file_backup_source_entry_var.set(location)
 
     def locate_relative_path(self):
-        location = LocateFile().get_relative_path(1)
+        option = Messagebox.show_question(message="What would you like to locate? file or folder",
+                                          title="Choose locate option", parent=self.top_level,
+                                          buttons=["File", "Folder"])
+        if option == "File":
+            location = LocateFile().get_relative_path(0)
+        else:
+            location = LocateFile().get_relative_path(1)
         if location is not None:
             self.file_backup_source_entry_var.set(location)
 
@@ -60,7 +72,7 @@ class ChangeBackupLocations(ChangeBackupLocationsUI):
         new_location = self.file_backup_source_entry_var.get()
         if len(self.config.file_backup_names) != 0:
             if ValidateName(new_name).is_valid and self.validate_location(new_location):
-                if not self.name_in_config(new_name):
+                if not self.name_in_config(new_name) or new_location != self.config.file_backup_locations[index]:
                     self.tabel.item(selected_item, values=[new_name])
                     self.config.file_backup_names[index] = self.file_backup_name_entry_var.get()
                     self.config.file_backup_locations[index] = self.file_backup_source_entry_var.get()
