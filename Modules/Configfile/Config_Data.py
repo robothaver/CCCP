@@ -20,7 +20,7 @@ config_data = {
             "file_backup_names": [],
             "file_backup_locations": [],
             "preset_name": [],
-            "preset_input": [],
-            "preset_output": [],
+            "preset_source": [],
+            "preset_destination": [],
             "preset_application_location": [],
         }

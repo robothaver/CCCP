@@ -1,6 +1,7 @@
 import tkinter as tk
 
 import ttkbootstrap as ttk
+import ttkbootstrap.utility
 
 from Modules.Configfile.Config import Configfile
 from Modules.Pages.Backup.Backup_Page import BackupPage
@@ -22,12 +23,16 @@ class CCCP:
         config = Configfile()
 
         # Create the main window
+        ttk.utility.enable_high_dpi_awareness()
+
         self.window = tk.Tk()
-        self.window.geometry("600x850")
+        self.window.geometry('650x900')
         self.window.title("CCCP")
         icon = tk.PhotoImage(file="Assets/Images/CCCP_logo_500x500.png")
         self.window.iconphoto(False, icon)
         self.style = ttk.Style()
+
+
 
         # Creating the main frames
         # Top frame
@@ -59,7 +64,6 @@ class CCCP:
             ApplicationDashboard(self.middle_frame, config),
             Settings(self.middle_frame, config, style_controller, self.top_panel.refresh, navigation_controller)]
         )
-
         # Calling GUI elements
         self.navbar = NavigationBar(self.bottom_frame, navigation_controller, config)
         self.navbar.change_page()

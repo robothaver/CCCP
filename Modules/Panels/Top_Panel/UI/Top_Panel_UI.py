@@ -16,7 +16,7 @@ class TopPanelUI:
             font=('Calibri', '28', 'bold'),
             style="info",
             textvariable=self.greet_label_var)
-        self.greet_label.grid(column=0, row=0, sticky="wn", padx=5, pady=5)
+        self.greet_label.grid(column=0, row=0, sticky="wn", padx=10, pady=5)
 
         # Break notifier
         self.secondary_notifier_var = tk.StringVar()
@@ -33,7 +33,7 @@ class TopPanelUI:
             bootstyle="secondary",
             justify="right",
             textvariable=self.clock_label_var)
-        self.clock_label.grid(column=1, row=0, sticky="EN", pady=10, padx=5)
+        self.clock_label.grid(column=1, row=0, sticky="EN", pady=10, padx=10)
 
         # End of lesson timer
         self.main_notifier_var = tk.StringVar()

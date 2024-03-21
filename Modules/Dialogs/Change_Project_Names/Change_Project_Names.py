@@ -1,12 +1,12 @@
 from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 
-from Modules.Dialogs.Project_Names.UI.Project_Names_UI import ProjectNamesUI
+from Modules.Dialogs.Change_Project_Names.UI.Change_Project_Names_UI import ChangeProjectNamesUI
 from Modules.Utilities.Locate_File import LocateFile
 from Modules.Utilities.Validate_Name import ValidateName
 
 
-class ProjectNames(ProjectNamesUI):
+class ChangeProjectNames(ChangeProjectNamesUI):
     def __init__(self, master):
         super().__init__(master)
         # Define variables

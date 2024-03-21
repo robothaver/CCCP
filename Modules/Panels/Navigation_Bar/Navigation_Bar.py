@@ -1,3 +1,4 @@
+from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from Modules.Pages.Project_Generator.Project_Generator_Page import ProjectGeneratorPage
 from Modules.Pages.Home.Home_Page import HomePage
 from Modules.Pages.Backup.Backup_Page import BackupPage
@@ -11,7 +12,7 @@ from Modules.Pages.Dashboard.Application_Dashboard import ApplicationDashboard
 
 # noinspection PyArgumentList
 class NavigationBar:
-    def __init__(self, master, navigation_controller, config):
+    def __init__(self, master, navigation_controller, config: Configfile):
         # Define variables
         self.master = master
         self.navigation_controller = navigation_controller
@@ -30,7 +31,7 @@ class NavigationBar:
         self.deselected_navbar_icons = []
 
         # Selected page button
-        self.selected_page_button_var = tk.IntVar(value=self.config.starting_page)
+        self.selected_page_button_var = tk.IntVar(value=self.get_initial_page())
 
         # Load icons
         for i, icon in enumerate(Assets.selected_navbar_icons):
@@ -85,6 +86,12 @@ class NavigationBar:
         # Call selected button class
         self.selected_button(self.selected_page_button_var.get())
 
+    def get_initial_page(self):
+        page_index = self.config.starting_page
+        if self.config.starting_page == 5:
+            page_index = self.config.current_page
+        return page_index
+
     def selected_button(self, selected_button):
         # This function runs whenever the constructor runs or a page is selected
         # This function sets the selected buttons icon to the selected one
@@ -96,20 +103,9 @@ class NavigationBar:
 
     def change_page(self):
         # This function runs whenever an option is selected and, it makes the button selected
-        if self.selected_page_button_var.get() != self.page_index:
-            if self.selected_page_button_var.get() == 0:
-                self.selected_button(0)
-                self.navigation_controller.change_page(0)
-            elif self.selected_page_button_var.get() == 1:
-                self.selected_button(1)
-                self.navigation_controller.change_page(1)
-            elif self.selected_page_button_var.get() == 2:
-                self.selected_button(2)
-                self.navigation_controller.change_page(2)
-            elif self.selected_page_button_var.get() == 3:
-                self.selected_button(3)
-                self.navigation_controller.change_page(3)
-            elif self.selected_page_button_var.get() == 4:
-                self.selected_button(4)
-                self.navigation_controller.change_page(4)
+        selected_index = self.selected_page_button_var.get()
+        if selected_index != self.page_index:
+            self.selected_button(selected_index)
+            self.navigation_controller.change_page(selected_index)
             self.page_index = self.selected_page_button_var.get()
+            UpdateConfigfile("current_page", self.page_index)

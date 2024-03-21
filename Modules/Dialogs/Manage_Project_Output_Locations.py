@@ -77,10 +77,10 @@ class ManageProjectOutputLocations:
         # Create buttons
         self.accept_button = ttk.Button(master=self.bottom_frame, text="Accept",
                                         command=self.save_changes, style="success", width=10)
-        self.accept_button.pack(padx=5, pady=10, side="right")
+        self.accept_button.pack(padx=10, pady=10, side="right")
         self.cancel_button = ttk.Button(master=self.bottom_frame, text="Cancel",
                                         command=self.close_pop_up, style="danger", width=10)
-        self.cancel_button.pack(padx=(5, 15), pady=10, side="right")
+        self.cancel_button.pack(pady=10, side="right")
         self.bottom_frame.pack(fill="x", side="bottom")
 
         self.locate_absolute_path_btn.config(command=self.locate_absolute_path)

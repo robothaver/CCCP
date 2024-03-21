@@ -2,7 +2,7 @@ import tkinter as tk
 import ttkbootstrap as ttk
 
 
-class ProjectNamesUI:
+class ChangeProjectNamesUI:
     def __init__(self, master):
         self.top_level = ttk.Toplevel(title="Change project names")
         self.top_level.minsize(width=600, height=360)
@@ -56,9 +56,9 @@ class ProjectNamesUI:
         self.bottom_frame = ttk.Frame(master=self.main_container)
         # Create buttons
         self.accept_button = ttk.Button(master=self.bottom_frame, text="Accept", style="success", width=10)
-        self.accept_button.pack(padx=5, pady=10, side="right")
+        self.accept_button.pack(padx=10, pady=10, side="right")
         self.cancel_button = ttk.Button(master=self.bottom_frame, text="Cancel", style="danger", width=10)
-        self.cancel_button.pack(padx=(5, 15), pady=10, side="right")
+        self.cancel_button.pack(pady=10, side="right")
         self.bottom_frame.pack(fill="x", side="bottom")
 
         self.main_container.pack(fill="both", expand=True)

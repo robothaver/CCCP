@@ -72,4 +72,4 @@ class ChangeBackupLocationsUI:
         self.cancel_button = ttk.Button(master=self.top_level, text="Cancel", style="danger", width=10)
         self.accept_button = ttk.Button(master=self.top_level, text="Accept", style="success", width=10)
         self.accept_button.pack(padx=15, pady=10, side="right", anchor="s")
-        self.cancel_button.pack(padx=15, pady=10, side="right", anchor="s")
+        self.cancel_button.pack(pady=10, side="right", anchor="s")

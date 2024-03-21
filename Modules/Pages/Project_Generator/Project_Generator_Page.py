@@ -2,7 +2,7 @@ from Modules.Configfile.Config import Configfile
 from Modules.Dialogs.Create_Empty_Project.Generate_Empty_Project import GenerateEmptyProject
 from Modules.Dialogs.Manage_Project_Output_Locations import ManageProjectOutputLocations
 from Modules.Dialogs.Project_Generated_Dialog.Project_Generated_Dialog import ProjectGeneratedDialog
-from Modules.Dialogs.Project_Names.Project_Names import ProjectNames
+from Modules.Dialogs.Change_Project_Names.Change_Project_Names import ChangeProjectNames
 from Modules.Pages.Project_Generator.Project_Generator import ProjectGenerator
 from Modules.Pages.Project_Generator.UI.Project_Generator_UI import ProjectGeneratorUI
 from Modules.Utilities.Open_Path_In_Explorer import open_path_in_explorer
@@ -40,7 +40,7 @@ class ProjectGeneratorPage(ProjectGeneratorUI):
             self.file_output_var.set("Select project output location")
 
     def change_project_names(self):
-        ProjectNames(self.master_container)
+        ChangeProjectNames(self.master_container)
 
     def change_page_state(self, *args):
         if self.file_output_var.get() != self.default_location_message:

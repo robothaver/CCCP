@@ -35,8 +35,8 @@ class Configfile:
         self.file_backup_names = []
         self.file_backup_locations = []
         self.preset_name = []
-        self.preset_input = []
-        self.preset_output = []
+        self.preset_source = []
+        self.preset_destination = []
         self.preset_application_location = []
 
         # Define default variables
@@ -83,8 +83,8 @@ class Configfile:
             self.file_backup_names = file["file_backup_names"]
             self.file_backup_locations = file["file_backup_locations"]
             self.preset_name = file["preset_name"]
-            self.preset_input = file["preset_input"]
-            self.preset_output = file["preset_output"]
+            self.preset_source = file["preset_source"]
+            self.preset_destination = file["preset_destination"]
             self.preset_application_location = file["preset_application_location"]
         self.get_clock_mode()
         self.get_number_of_lessons_today()

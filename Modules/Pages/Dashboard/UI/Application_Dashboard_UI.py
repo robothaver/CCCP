@@ -17,7 +17,7 @@ class ApplicationDashboardUI:
 
         # Creating copy save file button
         self.copy_save_file_button = ttk.Button(self.main_container,
-                                                text="Copy save file to and from pc",
+                                                text="Preset mover",
                                                 image=copy_save_file_button_img,
                                                 compound="left")
         self.copy_save_file_button.pack(fill="both", padx=30, pady=10)

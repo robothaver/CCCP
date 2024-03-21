@@ -45,15 +45,15 @@ class TopPanel(TopPanelUI):
 
     def show_enabled_widgets(self):
         if self.config.enable_secondary_notifier:
-            self.secondary_notifier.grid(column=0, row=0, sticky="ws", padx=5)
+            self.secondary_notifier.grid(column=0, row=0, sticky="ws", padx=10)
         else:
             self.secondary_notifier.grid_forget()
         if self.config.enable_primary_notifier:
-            self.main_notifier.grid(row=1, column=0, sticky="w", padx=5)
+            self.main_notifier.grid(row=1, column=0, sticky="w", padx=10)
         else:
             self.main_notifier.grid_forget()
         if self.config.enable_top_theme_selector:
-            self.theme_changer.grid(row=1, column=1, sticky="e", padx=5)
+            self.theme_changer.grid(row=1, column=1, sticky="e", padx=10)
         else:
             self.theme_changer.grid_forget()
         if self.config.enable_progress_bar and not self.delta.is_lesson_over:
