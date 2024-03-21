@@ -1,4 +1,5 @@
 from Assets import Assets
+from Modules.Configfile.Config import Configfile
 from Modules.Pages.Settings.Sub_Pages.About.UI.About_UI import AboutUI
 from Modules.Pages.Settings.Sub_Pages.Ttkbootstrap_Page import TtkbootstrapPage
 from Modules.Utilities.Launch_Browser import LaunchBrowser
@@ -27,5 +28,6 @@ class About(AboutUI):
         else:
             self.bootstrap_container.pack(fill="both", expand=True)
     
-    def open_github_page(self):
-        LaunchBrowser(Assets.github_link, self.config.browser)
+    @staticmethod
+    def open_github_page():
+        LaunchBrowser(Assets.github_link, Configfile().browser)

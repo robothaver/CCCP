@@ -58,12 +58,11 @@ class TopPanel(TopPanelUI):
             self.theme_changer.grid_forget()
         if self.config.enable_progress_bar and not self.delta.is_lesson_over:
             self.progress_bar.grid(row=2, columnspan=2, sticky="we", padx=10, pady=(10, 5))
-        else:
-            self.progress_bar.grid_forget()
+
 
     def change_theme(self, *args):
         self.style_controller.set_current_theme(self.theme_var.get())
-        self.time = datetime.strptime("15:39:55", "%H:%M:%S")
+        self.time = datetime.strptime("16:34:55", "%H:%M:%S")
         self.navigation_controller.update_page(4)
 
     def refresh_time(self):

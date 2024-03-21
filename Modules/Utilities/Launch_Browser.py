@@ -26,7 +26,7 @@ class LaunchBrowser:
         elif self.is_guest:
             command += f"--guest {self.link}"
         else:
-            command += "link"
+            command += self.link
         return command
 
     def get_firefox_parameters(self):

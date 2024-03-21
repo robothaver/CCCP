@@ -30,11 +30,11 @@ class AboutUI:
 
         # Separator
         separator = ttk.Separator(self.main_container)
-        separator.pack(fill="x", padx=100)
+        separator.pack(ipadx=250)
 
         # Creating description
-        description = ttk.Label(self.main_container, text=Assets.program_description, font=('arial', '12', 'bold'),
-                                wraplength=600, justify="center")
+        description = ttk.Label(self.main_container, text=Assets.program_description, font=('arial', '10', 'bold'),
+                                wraplength=690, justify="center")
         description.pack(padx=10)
 
         # Creating version label
@@ -42,11 +42,13 @@ class AboutUI:
         version_label.pack()
 
         # Creating ttkbootstrap button
-        self.ttkbootstrap_button = ttk.Button(master=self.main_container, text="ttkbootstrap", style="info", width=60)
+        self.ttkbootstrap_icon = tk.PhotoImage(file="Assets/Images/TTKboostrap_Logo.png")
+        self.ttkbootstrap_button = ttk.Button(master=self.main_container, text="ttkbootstrap", style="info", width=60, image=self.ttkbootstrap_icon, compound="left")
         self.ttkbootstrap_button.pack(pady=15)
 
         # Creating GitHub button
-        self.github_button = ttk.Button(master=self.main_container, text="GitHub", style="warning", width=60, )
-        self.github_button.pack()
+        self.github_icon = tk.PhotoImage(file="Assets/Images/Github_Icon.png")
+        self.github_button = ttk.Button(master=self.main_container, text="GitHub", style="warning", width=60, image=self.github_icon, compound="left")
+        self.github_button.pack(pady=(0, 5))
 
         self.main_container.pack(fill="both", expand=1, pady=10)

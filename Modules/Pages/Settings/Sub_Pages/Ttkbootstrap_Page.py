@@ -18,7 +18,7 @@ class TtkbootstrapPage:
 
         # Create main_frame
         main_frame = ttk.Frame(master)
-        title = ttk.Label(main_frame, text="Ttkbootstrap", font=('arial', '16', 'bold'), style="info")
+        title = ttk.Label(main_frame, text="ttkboostrap", font=('arial', '16', 'bold'), style="info")
         title.pack(pady=5)
         separator = ttk.Separator(main_frame)
         separator.pack(fill="x", padx=100)
@@ -29,8 +29,9 @@ class TtkbootstrapPage:
         description.pack()
 
         # Create GitHub button
+        self.github_icon = ttk.PhotoImage(file="Assets/Images/Github_Icon.png")
         github_button = ttk.Button(master=main_frame, text="GitHub page", style="warning",
-                                   command=self.open_github_page, width=60)
+                                   command=self.open_github_page, width=60, image=self.github_icon, compound="left")
 
         github_button.pack(pady=20)
 

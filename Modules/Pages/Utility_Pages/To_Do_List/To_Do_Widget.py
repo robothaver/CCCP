@@ -34,7 +34,7 @@ class ToDoWidget:
         self.main_container.pack(fill="x", padx=20, pady=10)
         self.title_container = ttk.Frame(self.main_container, bootstyle="secondary")
         self.container_title_label = ttk.Label(self.title_container, text=title,
-                                               font=('Arial', '16', 'bold'), style="secondary inverse")
+                                               font=('Arial', '14', 'bold'), style="secondary inverse")
         self.container_title_label.pack(padx=5, side="left")
 
         # Delete button
