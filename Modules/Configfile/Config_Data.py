@@ -12,6 +12,7 @@ config_data = {
             "enable_secondary_notifier": True,
             "enable_progress_bar": True,
             "current_page": 0,
+            "high_dpi_mode": True,
             "browser": "chrome",
             "number_of_lessons": Assets.default_number_of_lessons,
             "image_locations": [Assets.default_image_locations for _ in range(13)],

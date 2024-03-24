@@ -1,3 +1,5 @@
+from ttkbootstrap.dialogs import Messagebox
+
 from Modules.Utilities import Assets
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from Modules.Pages.Settings.Sub_Pages.About.About import About
@@ -21,6 +23,7 @@ class Settings(SettingsUI):
         self.refresh_theme()
 
         # Setting widget values
+        self.dpi_var.set(self.config.high_dpi_mode)
         self.custom_themes_button_var.set(self.config.custom_themes)
         reminder_value = "minute" if self.config.reminder_activation == 1 else "minutes"
         self.reminder_activation_var.set(f"{self.config.reminder_activation} {reminder_value}")
@@ -38,6 +41,7 @@ class Settings(SettingsUI):
         self.page_var.trace("w", self.change_starting_page)
         self.theme_var.trace("w", self.change_theme)
         self.custom_themes_button_var.trace("w", self.change_custom_themes)
+        self.dpi_var.trace("w", self.change_high_dpi_mode)
         self.reminder_activation_var.trace("w", self.change_reminder_activation)
         self.browser_var.trace("w", self.change_browser)
         self.progress_bar_var.trace("w", self.change_progress_bar_settings)
@@ -68,6 +72,11 @@ class Settings(SettingsUI):
 
     def refresh_theme(self):
         self.theme_changer.set_menu(None, *self.style_controller.themes)
+
+    def change_high_dpi_mode(self, *args):
+        UpdateConfigfile("high_dpi_mode", self.dpi_var.get())
+        Messagebox.show_warning(title="Warning!",
+                                message="This option will take effect once the application is restarted.")
 
     def change_custom_themes(self, *args):
         custom_themes = bool(self.custom_themes_button_var.get())

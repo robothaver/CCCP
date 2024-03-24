@@ -28,6 +28,7 @@ class Configfile:
         self.enable_secondary_notifier = True
         self.enable_progress_bar = True
         self.current_page = 0
+        self.high_dpi_mode = True
         self.browser = ""
         self.image_locations = []
         self.program_locations = []
@@ -81,6 +82,7 @@ class Configfile:
             self.enable_secondary_notifier = file['enable_secondary_notifier']
             self.enable_progress_bar = file['enable_progress_bar']
             self.current_page = file['current_page']
+            self.high_dpi_mode = file['high_dpi_mode']
             self.browser = file['browser']
             self.number_of_lessons = file['number_of_lessons']
             self.image_locations = file["image_locations"]

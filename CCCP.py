@@ -21,8 +21,10 @@ class CCCP:
         self.window.title("CCCP")
         icon = tk.PhotoImage(file="Assets/Images/CCCP_logo_500x500.png")
         self.window.iconphoto(True, icon)
-        ttk.utility.enable_high_dpi_awareness(self.window, scaling=1.6)
         self.style = ttk.Style()
+
+        if config.high_dpi_mode:
+            ttk.utility.enable_high_dpi_awareness(self.window, scaling=1.6)
 
         self.top_frame = ttk.Frame(master=self.window)
         self.top_frame.pack(fill="both")
