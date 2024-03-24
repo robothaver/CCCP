@@ -1,10 +1,11 @@
 import json
 import os.path
 
+TODO_File = "To_Do_List.json"
 
-class GenerateToDoFile:
+
+class TodoFile:
     def __init__(self):
-        # This class gets called by the ToDoFile class, and it generates and loads in the json file
         # Define variables
         self.titles = []
         self.descriptions = []
@@ -15,9 +16,9 @@ class GenerateToDoFile:
             "description": [],
             "is_done": []
         }
-        if os.path.exists("To_Do_List.json"):
+        if os.path.exists(TODO_File):
             # If json file already exists, load it in
-            with open("To_Do_List.json", "r") as jsonfile:
+            with open(TODO_File) as jsonfile:
                 data = json.load(jsonfile)
                 self.titles = data['title']
                 self.descriptions = data['description']
@@ -25,5 +26,16 @@ class GenerateToDoFile:
         else:
             # Generate To_Do_List.json
             json_data = json.dumps(data, indent=3)
-            with open("To_Do_List.json", "w") as file:
+            with open(TODO_File) as file:
                 file.write(json_data)
+
+    def add_new_todo(self, title, description, is_done=0):
+        self.titles.append(title)
+        self.descriptions.append(description)
+        self.is_done.append(is_done)
+
+    def remove_todo(self, title):
+        index = self.titles.index(title)
+        del self.titles[index]
+        del self.descriptions[index]
+        del self.is_done[index]

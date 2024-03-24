@@ -12,7 +12,9 @@ class TtkbootstrapPage:
 
         # Create back button
         back_frame = ttk.Frame(master)
-        back_button = ttk.Button(back_frame, text="Back", command=self.back)
+        self.back_button_icon = ttk.PhotoImage(file="Assets/Images/back_icon.png")
+        back_button = ttk.Button(back_frame, text="Back", image=self.back_button_icon,
+                                 compound="left", command=self.back)
         back_button.pack(side="left", padx=10, pady=10)
         back_frame.pack(fill="x")
 
@@ -35,7 +37,7 @@ class TtkbootstrapPage:
 
         github_button.pack(pady=20)
 
-        main_frame.pack(fill="both", expand=True)
+        main_frame.place(relx=0.5, rely=0.5, anchor="center")
 
     def back(self):
         self.change_page(0)

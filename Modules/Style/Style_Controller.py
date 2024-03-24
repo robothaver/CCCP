@@ -37,6 +37,7 @@ class StyleController:
             self.set_theme("flatly")
             self.show_error_dialog("Selected theme is invalid! Reverting to default theme.")
             UpdateConfigfile("theme", "flatly")
+        self.style.configure('success.Toolbutton', background=self.style.colors.secondary, borderwidth=0)
 
     def set_theme(self, theme):
         try:

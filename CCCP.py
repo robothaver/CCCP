@@ -31,8 +31,6 @@ class CCCP:
         ttk.utility.enable_high_dpi_awareness(self.window, scaling=1.6)
         self.style = ttk.Style()
 
-
-
         # Creating the main frames
         # Top frame
         self.top_frame = ttk.Frame(master=self.window)

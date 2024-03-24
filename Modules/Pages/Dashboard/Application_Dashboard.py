@@ -4,7 +4,7 @@ from Modules.Pages.Utility_Pages.Break_Pattern.Break_Pattern import BreakPattern
 from Modules.Pages.Utility_Pages.Preset_Mover.Preset_Mover import PresetMover
 from Modules.Pages.Utility_Pages.Copy_Network_Settings.Copy_Network_Settings import CopyNetworkSettings
 from Modules.Pages.Utility_Pages.Relative_Path_Generator.Relative_Path_Generator import RelativePathGenerator
-from Modules.Pages.Utility_Pages.To_Do_List.To_Do_List import ToDoList
+from Modules.Pages.Utility_Pages.To_Do_List.Todo_Page import TodoPage
 
 
 class ApplicationDashboard(ApplicationDashboardUI):
@@ -21,7 +21,7 @@ class ApplicationDashboard(ApplicationDashboardUI):
 
         self.utility_pages = [
             PresetMover(self.secondary_container, self.show_dashboard, config),
-            ToDoList(self.secondary_container, self.show_dashboard),
+            TodoPage(self.secondary_container, self.show_dashboard),
             BreakPattern(self.secondary_container, self.show_dashboard),
             CopyNetworkSettings(self.secondary_container, self.show_dashboard),
             RelativePathGenerator(self.secondary_container, self.show_dashboard)
