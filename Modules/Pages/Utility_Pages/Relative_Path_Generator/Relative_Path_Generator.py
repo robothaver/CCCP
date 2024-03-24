@@ -1,10 +1,11 @@
 import os
 import tkinter as tk
+from tkinter import filedialog
+
 import ttkbootstrap as ttk
-import ttkbootstrap.dialogs
+from ttkbootstrap.dialogs import Messagebox
 
 from Modules.Pages.Dashboard import Application_Dashboard
-from tkinter import filedialog
 
 
 class RelativePathGenerator:
@@ -22,7 +23,8 @@ class RelativePathGenerator:
         back_frame.pack(fill="x")
 
         # Create title label
-        title_label = ttk.Label(self.master_container, text="Relative path finder", font=('Aril', '16', 'bold'), style="info")
+        title_label = ttk.Label(self.master_container, text="Relative path finder", font=('Aril', '16', 'bold'),
+                                style="info")
         title_label.pack(pady=10)
 
         # Create the main container
@@ -85,7 +87,7 @@ class RelativePathGenerator:
         generate_relative_path_button = ttk.Button(main_container, text="Generate relative path", style="success",
                                                    command=self.generate_relative_path)
         generate_relative_path_button.pack(pady=10)
-        main_container.pack(fill="x", padx=10)
+        main_container.pack(fill="x", padx=20, pady=20)
 
         # Create relative path widgets
         relative_path_frame = ttk.Frame(self.master_container)
@@ -94,7 +96,7 @@ class RelativePathGenerator:
         self.relative_path_entry_var = tk.StringVar()
         relative_path_entry = ttk.Entry(relative_path_frame, textvariable=self.relative_path_entry_var)
         relative_path_entry.pack(side="left", expand=1, fill="x", padx=5)
-        relative_path_frame.pack(fill="x", padx=5, pady=10)
+        relative_path_frame.pack(fill="x", padx=20, pady=20)
 
     def update_widgets(self):
         # This function runs whenever the use default path checkbutton is pressed
@@ -117,28 +119,28 @@ class RelativePathGenerator:
     def locate_file(self, index):
         if index == 0:
             file = filedialog.askdirectory(title="Select directory")
-            if file != ():
-                if file != "":
-                    self.starting_path_entry_var.set(file)
+            if file != () and file != "":
+                self.starting_path_entry_var.set(file)
         if index == 1:
             if self.is_directory_checkbutton_var.get() == 1:
                 file = filedialog.askdirectory(title="Select directory")
             else:
                 file = filedialog.askopenfilename(title="Select file")
-            if file != ():
-                if file != "":
-                    self.path_destination_entry_var.set(file)
+            if file != () and file != "":
+                self.path_destination_entry_var.set(file)
 
     def generate_relative_path(self):
-        if not self.path_destination_entry_var.get() == "":
-            try:
-                if self.use_default_path_var.get() == 1:
-                    self.relative_path_entry_var.set(os.path.relpath(path=self.path_destination_entry_var.get()))
-                else:
-                    self.relative_path_entry_var.set(os.path.relpath(start=self.starting_path_entry.get(),
-                                                                     path=self.path_destination_entry_var.get()))
-            except ValueError:
-                ttkbootstrap.dialogs.Messagebox.show_error(title="Error",
-                                                           message="Path destination is on a different drive!")
+        if self.path_destination_entry_var.get() != "":
+            if os.path.exists(self.path_destination_entry_var.get()):
+                try:
+                    if self.use_default_path_var.get() == 1:
+                        self.relative_path_entry_var.set(os.path.relpath(path=self.path_destination_entry_var.get()))
+                    else:
+                        self.relative_path_entry_var.set(os.path.relpath(start=self.starting_path_entry.get(),
+                                                                         path=self.path_destination_entry_var.get()))
+                except ValueError:
+                    Messagebox.show_error(title="Error", message="Path destination is on a different drive!")
+            else:
+                Messagebox.show_warning(title="Warning", message="File not found!")
         else:
-            ttkbootstrap.dialogs.Messagebox.show_warning(title="Warning", message="You must set the destination path!")
+            Messagebox.show_warning(title="Warning", message="You must set the destination path!")
