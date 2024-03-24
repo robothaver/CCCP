@@ -49,6 +49,8 @@ break_pattern_35_05 = [
     ('12:50:00', '13:25:00'),
     ('13:30:00', '14:05:00')
 ]
+default_themes = ['cosmo', 'flatly', 'litera', 'minty', 'lumen', 'sandstone', 'yeti', 'pulse', 'united', 'morph',
+                  'journal', 'darkly', 'superhero', 'solar', 'cyborg', 'vapor', 'simplex', 'cerculean']
 
 default_image_locations = "Assets/Images/Default_Icon.png"
 

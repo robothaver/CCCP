@@ -2,6 +2,7 @@ import _tkinter
 import os.path
 from ttkbootstrap.dialogs.dialogs import Messagebox
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
+from Modules.Utilities import Assets
 
 THEME_FILE = "Themes/themes.json"
 
@@ -9,7 +10,6 @@ THEME_FILE = "Themes/themes.json"
 class StyleController:
     def __init__(self, style, config):
         self.style = style
-        self.default_themes = style.theme_names()
         self.themes = []
         self.initial_theme = config.theme
         self.load_themes(config.custom_themes)
@@ -19,7 +19,7 @@ class StyleController:
         if custom_themes:
             self.load_custom_themes()
         else:
-            self.themes = self.default_themes
+            self.themes = Assets.default_themes
 
     def load_custom_themes(self):
         if self.check_if_themes_exists():
@@ -28,7 +28,7 @@ class StyleController:
             if not loading_success_full:
                 self.show_error_dialog("Themes file is invalid! Some of the custom themes might not be available.")
         else:
-            self.themes = self.default_themes
+            self.themes = Assets.default_themes
             self.show_error_dialog("The themes file doesn't exists!\nOnly default theme are available.")
 
     def set_current_theme(self, theme):
