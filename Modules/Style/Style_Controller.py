@@ -3,6 +3,8 @@ import os.path
 from ttkbootstrap.dialogs.dialogs import Messagebox
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 
+THEME_FILE = "Themes/themes.json"
+
 
 class StyleController:
     def __init__(self, style, config):
@@ -47,16 +49,15 @@ class StyleController:
 
     def try_load_custom_themes(self):
         try:
-            self.style.load_user_themes(file="Themes/themes.json")
+            self.style.load_user_themes(file=THEME_FILE)
         except TypeError:
             return False
         return True
 
     @staticmethod
     def check_if_themes_exists():
-        if os.path.exists("Themes/themes.json"):
-            if os.path.exists("Themes/themes.json"):
-                return True
+        if os.path.exists("Themes") and os.path.exists(THEME_FILE):
+            return True
         return False
 
     @staticmethod

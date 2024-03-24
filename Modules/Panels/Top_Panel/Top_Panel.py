@@ -21,8 +21,6 @@ class TopPanel(TopPanelUI):
         self.theme_var.trace("w", self.change_theme)
 
         self.delta = CalculateDelta()
-
-        # self.time = datetime.strptime("8:14:50", "%H:%M:%S")
         self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
 
         self.refresh_time()
@@ -59,10 +57,8 @@ class TopPanel(TopPanelUI):
         if self.config.enable_progress_bar and not self.delta.is_lesson_over:
             self.progress_bar.grid(row=2, columnspan=2, sticky="we", padx=10, pady=(10, 5))
 
-
     def change_theme(self, *args):
         self.style_controller.set_current_theme(self.theme_var.get())
-        self.time = datetime.strptime("16:34:55", "%H:%M:%S")
         self.navigation_controller.update_page(4)
 
     def refresh_time(self):
@@ -114,7 +110,8 @@ class TopPanel(TopPanelUI):
         self.change_notifier_styles("warning")
         self.update_widgets(
             f"Time left of this lesson: {self.delta.time_left}",
-            f"{self.delta.class_number + 1}. lesson ends at {self.config.current_break_pattern[self.delta.class_number][1]}",
+            f"{self.delta.class_number + 1}. lesson ends at "
+            f"{self.config.current_break_pattern[self.delta.class_number][1]}",
             True
         )
 

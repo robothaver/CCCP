@@ -1,15 +1,15 @@
-# Complex Computer Controlling Program
 <p align=center>
-  <img src="Source/Readme/CCCP_logo_500x247.png" width=400>
+  <img src="Readme/CCCP_logo_500x247.png" width=400>
+  <h1 align=center>Complex Computer Controlling Program</h1>
 </p>
+
 
 ## What is CCCP?
 
 CCCP (Complex Computer Controlling Program) is a compact program designed for your USB drive,
 packed with powerful features. Launch applications, create backups,
-generate files, set reminders, and much more, all from your portable drive.
+generate files and much more, all from your portable drive.
 Experience convenience and productivity on the go with CCCP.
-
 
 ## Installation
 - Download project
@@ -22,29 +22,30 @@ Experience convenience and productivity on the go with CCCP.
     ```
 - Or download project build
 ## Main features
-- Launch applications, project files, and much more from your USB drive
-    - Give each application unique: name, icon, path to file
+- Launch applications, project files, etc.
+    - You can give each application a unique: name, icon
 
     ![Home_page](Readme/home_page.png)
     
-- Create backups to USB drive
+- Create backups to your USB drive
 
     ![Backup_1](Readme/backup_page_1.png)
 
     ![Backup_2](Readme/backup_page_2.png)
 
-- Copy save files to and from computer
+- Copy config files to and from computer
     
     ![copy_save_page](Readme/copy_save_page.png)
 
-- To-do list!
+- To-do list
     
     ![to_do_page](Readme/to_do_page.PNG)
 
 - Generate project folders and much more!
 
 ## Themes
-CCCP comes with 18 different dark and light themes, thanks to [ttkbootstrap](https://github.com/israel-dryer/ttkbootstrap).
+CCCP comes with 23 different dark and light themes, thanks to [ttkbootstrap](https://github.com/israel-dryer/ttkbootstrap).
+You can create your own custom themes using [TTK Creator](https://ttkbootstrap.readthedocs.io/en/latest/themes/themecreator/).
 
 ![theme_gif](Readme/theme.gif)
 

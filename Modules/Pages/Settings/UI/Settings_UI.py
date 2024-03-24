@@ -1,6 +1,8 @@
 import tkinter as tk
+
 import ttkbootstrap as ttk
 from ttkbootstrap.scrolled import ScrolledFrame
+
 from Modules.Utilities import Assets
 
 
@@ -37,16 +39,17 @@ class SettingsUI:
         self.reminder_activation_icon = tk.PhotoImage(file="Assets/Images/Reminder_Activation_Icon.png")
         reminder_activation_frame = ttk.Frame(self.clock_settings_frame)
         reminder_activation_label = ttk.Label(reminder_activation_frame, text="End of lesson reminder activation time",
-                                         image=self.reminder_activation_icon,
-                                         compound="left"
-                                         )
+                                              image=self.reminder_activation_icon,
+                                              compound="left"
+                                              )
         self.reminder_activation_var = tk.StringVar()
+        style = "info outline"
         self.reminder_activation_menu = ttk.OptionMenu(
             reminder_activation_frame,
             self.reminder_activation_var,
             "",
             *Assets.reminder_activations,
-            style="info outline",
+            style=style
         )
         reminder_activation_label.pack(side="left")
         self.reminder_activation_menu.pack(side="right")
@@ -67,7 +70,7 @@ class SettingsUI:
             starting_page_frame,
             self.page_var,
             "",
-            *Assets.page_names, style="info outline",
+            *Assets.page_names, style=style,
         )
 
         starting_page_label.pack(side="left", pady=10)
@@ -81,11 +84,11 @@ class SettingsUI:
                                                  text="End of lesson reminder",
                                                  image=self.end_of_lesson_reminder_icon,
                                                  compound="left")
-
+        button_style = "info Roundtoggle.Toolbutton"
         self.end_of_lesson_reminder_button_var = tk.IntVar()
         self.end_of_lesson_reminder_button = ttk.Checkbutton(
             master=end_of_lesson_reminder_frame,
-            style="info Roundtoggle.Toolbutton",
+            style=button_style,
             variable=self.end_of_lesson_reminder_button_var)
 
         end_of_lesson_reminder_label.pack(side="left", padx=10, pady=10)
@@ -103,7 +106,7 @@ class SettingsUI:
         self.custom_themes_button_var = tk.IntVar()
         self.custom_themes_button = ttk.Checkbutton(
             master=custom_themes_frame,
-            style="info Roundtoggle.Toolbutton",
+            style=button_style,
             variable=self.custom_themes_button_var)
 
         custom_themes_label.pack(side="left", padx=10, pady=10)
@@ -121,7 +124,7 @@ class SettingsUI:
             theme_frame,
             self.theme_var,
             "",
-            style="info outline")
+            style=style)
 
         theme_label.pack(side="left", padx=10)
         self.theme_changer.pack(side="right", padx=10, pady=10)
@@ -138,7 +141,7 @@ class SettingsUI:
             self.browser_var,
             "",
             *Assets.browsers,
-            style="info outline",
+            style=style,
         )
 
         browser_label.pack(side="left", padx=10)
@@ -161,7 +164,7 @@ class SettingsUI:
         self.top_theme_selector_var = tk.IntVar()
         self.top_theme_selector_button = ttk.Checkbutton(
             master=top_theme_selector_frame,
-            style="info Roundtoggle.Toolbutton",
+            style=button_style,
             variable=self.top_theme_selector_var)
 
         top_theme_selector_label.pack(side="left", padx=10)
@@ -182,7 +185,7 @@ class SettingsUI:
         self.primary_notifier_var = tk.IntVar()
         self.primary_notifier = ttk.Checkbutton(
             master=primary_notifier_frame,
-            style="info Roundtoggle.Toolbutton",
+            style=button_style,
             variable=self.primary_notifier_var)
 
         top_end_of_lesson_timer_label.pack(side="left", padx=10)
@@ -201,7 +204,7 @@ class SettingsUI:
         self.secondary_notifier_var = tk.IntVar()
         self.secondary_notifier = ttk.Checkbutton(
             master=secondary_notifier_frame,
-            style="info Roundtoggle.Toolbutton",
+            style=button_style,
             variable=self.secondary_notifier_var
         )
 
@@ -213,15 +216,15 @@ class SettingsUI:
         progress_bar = ttk.Frame(top_panel_settings_frame)
         self.progress_bar_icon = tk.PhotoImage(file="Assets/Images/Progress_Bar_Icon.png")
         progress_bar_label = ttk.Label(progress_bar,
-                                 text="Progress bar",
-                                 image=self.progress_bar_icon,
-                                 compound="left"
-                                 )
+                                       text="Progress bar",
+                                       image=self.progress_bar_icon,
+                                       compound="left"
+                                       )
 
         self.progress_bar_var = tk.IntVar()
         self.progress_bar_button = ttk.Checkbutton(
             master=progress_bar,
-            style="info Roundtoggle.Toolbutton",
+            style=button_style,
             variable=self.progress_bar_var
         )
 

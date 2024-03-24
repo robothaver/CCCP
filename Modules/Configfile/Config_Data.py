@@ -3,7 +3,7 @@ from Modules.Utilities import Assets
 config_data = {
             "theme": "darkly",
             "custom_themes": True,
-            "clock_mode": "45min_10min",
+            "clock_mode": "45min 10min",
             "reminder_activation": 5,
             "starting_page": 0,
             "end_of_lesson_reminder": True,

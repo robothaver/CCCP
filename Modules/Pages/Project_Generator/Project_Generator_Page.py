@@ -49,13 +49,13 @@ class ProjectGeneratorPage(ProjectGeneratorUI):
             self.set_button_states("disabled")
 
     def generate_web_project(self):
-        file = ProjectGenerator(self.file_output_var.get())
+        file = ProjectGenerator(self.file_output_var.get(), self.config)
         file.generate_web_project()
         if file.is_path_valid():
             ProjectGeneratedDialog(self.master_container, file.path_to_project)
 
     def generate_python_project(self):
-        file = ProjectGenerator(self.file_output_var.get())
+        file = ProjectGenerator(self.file_output_var.get(), self.config)
         file.generate_python_project()
         if file.is_path_destination_valid:
             ProjectGeneratedDialog(self.master_container, file.path_to_project)

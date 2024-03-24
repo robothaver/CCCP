@@ -5,8 +5,10 @@ import time
 
 
 class ProjectGenerator:
-    def __init__(self, output_location):
+    def __init__(self, output_location, config=None):
         self.output_location = output_location
+        self.config = config
+
         self.path_to_project = ""
         self.is_path_destination_valid = False
 
@@ -56,7 +58,7 @@ class ProjectGenerator:
             if not self.create_current_folder(self.path_to_project, folder_name):
                 # Create html file
                 with open(f"{self.path_to_project}/{folder_name}/index.html", "w") as html_file:
-                    html_file.write(Assets.html_boilerplate)
+                    html_file.write(self.config.html_boilerplate)
                 # Create CSS folder and file
                 if not os.path.exists(f"{self.path_to_project}/{folder_name}/CSS"):
                     os.mkdir(f"{self.path_to_project}/{folder_name}/CSS")
@@ -72,5 +74,5 @@ class ProjectGenerator:
             self.path_to_project = f"{self.output_location}/Python Projects"
             self.generate_project_folder(self.path_to_project)
             if not self.create_current_folder(self.path_to_project, folder_name):
-                file = open(f"{self.path_to_project}/{folder_name}/main.py", "w")
-                file.close()
+                with open(f"{self.path_to_project}/{folder_name}/main.py", "w") as file:
+                    file.write(self.config.python_boilerplate)

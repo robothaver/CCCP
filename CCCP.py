@@ -1,8 +1,5 @@
 import tkinter as tk
-
 import ttkbootstrap as ttk
-import ttkbootstrap.utility
-
 from Modules.Configfile.Config import Configfile
 from Modules.Pages.Backup.Backup_Page import BackupPage
 from Modules.Pages.Dashboard.Application_Dashboard import ApplicationDashboard
@@ -17,12 +14,8 @@ from Modules.Utilities.Navigation_Controller.Navigation_Controller import Naviga
 
 class CCCP:
     def __init__(self):
-        # This is the main class of the program
-
-        # Load in the configfile
         config = Configfile()
 
-        # Create the main window
         self.window = tk.Tk()
         self.window.geometry('650x900')
         self.window.title("CCCP")
@@ -31,20 +24,15 @@ class CCCP:
         ttk.utility.enable_high_dpi_awareness(self.window, scaling=1.6)
         self.style = ttk.Style()
 
-        # Creating the main frames
-        # Top frame
         self.top_frame = ttk.Frame(master=self.window)
         self.top_frame.pack(fill="both")
 
-        # Separate
         self.separator = ttk.Separator(self.window, orient='horizontal')
         self.separator.pack(fill="x", padx=5, pady=('10', '20'))
 
-        # Middle frame
         self.middle_frame = ttk.Frame(master=self.window)
         self.middle_frame.pack(fill="both", expand=True)
 
-        # Bottom frame
         self.bottom_frame = ttk.Frame(master=self.window)
         self.bottom_frame.pack(side="bottom", fill="x", ipady=20)
 
@@ -53,7 +41,6 @@ class CCCP:
 
         self.top_panel = TopPanel(self.top_frame, config, style_controller, navigation_controller)
 
-        # Adding pages to navigation controller
         navigation_controller.add_pages([
             HomePage(self.middle_frame, config, navigation_controller),
             BackupPage(self.middle_frame, config),
@@ -61,7 +48,7 @@ class CCCP:
             ApplicationDashboard(self.middle_frame, config),
             Settings(self.middle_frame, config, style_controller, self.top_panel.refresh, navigation_controller)]
         )
-        # Calling GUI elements
+
         self.navbar = NavigationBar(self.bottom_frame, navigation_controller, config)
         self.navbar.change_page()
         self.window.mainloop()
