@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
-from Assets import Assets
+from Modules.Utilities import Assets
 from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from Modules.Dialogs.Change_Button_Settings import ChangeButtonSettings

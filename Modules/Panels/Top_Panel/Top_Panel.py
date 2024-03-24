@@ -114,7 +114,7 @@ class TopPanel(TopPanelUI):
         self.change_notifier_styles("warning")
         self.update_widgets(
             f"Time left of this lesson: {self.delta.time_left}",
-            f"{self.delta.class_number + 1}. lesson ends at {self.config.break_pattern[self.delta.class_number][1]}",
+            f"{self.delta.class_number + 1}. lesson ends at {self.config.current_break_pattern[self.delta.class_number][1]}",
             True
         )
 
@@ -145,7 +145,7 @@ class TopPanel(TopPanelUI):
         elif self.delta.class_number == 0 and self.delta.time_delta == 0:
             # If the day hasn't begun yet
             self.update_widgets(
-                f"Your first lesson starts at {self.config.break_pattern[0][0]}",
+                f"Your first lesson starts at {self.config.current_break_pattern[0][0]}",
                 "",
                 False
             )
@@ -154,7 +154,7 @@ class TopPanel(TopPanelUI):
             self.update_widgets(
                 f"Break  ☕  remaining: {self.delta.time_left}",
                 f"{self.delta.class_number + 2}. lesson begins at "
-                f"{self.config.break_pattern[self.delta.class_number + 1][0]}",
+                f"{self.config.current_break_pattern[self.delta.class_number + 1][0]}",
                 True
             )
 

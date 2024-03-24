@@ -1,6 +1,6 @@
 import ttkbootstrap as ttk
 import tkinter as tk
-from Assets import Assets
+from Modules.Utilities import Assets
 
 
 class AboutUI:
@@ -16,7 +16,7 @@ class AboutUI:
         back_frame = ttk.Frame(self.main_container)
         self.back_button_icon = tk.PhotoImage(file="Assets/Images/back_icon.png")
         self.back_button = ttk.Button(back_frame, text="Back", image=self.back_button_icon, compound="left")
-        self.back_button.pack(side="left", padx=10, pady=10)
+        self.back_button.pack(side="left", padx=10)
         back_frame.pack(fill="x")
 
         about_container = ttk.Frame(self.main_container)

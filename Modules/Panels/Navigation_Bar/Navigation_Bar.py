@@ -1,13 +1,8 @@
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
-from Modules.Pages.Project_Generator.Project_Generator_Page import ProjectGeneratorPage
-from Modules.Pages.Home.Home_Page import HomePage
-from Modules.Pages.Backup.Backup_Page import BackupPage
-from Modules.Pages.Settings.Settings import Settings
 import tkinter as tk
 import ttkbootstrap as ttk
 from Modules.Configfile.Config import Configfile
-from Assets import Assets
-from Modules.Pages.Dashboard.Application_Dashboard import ApplicationDashboard
+from Modules.Utilities import Assets
 
 
 # noinspection PyArgumentList

@@ -1,6 +1,6 @@
 from Modules.Configfile.Config import Configfile
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
-from Assets.Assets import break_pattern_45_10
+from Modules.Utilities.Assets import break_pattern_45_10
 import tkinter as tk
 import ttkbootstrap as ttk
 

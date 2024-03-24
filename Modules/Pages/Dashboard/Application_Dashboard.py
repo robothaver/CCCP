@@ -22,7 +22,7 @@ class ApplicationDashboard(ApplicationDashboardUI):
         self.utility_pages = [
             PresetMover(self.secondary_container, self.show_dashboard, config),
             TodoPage(self.secondary_container, self.show_dashboard),
-            BreakPattern(self.secondary_container, self.show_dashboard),
+            BreakPattern(self.secondary_container, self.show_dashboard, config),
             CopyNetworkSettings(self.secondary_container, self.show_dashboard),
             RelativePathGenerator(self.secondary_container, self.show_dashboard)
         ]

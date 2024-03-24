@@ -1,6 +1,5 @@
 import ttkbootstrap as ttk
 import tkinter as tk
-from Assets import Assets
 
 
 class TopPanelUI:

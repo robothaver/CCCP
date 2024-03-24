@@ -1,7 +1,9 @@
+from Modules.Utilities import Assets
+
 config_data = {
-            "theme": "",
+            "theme": "darkly",
             "custom_themes": True,
-            "clock_mode": "",
+            "clock_mode": "45min_10min",
             "reminder_activation": 5,
             "starting_page": 0,
             "end_of_lesson_reminder": True,
@@ -11,10 +13,10 @@ config_data = {
             "enable_progress_bar": True,
             "current_page": 0,
             "browser": "chrome",
-            "number_of_lessons": [],
-            "image_locations": [],
-            "program_locations": [],
-            "program_names": [],
+            "number_of_lessons": Assets.default_number_of_lessons,
+            "image_locations": [Assets.default_image_locations for _ in range(13)],
+            "program_locations": ["default" for _ in range(13)],
+            "program_names": [f"Button_{i}" for i in range(13)],
             "project_output_locations": [],
             "project_names": [],
             "file_backup_names": [],

@@ -1,14 +1,17 @@
 import tkinter as tk
+
 import ttkbootstrap as ttk
-from Modules.Pages.Dashboard import Application_Dashboard
-from Assets import Assets
 from ttkbootstrap.scrolled import ScrolledFrame
+
+from Modules.Utilities import Assets
+from Modules.Configfile.Config import Configfile
 
 
 class BreakPattern:
-    def __init__(self, master, show_dashboard):
+    def __init__(self, master, show_dashboard, config):
         # Defining variables
         self.master = master
+        self.config: Configfile = config
         self.current_page = 0
 
         # Creating back button
@@ -63,7 +66,7 @@ class BreakPattern:
         time_label.grid(row=0, column=1, ipady=25)
 
         self.text_variables = []
-        
+
         # Create class number and time labels
         for i, start_time in enumerate(Assets.break_pattern_45_10):
             if i % 2 != 0:
@@ -71,7 +74,8 @@ class BreakPattern:
 
                 # Create class number (1. class)
                 new_class_number_frame = ttk.Frame(headings_container, style="secondary")
-                new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Lesson", font=('Arial', '12'),
+                new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Lesson",
+                                                   font=('Arial', '12'),
                                                    style="secondary inverse")
                 new_class_number_label.place(relx=.5, rely=.5, anchor="center")
                 new_class_number_frame.grid(sticky="nsew", column=0, row=i + 1, ipady=30)
@@ -87,7 +91,8 @@ class BreakPattern:
                 # If the index is even the row will be dark color
                 # Create class number (2. class)
                 new_class_number_frame = ttk.Frame(headings_container, style="dark")
-                new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Lesson", font=('Arial', '12'),
+                new_class_number_label = ttk.Label(new_class_number_frame, text=f"{i + 1}. Lesson",
+                                                   font=('Arial', '12'),
                                                    style="dark inverse")
                 new_class_number_label.place(relx=.5, rely=.5, anchor="center")
                 new_class_number_frame.grid(sticky="nsew", column=0, row=i + 1, ipady=30)
@@ -106,25 +111,14 @@ class BreakPattern:
     def set_page(self):
         # This function runs whenever one of the navigation buttons is pressed
         # The function changes the time data according to the selected option
-        if self.current_page == 0:
-            self.current_time_settings_var.set(value="45 min 10 min break")
-            for i, time in enumerate(self.text_variables):
-                time.set(value=f"{Assets.break_pattern_45_10[i][0]} - {Assets.break_pattern_45_10[i][1]}")
-        elif self.current_page == 1:
-            self.current_time_settings_var.set(value="40 min 10 min break")
-            for i, time in enumerate(self.text_variables):
-                time.set(value=f"{Assets.break_pattern_40_10[i][0]} - {Assets.break_pattern_40_10[i][1]}")
-        elif self.current_page == 2:
-            self.current_time_settings_var.set(value="35 min 10 min break")
-            for i, time in enumerate(self.text_variables):
-                time.set(value=f"{Assets.break_pattern_35_10[i][0]} - {Assets.break_pattern_35_10[i][1]}")
-        elif self.current_page == 3:
-            self.current_time_settings_var.set(value="35 min 5 min break")
-            for i, time in enumerate(self.text_variables):
-                time.set(value=f"{Assets.break_pattern_35_05[i][0]} - {Assets.break_pattern_35_05[i][1]}")
+        self.current_time_settings_var.set(value=f"{self.config.pattern_options[self.current_page]} break")
+        pattern = self.config.pattern_options[self.current_page]
+        for i, text_var in enumerate(self.text_variables):
+            text_var.set(
+                value=f"{self.config.break_patterns[pattern][i][0]} - {self.config.break_patterns[pattern][i][1]}")
 
     def change_page(self, amount):
         # This function changes between the pages
-        if 0 <= self.current_page + amount < 5:
+        if 0 <= self.current_page + amount < len(self.config.pattern_options):
             self.current_page += amount
         self.set_page()

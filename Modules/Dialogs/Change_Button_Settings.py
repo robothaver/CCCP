@@ -1,11 +1,7 @@
-import json
-import os
 import tkinter as tk
-from tkinter import filedialog
 import ttkbootstrap as ttk
-from Assets import Assets
+from Modules.Utilities import Assets
 from Modules.Utilities.Create_Icons import CreateIcon
-from Modules.Utilities.Get_Relative_Path import GetRelativePath
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from Modules.Utilities.Locate_File import LocateFile
 

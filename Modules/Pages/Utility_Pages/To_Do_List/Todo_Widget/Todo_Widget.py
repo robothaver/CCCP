@@ -4,6 +4,8 @@ from Modules.Pages.Utility_Pages.To_Do_List.Dialogs.Edit_Todo import EditTodo
 from Modules.Pages.Utility_Pages.To_Do_List.Todo_Widget.UI.Todo_Widget_UI import TodoWidgetUI
 from Modules.Pages.Utility_Pages.To_Do_List.Todo_File.Update_To_Do_List import UpdateToDoList
 
+TODO_File = "User config/To_Do_List.json"
+
 
 class TodoWidget(TodoWidgetUI):
     def __init__(self, master, title, description, index, task_deleted, is_done=0):
@@ -94,12 +96,12 @@ class TodoWidget(TodoWidgetUI):
     def delete_task(self):
         # Destroying the widget
         self.main_container.destroy()
-        with open("To_Do_List.json", "r") as jsonFile:
+        with open(TODO_File, "r") as jsonFile:
             data = json.load(jsonFile)
         index = data['title'].index(self.title)
         del data['title'][index]
         del data['description'][index]
         del data['is_done'][index]
-        with open("To_Do_List.json", "w") as jsonFile:
+        with open(TODO_File, "w") as jsonFile:
             json.dump(data, jsonFile, indent=3)
         self.task_deleted(self.title)

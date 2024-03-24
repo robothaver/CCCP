@@ -1,8 +1,9 @@
-from Assets import Assets
+from Modules.Utilities import Assets
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from Modules.Pages.Settings.Sub_Pages.About.About import About
 from Modules.Pages.Settings.UI.Settings_UI import SettingsUI
 from Modules.Dialogs.Change_NOL import ChangeNOL
+import ttkbootstrap as ttk
 
 
 class Settings(SettingsUI):
@@ -14,6 +15,7 @@ class Settings(SettingsUI):
         self.refresh_top_panel = refresh_top_panel
         self.navigation_controller = navigation_controller
         self.about_page = About(self.about_container, self.show_settings_page, self.config)
+        self.selected = ttk.StringVar()
 
         self.show_settings_page()
         self.refresh_theme()
@@ -39,11 +41,12 @@ class Settings(SettingsUI):
         self.reminder_activation_var.trace("w", self.change_reminder_activation)
         self.browser_var.trace("w", self.change_browser)
         self.progress_bar_var.trace("w", self.change_progress_bar_settings)
-
-        self.clock_settings_40_10.config(command=self.change_clock_settings)
-        self.clock_settings_45_10.config(command=self.change_clock_settings)
-        self.clock_settings_35_5.config(command=self.change_clock_settings)
-        self.clock_settings_35_10.config(command=self.change_clock_settings)
+        for break_pattern_options in self.config.pattern_options:
+            break_pattern_option = ttk.Radiobutton(master=self.break_pattern_container, text=break_pattern_options,
+                                                   value=break_pattern_options,
+                                                   variable=self.selected, style="warning-toolbutton",
+                                                   command=self.change_clock_settings)
+            break_pattern_option.pack(side="left", padx=10, pady=15, fill="x", expand=True)
         self.lesson_per_day_button.config(command=lambda: ChangeNOL(self.master_container, self.refresh_top_panel))
         self.end_of_lesson_reminder_button.config(command=self.update_end_of_lesson_reminder)
         self.top_theme_selector_button.config(command=self.change_top_theme_selector_settings)

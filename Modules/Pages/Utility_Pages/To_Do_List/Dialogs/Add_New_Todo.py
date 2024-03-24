@@ -3,6 +3,8 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
 
+TODO_File = "User config/To_Do_List.json"
+
 
 class AddNewTodo:
     def __init__(self, master, todo_container, add_new_task):
@@ -52,12 +54,12 @@ class AddNewTodo:
 
     def save_changes(self):
         if self.title_entry_var.get() != "":
-            with open("To_Do_List.json", "r") as jsonFile:
+            with open(TODO_File, "r") as jsonFile:
                 data = json.load(jsonFile)
             data["title"].append(self.title_entry_var.get())
             data["description"].append(self.description_entry_var.get())
             data["is_done"].append(0)
-            with open("To_Do_List.json", "w") as jsonFile:
+            with open(TODO_File, "w") as jsonFile:
                 json.dump(data, jsonFile, indent=3)
             self.add_new_task(self.title_entry_var.get(), self.description_entry_var.get())
             self.close_pop_up()

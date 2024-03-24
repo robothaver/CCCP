@@ -1,7 +1,7 @@
 import json
 import os.path
 
-TODO_File = "To_Do_List.json"
+TODO_File = "User config/To_Do_List.json"
 
 
 class TodoFile:
@@ -26,7 +26,7 @@ class TodoFile:
         else:
             # Generate To_Do_List.json
             json_data = json.dumps(data, indent=3)
-            with open(TODO_File) as file:
+            with open(TODO_File, "w") as file:
                 file.write(json_data)
 
     def add_new_todo(self, title, description, is_done=0):

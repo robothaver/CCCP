@@ -1,5 +1,5 @@
 from ttkbootstrap.dialogs.dialogs import Messagebox
-from Assets import Assets
+from Modules.Utilities import Assets
 import os
 import time
 

@@ -27,8 +27,8 @@ class CalculateDelta:
 
         self.class_number = self.get_class_number(current_time)
 
-        current_end_time = datetime.strptime(self.config.break_pattern[self.class_number][1], "%H:%M:%S")
-        current_start_time = datetime.strptime(self.config.break_pattern[self.class_number][0], "%H:%M:%S")
+        current_end_time = datetime.strptime(self.config.current_break_pattern[self.class_number][1], "%H:%M:%S")
+        current_start_time = datetime.strptime(self.config.current_break_pattern[self.class_number][0], "%H:%M:%S")
         if self.day_of_week > 4 or self.config.number_of_lessons_today == 0:
             # If it is the weekend
             self.is_lesson_over = True
@@ -40,7 +40,7 @@ class CalculateDelta:
             self.is_lesson_over = True
         elif current_time > current_end_time:
             # The lesson is over and it is currently break time
-            next_class_start_time = datetime.strptime(self.config.break_pattern[self.class_number + 1][0], "%H:%M:%S")
+            next_class_start_time = datetime.strptime(self.config.current_break_pattern[self.class_number + 1][0], "%H:%M:%S")
             self.is_lesson_over = True
             self.time_delta = next_class_start_time - current_time
             self.time_left = self.format_time_minutes_and_seconds(self.time_delta)
@@ -57,7 +57,7 @@ class CalculateDelta:
     def get_class_number(self, current_time):
         class_number = 0
         for i in range(self.config.number_of_lessons_today):
-            if datetime.strptime(self.config.break_pattern[i][0], "%H:%M:%S") <= current_time:
+            if datetime.strptime(self.config.current_break_pattern[i][0], "%H:%M:%S") <= current_time:
                 # Get the class number
                 class_number = i
         return class_number

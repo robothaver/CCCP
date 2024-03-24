@@ -1,4 +1,4 @@
-from Assets import Assets
+from Modules.Utilities import Assets
 from Modules.Configfile.Config import Configfile
 from Modules.Pages.Settings.Sub_Pages.About.UI.About_UI import AboutUI
 from Modules.Pages.Settings.Sub_Pages.Ttkbootstrap_Page import TtkbootstrapPage

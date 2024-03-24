@@ -3,6 +3,8 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
 
+TODO_File = "User config/To_Do_List.json"
+
 
 class EditTodo:
     def __init__(self, master, title, description, index, update_widget):
@@ -50,11 +52,11 @@ class EditTodo:
         # This function gets called whenever the "accept" button is pressed,
         # and it saves the changes that have been made
         if self.title_entry_var.get() != "":
-            with open("To_Do_List.json", "r") as jsonFile:
+            with open(TODO_File, "r") as jsonFile:
                 data = json.load(jsonFile)
             data["title"][self.index] = (self.title_entry_var.get())
             data["description"][self.index] = (self.description_entry_var.get())
-            with open("To_Do_List.json", "w") as jsonFile:
+            with open(TODO_File, "w") as jsonFile:
                 json.dump(data, jsonFile, indent=3)
             self.close_pop_up()
             self.update_widget(self.title_entry_var.get(), self.description_entry_var.get())

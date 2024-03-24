@@ -1,7 +1,7 @@
 import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.scrolled import ScrolledFrame
-from Assets import Assets
+from Modules.Utilities import Assets
 
 
 class SettingsUI:
@@ -17,25 +17,8 @@ class SettingsUI:
                                                    text="Change clock settings",
                                                    style="warning")
         # Break patterns
-        break_pattern_container = ttk.Frame(self.clock_settings_frame)
-        self.selected = tk.StringVar()
-        self.clock_settings_45_10 = ttk.Radiobutton(master=break_pattern_container, text="45min 10min",
-                                                    value="45_10",
-                                                    variable=self.selected, style="warning-toolbutton")
-        self.clock_settings_40_10 = ttk.Radiobutton(master=break_pattern_container, text="40min 10min",
-                                                    value="40_10",
-                                                    variable=self.selected, style="warning-toolbutton")
-        self.clock_settings_35_10 = ttk.Radiobutton(master=break_pattern_container, text="35min 10min",
-                                                    value="35_10",
-                                                    variable=self.selected, style="warning-toolbutton")
-        self.clock_settings_35_5 = ttk.Radiobutton(master=break_pattern_container, text="35min 5min",
-                                                   value="35_5",
-                                                   variable=self.selected, style="warning-toolbutton")
-        self.clock_settings_45_10.pack(side="left", padx=10, pady=15, fill="x", expand=True)
-        self.clock_settings_40_10.pack(side="left", padx=10, pady=15, fill="x", expand=True)
-        self.clock_settings_35_10.pack(side="left", padx=10, pady=15, fill="x", expand=True)
-        self.clock_settings_35_5.pack(side="left", padx=10, pady=15, fill="x", expand=True)
-        break_pattern_container.pack(fill="x", expand=True)
+        self.break_pattern_container = ttk.Frame(self.clock_settings_frame)
+        self.break_pattern_container.pack(fill="x", expand=True)
 
         # Lessons per day
         self.lessons_per_day_icon = tk.PhotoImage(file="Assets/Images/Number_Of_Lessons_Icon.png")

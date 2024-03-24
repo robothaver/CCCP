@@ -1,5 +1,5 @@
 import ttkbootstrap as ttk
-from Assets import Assets
+from Modules.Utilities import Assets
 from Modules.Configfile.Config import Configfile
 from Modules.Utilities.Launch_Browser import LaunchBrowser
 
@@ -15,19 +15,19 @@ class TtkbootstrapPage:
         self.back_button_icon = ttk.PhotoImage(file="Assets/Images/back_icon.png")
         back_button = ttk.Button(back_frame, text="Back", image=self.back_button_icon,
                                  compound="left", command=self.back)
-        back_button.pack(side="left", padx=10, pady=10)
+        back_button.pack(side="left", padx=10)
         back_frame.pack(fill="x")
 
         # Create main_frame
         main_frame = ttk.Frame(master)
-        title = ttk.Label(main_frame, text="ttkboostrap", font=('arial', '16', 'bold'), style="info")
+        title = ttk.Label(main_frame, text="ttkbootstrap", font=('arial', '16', 'bold'), style="info")
         title.pack(pady=5)
         separator = ttk.Separator(main_frame)
-        separator.pack(fill="x", padx=100)
+        separator.pack(fill="x")
 
         # Create description widgets
         description = ttk.Label(main_frame, text=Assets.ttkbootstrap_description, font=('arial', '12', 'bold'),
-                                wraplength=500, justify="center")
+                                wraplength=600, justify="center")
         description.pack()
 
         # Create GitHub button
