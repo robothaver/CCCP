@@ -1,7 +1,7 @@
 <p align=center>
   <img src="Readme/CCCP_logo_500x247.png" width=400>
-  <h1 align=center>Complex Computer Controlling Program</h1>
 </p>
+<h1 align=center>Complex Computer Controlling Program</h1>
 
 
 ## What is CCCP?
@@ -24,7 +24,7 @@ Experience convenience and productivity on the go with CCCP.
 ## Main features
 - Launch applications, project files, etc.
     - You can give each application a unique: name, icon
-
+    
     ![Home_page](Readme/home_page.png)
     
 - Create backups to your USB drive
