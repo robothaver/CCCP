@@ -41,12 +41,14 @@ class Settings(SettingsUI):
         self.reminder_activation_var.trace("w", self.change_reminder_activation)
         self.browser_var.trace("w", self.change_browser)
         self.progress_bar_var.trace("w", self.change_progress_bar_settings)
+
         for break_pattern_options in self.config.pattern_options:
             break_pattern_option = ttk.Radiobutton(master=self.break_pattern_container, text=break_pattern_options,
                                                    value=break_pattern_options,
                                                    variable=self.selected, style="warning-toolbutton",
                                                    command=self.change_clock_settings)
             break_pattern_option.pack(side="left", padx=10, pady=15, fill="x", expand=True)
+
         self.lesson_per_day_button.config(command=lambda: ChangeNOL(self.master_container, self.refresh_top_panel))
         self.end_of_lesson_reminder_button.config(command=self.update_end_of_lesson_reminder)
         self.top_theme_selector_button.config(command=self.change_top_theme_selector_settings)
