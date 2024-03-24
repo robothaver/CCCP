@@ -1,11 +1,10 @@
+import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
-
-from Modules.Utilities import Assets
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
+from Modules.Dialogs.Change_NOL import ChangeNOL
 from Modules.Pages.Settings.Sub_Pages.About.About import About
 from Modules.Pages.Settings.UI.Settings_UI import SettingsUI
-from Modules.Dialogs.Change_NOL import ChangeNOL
-import ttkbootstrap as ttk
+from Modules.Utilities import Assets
 
 
 class Settings(SettingsUI):

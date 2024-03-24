@@ -117,9 +117,9 @@ class SettingsUI:
         dpi_frame = ttk.Frame(general_settings)
         self.dpi_icon = tk.PhotoImage(file="Assets/Images/Dpi_Icon.png")
         dpi_label = ttk.Label(dpi_frame,
-                                        text="Enable high dpi mode",
-                                        image=self.dpi_icon,
-                                        compound="left")
+                              text="Enable high dpi mode",
+                              image=self.dpi_icon,
+                              compound="left")
 
         self.dpi_var = tk.IntVar()
         self.dpi_button = ttk.Checkbutton(
@@ -130,32 +130,6 @@ class SettingsUI:
         dpi_label.pack(side="left", padx=10, pady=10)
         self.dpi_button.pack(pady=10, side="right", padx=5)
         dpi_frame.pack(fill="x")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         # Create theme selector
         theme_frame = ttk.Frame(general_settings)
