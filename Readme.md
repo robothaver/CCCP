@@ -6,9 +6,9 @@
 
 ## What is CCCP?
 
-CCCP (Complex Computer Controlling Program) is a compact program designed for your USB drive,
+CCCP is a compact portable program designed for your USB drive,
 packed with powerful features. Launch applications, create backups,
-generate files and much more, all from your portable drive.
+generate files, and much more, all from your portable drive.
 Experience convenience and productivity on the go with CCCP.
 
 ## Installation
