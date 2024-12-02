@@ -16,11 +16,26 @@ class SettingsUI:
         self.about_container = ttk.Frame(self.master_container)
 
         self.clock_settings_frame = ttk.LabelFrame(master=self.settings_container,
-                                                   text="Change clock settings",
+                                                   text="Change lesson settings",
                                                    style="warning")
-        # Break patterns
-        self.break_pattern_container = ttk.Frame(self.clock_settings_frame)
-        self.break_pattern_container.pack(fill="x", expand=True)
+        # Timetable
+        self.timetable_icon = tk.PhotoImage(file="Assets/Images/Timetable_Icon.png")
+        timetable_frame = ttk.Frame(self.clock_settings_frame)
+        timetable_label = ttk.Label(timetable_frame, text="Timetable",
+                                    image=self.timetable_icon,
+                                    compound="left"
+                                    )
+        self.timetable_var = tk.StringVar()
+        style = "info outline"
+        self.timetable_menu = ttk.OptionMenu(
+            timetable_frame,
+            self.timetable_var,
+            "",
+            style=style
+        )
+        timetable_label.pack(side="left")
+        self.timetable_menu.pack(side="right")
+        timetable_frame.pack(fill="x", padx=10, pady=10)
 
         # Lessons per day
         self.lessons_per_day_icon = tk.PhotoImage(file="Assets/Images/Number_Of_Lessons_Icon.png")

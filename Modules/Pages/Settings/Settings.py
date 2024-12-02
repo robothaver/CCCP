@@ -1,4 +1,3 @@
-import ttkbootstrap as ttk
 from ttkbootstrap.dialogs import Messagebox
 from Modules.Configfile.Update_Configfile import UpdateConfigfile
 from Modules.Dialogs.Change_NOL import ChangeNOL
@@ -16,10 +15,10 @@ class Settings(SettingsUI):
         self.refresh_top_panel = refresh_top_panel
         self.navigation_controller = navigation_controller
         self.about_page = About(self.about_container, self.show_settings_page, self.config)
-        self.selected = ttk.StringVar()
 
         self.show_settings_page()
         self.refresh_theme()
+        self.set_timetable_options()
 
         # Setting widget values
         self.dpi_var.set(self.config.high_dpi_mode)
@@ -32,9 +31,9 @@ class Settings(SettingsUI):
         self.top_theme_selector_var.set(self.config.enable_top_theme_selector)
         self.progress_bar_var.set(self.config.enable_progress_bar)
         self.theme_var.set(style_controller.style.theme.name)
-        self.selected.set(self.config.clock_mode)
         self.page_var.set(Assets.page_names[self.config.starting_page])
         self.browser_var.set(self.config.browser)
+        self.timetable_var.set(self.config.clock_mode)
 
         # Connecting buttons to functions
         self.page_var.trace("w", self.change_starting_page)
@@ -44,14 +43,7 @@ class Settings(SettingsUI):
         self.reminder_activation_var.trace("w", self.change_reminder_activation)
         self.browser_var.trace("w", self.change_browser)
         self.progress_bar_var.trace("w", self.change_progress_bar_settings)
-
-        for break_pattern_options in self.config.pattern_options:
-            break_pattern_option = ttk.Radiobutton(master=self.break_pattern_container, text=break_pattern_options,
-                                                   value=break_pattern_options,
-                                                   variable=self.selected, style="warning-toolbutton",
-                                                   command=self.change_clock_settings)
-            break_pattern_option.pack(side="left", padx=10, pady=15, fill="x", expand=True)
-
+        self.timetable_var.trace("w", self.change_timetable_preferences)
         self.lesson_per_day_button.config(command=lambda: ChangeNOL(self.master_container, self.refresh_top_panel))
         self.end_of_lesson_reminder_button.config(command=self.update_end_of_lesson_reminder)
         self.top_theme_selector_button.config(command=self.change_top_theme_selector_settings)
@@ -68,6 +60,9 @@ class Settings(SettingsUI):
             new_value = not self.end_of_lesson_reminder_button_var.get()
             self.end_of_lesson_reminder_button_var.set(value=new_value)
             self.refresh_top_panel()
+
+    def set_timetable_options(self):
+        self.timetable_menu.set_menu(None, *self.config.pattern_options)
 
     def refresh_theme(self):
         self.theme_changer.set_menu(None, *self.style_controller.themes)
@@ -105,8 +100,8 @@ class Settings(SettingsUI):
         self.refresh_top_panel(True)
         self.navigation_controller.update_page(0)
 
-    def change_clock_settings(self):
-        UpdateConfigfile("clock_mode", self.selected.get())
+    def change_timetable_preferences(self, *args):
+        UpdateConfigfile("clock_mode", self.timetable_var.get())
         self.refresh_top_panel(True)
 
     def change_top_theme_selector_settings(self):
