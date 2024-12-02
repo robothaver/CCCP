@@ -21,12 +21,13 @@ class LaunchBrowser:
 
     def get_chromium_parameters(self):
         command = f"start {self.preferred_browser} "
+        disable_search_engine_screen = "--disable-search-engine-choice-screen"
         if self.is_private:
-            command += "--private-window {link}"
+            command += f"{disable_search_engine_screen} --private-window {self.link}"
         elif self.is_guest:
-            command += f"--guest {self.link}"
+            command += f"{disable_search_engine_screen} --guest {self.link}"
         else:
-            command += self.link
+            command += f"{disable_search_engine_screen} {self.link}"
         return command
 
     def get_firefox_parameters(self):
