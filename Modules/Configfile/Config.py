@@ -9,6 +9,8 @@ CONFIG_FILE = "User config/Config.json"
 
 
 class Configfile:
+    current_break_pattern = []
+    number_of_lessons_today: int
     def __init__(self):
         # This function generates and loads in the configfile
 
@@ -20,7 +22,6 @@ class Configfile:
         self.clock_mode = ""
         self.number_of_lessons = []
         self.reminder_activation = 0
-        self.number_of_lessons_today = 0
         self.starting_page = 0
         self.end_of_lesson_reminder = True
         self.enable_top_theme_selector = True
@@ -35,7 +36,6 @@ class Configfile:
         self.program_names = []
         self.project_output_locations = []
         self.project_names = []
-        self.current_break_pattern = []
         self.break_patterns = []
         self.file_backup_names = []
         self.file_backup_locations = []
@@ -101,9 +101,9 @@ class Configfile:
 
     def get_number_of_lessons_today(self):
         try:
-            self.number_of_lessons_today = self.number_of_lessons[datetime.today().weekday()]
+            Configfile.number_of_lessons_today = self.number_of_lessons[datetime.today().weekday()]
         except IndexError:
-            self.number_of_lessons_today = 0
+            Configfile.number_of_lessons_today = 0
 
     def generate_config_file(self):
         # This function runs if the configfile doesn't exist
@@ -123,7 +123,7 @@ class Configfile:
                 combined_break_patterns = [(pattern[0], pattern[1]) for pattern in break_pattern]
                 break_patterns[pattern[0]] = combined_break_patterns
             self.break_patterns = break_patterns
-            self.current_break_pattern = break_patterns[self.clock_mode]
+            Configfile.current_break_pattern = break_patterns[self.clock_mode]
 
     def load_data_from_app_preferences(self):
         with open(APP_PREFERENCES_FILE) as file:

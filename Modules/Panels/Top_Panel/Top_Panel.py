@@ -21,7 +21,7 @@ class TopPanel(TopPanelUI):
         self.theme_var.trace("w", self.change_theme)
 
         self.delta = CalculateDelta()
-        self.time = datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
+        self.time = self.get_current_time()
 
         self.refresh_time()
         self.refresh()
@@ -30,6 +30,7 @@ class TopPanel(TopPanelUI):
 
     def refresh(self, update_notifiers=False):
         self.config = Configfile()
+        self.delta.update_state(self.time)
         if update_notifiers:
             self.main_notifier.after_cancel(self.method_id)
             self.cooldown = False
@@ -93,8 +94,8 @@ class TopPanel(TopPanelUI):
         self.progress_bar.config(bootstyle=style)
 
     def update_notifiers(self):
-        self.delta.check_end_time(self.config, self.time)
-        self.time += timedelta(seconds=1)
+        self.time = TopPanel.get_current_time()
+        self.delta.check_end_time(self.time)
         self.progress_bar.config(value=self.delta.progress)
         if self.delta.is_lesson_over:
             # If the lesson has ended
@@ -110,14 +111,14 @@ class TopPanel(TopPanelUI):
         self.change_notifier_styles("warning")
         self.update_widgets(
             f"Time left of this lesson: {self.delta.time_left}",
-            f"{self.delta.class_number + 1}. lesson ends at "
-            f"{self.config.current_break_pattern[self.delta.class_number][1]}",
+            f"{self.delta.lesson_index + 1}. lesson ends at "
+            f"{self.config.current_break_pattern[self.delta.lesson_index][1]}",
             True
         )
 
     def show_dynamic_message(self):
         self.change_notifier_styles("success")
-        if self.delta.class_number == self.config.number_of_lessons_today - 1 and self.delta.day_of_week == 4:
+        if self.delta.lesson_index == self.config.number_of_lessons_today - 1 and self.delta.day_of_week == 4:
             # If It's friday and the lessons are over
             self.update_widgets(
                 "You are done for this week! ☕",
@@ -131,7 +132,7 @@ class TopPanel(TopPanelUI):
                 "",
                 False
             )
-        elif self.delta.class_number == self.config.number_of_lessons_today - 1 or \
+        elif self.delta.lesson_index == self.config.number_of_lessons_today - 1 and self.delta.time_delta == 0 or \
                 self.config.number_of_lessons_today == 0:
             # If the day is over
             self.update_widgets(
@@ -139,10 +140,10 @@ class TopPanel(TopPanelUI):
                 "",
                 False
             )
-        elif self.delta.class_number == 0 and self.delta.time_delta == 0:
+        elif self.delta.lesson_index == 0 and self.delta.time_delta == 0:
             # If the day hasn't begun yet
             self.update_widgets(
-                f"Your first lesson starts at {self.config.current_break_pattern[0][0]}",
+                f"Your first lesson starts at {Configfile.current_break_pattern[0][0]}",
                 "",
                 False
             )
@@ -150,8 +151,8 @@ class TopPanel(TopPanelUI):
             # If it is break time
             self.update_widgets(
                 f"Break  ☕  remaining: {self.delta.time_left}",
-                f"{self.delta.class_number + 2}. lesson begins at "
-                f"{self.config.current_break_pattern[self.delta.class_number + 1][0]}",
+                f"{self.delta.lesson_index + 2}. lesson begins at "
+                f"{Configfile.current_break_pattern[self.delta.lesson_index + 1][0]}",
                 True
             )
 
@@ -161,3 +162,7 @@ class TopPanel(TopPanelUI):
             if self.delta.time_delta <= timedelta(minutes=self.config.reminder_activation):
                 self.cooldown = True
                 EndOfLessonReminder(message="The lesson is ending soon, it is time to prepare!")
+
+    @staticmethod
+    def get_current_time():
+        return datetime.strptime(time.strftime("%H:%M:%S"), "%H:%M:%S")
