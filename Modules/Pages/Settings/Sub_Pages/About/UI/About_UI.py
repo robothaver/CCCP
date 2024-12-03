@@ -41,7 +41,7 @@ class AboutUI:
         description.pack(padx=10)
 
         # Creating version label
-        version_label = ttk.Label(about_container, text="Version: 1.7", font=('arial', '12', 'bold'), style="info")
+        version_label = ttk.Label(about_container, text=f"Version: {Assets.APP_VERSION}", font=('arial', '12', 'bold'), style="info")
         version_label.pack()
 
         # Creating ttkbootstrap button

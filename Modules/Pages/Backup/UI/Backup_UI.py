@@ -1,7 +1,6 @@
-import platform
-
+from PIL import Image
+Image.CUBIC = Image.BICUBIC
 import ttkbootstrap as ttk
-import tkinter as tk
 
 from ttkbootstrap.scrolled import ScrolledFrame
 
@@ -31,17 +30,16 @@ class BackupUI:
         self.left_container = ttk.Frame(main_container)
 
         # Create progress meter
-        if platform.system() == "Windows":
-            self.progress_bar = ttk.Meter(
-                master=self.left_container,
-                metersize=200,
-                padding=5,
-                amountused=0,
-                amounttotal=100,
-                subtext="Done",
-                style="info",
-                textright="%")
-            self.progress_bar.pack(pady=15, padx=15)
+        self.progress_bar = ttk.Meter(
+            master=self.left_container,
+            metersize=200,
+            padding=5,
+            amountused=0,
+            amounttotal=100,
+            subtext="Done",
+            style="info",
+            textright="%")
+        self.progress_bar.pack(pady=15, padx=15)
 
         # Create back files up button
         self.back_files_up_button = ttk.Button(

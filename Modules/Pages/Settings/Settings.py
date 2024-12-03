@@ -68,7 +68,7 @@ class Settings(SettingsUI):
         self.theme_changer.set_menu(None, *self.style_controller.themes)
 
     def change_high_dpi_mode(self, *args):
-        UpdateConfigfile("high_dpi_mode", self.dpi_var.get())
+        UpdateConfigfile("high_dpi_mode", bool(self.dpi_var.get()))
         Messagebox.show_warning(title="Warning!",
                                 message="This option will take effect once the application is restarted.")
 
