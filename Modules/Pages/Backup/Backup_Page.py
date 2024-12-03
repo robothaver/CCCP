@@ -97,7 +97,7 @@ class BackupPage(BackupUI):
                     file_name = file.split("/")[-1]
                     shutil.copyfile(file, f"{destination}/{file_name}")
                 else:
-                    shutil.copytree(file, destination)
+                    shutil.copytree(file, destination, dirs_exist_ok=True)
             except Exception as ex:
                 self.error = ex.args
         else:
