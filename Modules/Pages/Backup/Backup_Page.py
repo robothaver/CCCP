@@ -84,7 +84,7 @@ class BackupPage(BackupUI):
             progress_bar_value = round((progress / len(self.files_to_backup)) * 100, 2)
             if not os.path.isdir(self.files_to_backup[i]):
                 os.mkdir(f"{output_path}/{self.backup_names[i]}")
-            self.try_copy_file(self.files_to_backup[i], f"{output_path}/{self.backup_names[i]}")
+            self.try_copy_file(self.files_to_backup[i], f"{output_path}/{self.backup_names[i]}/")
             self.progress_bar.configure(amountused=progress_bar_value)
             if self.error is not None:
                 exit()
@@ -95,10 +95,9 @@ class BackupPage(BackupUI):
             try:
                 if not os.path.isdir(file):
                     file_name = file.split("/")[-1]
-                    print(f"{destination}/{file_name}")
                     shutil.copyfile(file, f"{destination}/{file_name}")
                 else:
-                    shutil.copytree(file, destination, dirs_exist_ok=True)
+                    shutil.copytree(file, destination)
             except Exception as ex:
                 self.error = ex.args
         else:

@@ -94,7 +94,6 @@ class ChangeBackupLocations(ChangeBackupLocationsUI):
         if self.validate_name(self.file_backup_name_entry_var.get()):
             if self.validate_location(self.file_backup_source_entry_var.get()):
                 # If max number isn't reached
-                print(len(self.config.file_backup_names))
                 self.tabel.insert('', len(self.config.file_backup_names),
                                   values=[str(self.file_backup_name_entry_var.get())])
                 self.config.file_backup_names.append(self.file_backup_name_entry_var.get())
@@ -119,10 +118,6 @@ class ChangeBackupLocations(ChangeBackupLocationsUI):
         self.top_level.destroy()
 
     def save_changes(self):
-        if self.file_backup_source_entry_var.get() != "" and self.file_backup_name_entry_var.get() != "":
-            self.apply_changes_for_option()
-
-        # Update configfile
         UpdateConfigfile("file_backup_names", self.config.file_backup_names)
         UpdateConfigfile("file_backup_locations", self.config.file_backup_locations)
         self.update_page()
