@@ -30,9 +30,8 @@ class HomePage(HomePageUI):
         self.end_of_lesson_reminder_button.config(command=self.toggle_end_of_lesson_reminder)
 
     def refresh_page(self):
-        new_value = not self.end_of_lesson_reminder_button_var.get()
-        self.end_of_lesson_reminder_button_var.set(value=new_value)
         self.config = Configfile()
+        self.end_of_lesson_reminder_button_var.set(value=self.config.end_of_lesson_reminder)
 
     def toggle_end_of_lesson_reminder(self):
         UpdateConfigfile("end_of_lesson_reminder", bool(self.end_of_lesson_reminder_button_var.get()))
