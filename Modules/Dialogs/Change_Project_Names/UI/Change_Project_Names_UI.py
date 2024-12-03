@@ -22,17 +22,9 @@ class ChangeProjectNamesUI:
         location_entry_label = ttk.Label(location_entry_frame, text="Project name", style="info", )
         self.name_entry_var = tk.StringVar()
         location_entry = ttk.Entry(location_entry_frame, textvariable=self.name_entry_var)
-        locate_icon = tk.PhotoImage(file="Assets/Images/Open_Folder.png")
-        self.locate_absolute_path_btn = ttk.Button(master=location_entry_frame, image=locate_icon)
-        self.locate_absolute_path_btn.image = locate_icon
-        relative_path_icon = tk.PhotoImage(file="Assets/Images/Find_Relative_Path.png")
-        self.locate_relative_path_btn = ttk.Button(master=location_entry_frame, image=relative_path_icon)
-        self.locate_relative_path_btn.image = relative_path_icon
         # Packing
         location_entry_label.pack(side="left", padx=5, pady=5)
         location_entry.pack(side="left", fill="x", expand=1, padx=5)
-        self.locate_absolute_path_btn.pack(side="left", padx=5)
-        self.locate_relative_path_btn.pack(side="left", padx=(0, 5))
         location_entry_frame.pack(fill="x", padx=5)
 
         # Create buttons
